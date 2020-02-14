@@ -1,0 +1,18 @@
+.popover.tour {
+  max-width: 90vw;
+  border-top-color: rgba(0, 0, 0, 0.5);
+  border-bottom-color: rgba(0, 0, 0, 0.5);
+  border-left-color: rgba(0, 0, 0, 0.5);
+  border-right-color: rgba(0, 0, 0, 0.5);
+  border-width: 3px;
+}
+
+.bs-popover-bottom > div.arrow::before, .popover > .bs-popover-auto[x-placement^="bottom"] > div.arrow::before {
+    border-bottom-color: rgba(0, 0, 0, 0.8);
+    width: 20px;
+  }
+
+.bs-popover-right > div.arrow::before, .bs-popover-auto[x-placement^="right"] > div.arrow::before {
+  border-right-color: rgba(0, 0, 0, 0.8);
+  height: 20px;
+}

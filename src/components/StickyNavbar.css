@@ -1,0 +1,23 @@
+/* styles for the top navbar */
+.stickyNavBarContainer {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 100;
+}
+
+.stickyNavBar {
+  height: 50px;
+}
+
+li.stickyNavBarLogo a {
+  padding-left: 13px !important;
+  padding-right: 12px !important;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+li.navBarItem a {
+  line-height: 30px;
+}

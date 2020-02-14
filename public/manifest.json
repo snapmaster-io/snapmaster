@@ -1,0 +1,85 @@
+{
+  "short_name": "SaaS Master",
+  "name": "SaaS management app for small businesses",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "SaaSMaster.png",
+      "type": "image/png",
+      "sizes": "70x70"
+    },
+    {
+      "src": "SaaSMaster-logo-220.png",
+      "type": "image/png",
+      "sizes": "220x220"
+    },
+    {
+      "src": "dashboard.png",
+      "type": "image/png"
+    },   
+    {
+      "src": "summary.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "alerts.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "history.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "connections.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "email.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "negative-icon.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "neutral-icon.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "positive-icon.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "twitter.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "google-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "facebook-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "instagram-logo.png",
+      "type": "image/png"
+    },   
+    {
+      "src": "twitter-logo.png",
+      "type": "image/png"
+    }, 
+    {
+      "src": "yelp-logo.png",
+      "type": "image/png"
+    }    
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

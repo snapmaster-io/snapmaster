@@ -1,0 +1,19 @@
+/* styles for the page header and title (shared by most pages) */
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 1;
+  position: sticky;
+  top: 50px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  background: white;
+}
+
+.page-title {
+  margin-left: 15px;
+  margin-bottom: 0px;
+  vertical-align: middle;
+  line-height: 1.5em;
+}

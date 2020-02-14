@@ -1,0 +1,20 @@
+/* styles for the website navbar */
+
+.stickyNavBarContainer.websiteNavBarContainer nav {
+  background-color: rgba(20, 20, 20, 1);
+}
+
+.stickyNavBarContainer .websiteNavbar li { 
+  border-right-color: rgba(50, 50, 50, 1);
+  border-right-width: 0px;
+}
+
+.stickyNavBarContainer .websiteNavbar li a { 
+  background-color: rgba(20, 20, 20, 1);
+}
+
+.stickyNavBarContainer .websiteNavbar li a:hover, 
+.stickyNavBarContainer .websiteNavbar li a:focus {
+  background-color: rgba(50, 50, 50, 1);
+}
+

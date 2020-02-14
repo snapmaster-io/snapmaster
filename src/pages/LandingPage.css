@@ -1,0 +1,61 @@
+.Landing {
+  text-align: center;
+}
+
+.Landing-logo {
+  height: 60px;
+  margin-right: 20px;
+}
+
+.bg-carousel {
+  min-height: 50vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-position-y: 50p;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.carousel-caption {
+  top: 0;
+  bottom: auto;
+}
+
+.tagline-desktop {
+  height: 40vh;
+  top: 50%;
+  transform: translateY(40%);
+}
+
+.tagline-mobile {
+  height: 40vh;
+  top: 50%;
+  transform: translateY(40%);
+}
+
+.bg-overlay {
+  background: linear-gradient(rgba(0,0,0,.9), rgba(0,0,0,.9)), url("https://unsplash.imgix.net/photo-1416339442236-8ceb164046f8?q=75&fm=jpg&s=8eb83df8a744544977722717b1ea4d09");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-overlay-desktop {
+  min-height: calc(50vh - 40px);
+}
+
+.bg-overlay-mobile {
+  min-height: calc(50vh);
+}
+
+.soc-icon {
+  padding: 15px;
+/* color: #db3d44;*/
+  color: white;
+}

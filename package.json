@@ -1,10 +1,10 @@
 {
-  "name": "saasmaster",
+  "name": "snapmaster",
   "version": "0.1.0",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/saasmaster-co/saasmaster.git"
+    "url": "git://github.com/snapmaster-io/snapmaster.git"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.1",

@@ -88,7 +88,7 @@ const LandingPage = () => {
   }
 
   const createToken = (data) => {
-    return Buffer.from(data + 'SaaSMaster').toString('base64');
+    return Buffer.from(data + 'SnapMaster').toString('base64');
   }
   
   let isMobileDevice = isMobile;
@@ -118,7 +118,7 @@ const LandingPage = () => {
           backgroundColor: `rgba(0, 0, 0, ${ isMobileDevice ? 1.0 : 0.0 })`
         }}>
           <img src="/SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
-          <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SaaS Master</h1>
+          <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SnapMaster</h1>
         </div>
 
         <div className={ isDesktopDevice ? "tagline-desktop" : "tagline-mobile" }>
@@ -218,7 +218,7 @@ const LandingPage = () => {
 
       <Modal show={showModal} onHide={ () => { setShowModal(false) } }>
         <Modal.Header closeButton>
-          <Modal.Title>SaaS Master is in private beta.</Modal.Title>
+          <Modal.Title>SnapMaster is in private beta.</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Enter your email address below and we'll add you to our waiting list.  We'll send you
@@ -234,7 +234,7 @@ const LandingPage = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </InputGroup>
-          <p>As a token of our appreciation, private beta participants get one <b>free year of SaaS Master Premium</b> once it launches!</p>
+          <p>As a token of our appreciation, private beta participants get one <b>free year of SnapMaster Premium</b> once it launches!</p>
           { invalidCode && <p className="text-danger">Invalid code - please request access to obtain a valid code</p>}
         </Modal.Body>
         <Modal.Footer>

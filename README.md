@@ -1,16 +1,16 @@
-![SaaSMaster](public/SaaSMaster-logo-220.png)
-# SaaSMaster 
-## Master your online reputation
+![SnapMaster](public/SnapMaster-logo-220.png)
+# SnapMaster 
+## Master your DevOps toolchain
 
-SaaSMaster is a web application that retrieves reviews, comments, recommendations, and mentions for a set of social media accounts associated with a business entity, analyzes their sentiment, and helps users prioritize responses.
+SnapMaster is the definitive DevOps integration platform.  
 
-SaaSMaster is a [React](https://reactjs.org) app, and this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SnapMaster is a [React](https://reactjs.org) app, and this project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Implementation notes
 
-SaaSMaster is a single-page app that works against [SaaSMaster-API](https://github.com/ogazitt/saasmaster-api) as a back-end.  
+SnapMaster is a single-page app that works against [SnapMaster-API](https://github.com/ogazitt/snapmaster-api) as a back-end.  
 
-SaaSMaster uses [Auth0](https://auth0.com) for its authentication and authorization.
+SnapMaster uses [Auth0](https://auth0.com) for its authentication and authorization.
 
 ## Source directory structure
 
@@ -35,7 +35,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-You need to run the [SaaSMaster-API](https://github.com/ogazitt/saasmaster-api) back-end to have the SPA function correctly.
+You need to run the [SnapMaster-API](https://github.com/ogazitt/snapmaster-api) back-end to have the SPA function correctly.
 
 ### `npm test`
 

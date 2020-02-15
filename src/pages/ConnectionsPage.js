@@ -218,7 +218,7 @@ const ConnectionsPage = () => {
             <Modal.Body>
               <p>
               To connect to {linkProvider} as a new reputation source, you will need to login  
-              to {linkProvider} and allow SaaS Master access to your data.  
+              to {linkProvider} and allow SnapMaster access to your data.  
               </p>
               <p>
               Note that once your approve these permissions, you will be 

@@ -350,7 +350,7 @@ const HelpPage = () => {
 
       <Modal show={showModal} onHide={ () => {navigate('/reputation/dashboard')} }>
         <Modal.Body>
-          <Jumbotron><h1><center>Welcome to <br/> SaaS Master!</center></h1></Jumbotron>
+          <Jumbotron><h1><center>Welcome to <br/> SnapMaster!</center></h1></Jumbotron>
           <h4>
             Here's a quick tour to get you started.  Just click the 'Next' button 
             until you've learned the basics!

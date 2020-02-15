@@ -117,7 +117,7 @@ const LandingPage = () => {
           width: '100vw',
           backgroundColor: `rgba(0, 0, 0, ${ isMobileDevice ? 1.0 : 0.0 })`
         }}>
-          <img src="/SaaSMaster-logo-220.png" className="Landing-logo" alt="logo"/>
+          <img src="/SnapMaster-logo-220.png" className="Landing-logo" alt="logo"/>
           <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SnapMaster</h1>
         </div>
 

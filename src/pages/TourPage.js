@@ -242,7 +242,7 @@ const HelpPage = () => {
               className="stickyNavBarLogo text-center" 
               style={{ width: 65 }} 
               eventKey="/reputation">
-              <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
+              <img src="/SnapMaster-logo-220.png" height="40px" alt="logo"/>
             </NavbarNavItem>
             <NavbarNavItem className="navBarItem" eventKey="/reputation" style={{ fontSize: '1.2em' }} ref={reputation}>
               Reputation

@@ -41,7 +41,7 @@ const WebsiteNavbar = () => {
             className="stickyNavBarLogo text-center" 
             style={{ width: 65 }} 
             onSelect={ () => navigate('/')}>
-            <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
+            <img src="/SnapMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
           <NavItem 
             className="navBarItem"

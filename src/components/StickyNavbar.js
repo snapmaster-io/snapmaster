@@ -40,7 +40,7 @@ const StickyNavbar = ({ state, actions }) => {
             style={{ width: 65 }} 
             eventKey="/reputation" 
             onSelect={actions.selectTab}>
-            <img src="/SaaSMaster-logo-220.png" height="40px" alt="logo"/>
+            <img src="/SnapMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
           <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/reputation" onSelect={actions.selectTab}>
             Reputation

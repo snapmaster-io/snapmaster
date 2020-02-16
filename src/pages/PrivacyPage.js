@@ -8,7 +8,7 @@ const PrivacyPage = () =>
     <div style={{ margin: 30, marginTop: 80 }}>
       <h2>Privacy Policy</h2>
       <p>
-        Protecting your private information is our priority. This Statement of Privacy applies to www.saasmaster.co and SnapMaster, LLC and governs data collection and usage. For the purposes of this Privacy Policy, unless otherwise noted, all references to SnapMaster, LLC include www.saasmaster.co and SnapMaster. The SnapMaster website is a social media reputation management site. By using the SnapMaster website, you consent to the data practices described in this statement. 
+        Protecting your private information is our priority. This Statement of Privacy applies to www.snapmaster.io and SnapMaster, LLC and governs data collection and usage. For the purposes of this Privacy Policy, unless otherwise noted, all references to SnapMaster, LLC include www.snapmaster.io and SnapMaster. The SnapMaster website is a DevOps integration application. By using the SnapMaster website, you consent to the data practices described in this statement. 
       </p>
 
       <h4>Collection of your Personal Information</h4>
@@ -115,7 +115,7 @@ const PrivacyPage = () =>
         Redmond, Washington 98053 <br/>
       </address>
       <b>Email Address:</b> <br/>
-      hello@saasmaster.co <br/>
+      hello@snapmaster.io <br/>
       <br/>
       <b>Telephone number:</b> <br/>
       +1 425 765 0079 <br/>

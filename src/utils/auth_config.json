@@ -1,5 +1,5 @@
 {
-  "domain": "ogazitt.auth0.com",
-  "clientId": "hLw30JeqIimgziZLz4vY1uDGhLyj2zmy",
-  "audience": "https://api.saasmaster.co"
+  "domain": "snapmaster-dev.auth0.com",
+  "clientId": "f9BSuAhmF8dmUtJWZyjAVJbGJWQMKsMW",
+  "audience": "https://api.snapmaster.io"
 }

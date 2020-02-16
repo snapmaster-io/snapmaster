@@ -48,7 +48,7 @@ const LandingPage = () => {
       access_type: 'offline', // unverified - asks for offline access
       //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
       redirect_uri: `${window.location.origin}`,
-      saasmaster_mode: 'signUp',
+      snapmaster_mode: 'signUp',
     });
   }
 
@@ -79,7 +79,7 @@ const LandingPage = () => {
           access_type: 'offline', // unverified - asks for offline access
           //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
           redirect_uri: `${window.location.origin}`,
-          saasmaster_mode: 'signUp',
+          snapmaster_mode: 'signUp',
         });
       }  
     } catch (error) {

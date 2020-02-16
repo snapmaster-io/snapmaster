@@ -43,7 +43,7 @@ export const Auth0Provider = ({
         setUser(user);
 
         // ADDITION - set the admin flag if the correct permission is in the idToken
-        const permissionsScope = 'https://api.saasmaster.co/permissions';
+        const permissionsScope = 'https://api.snapmaster.io/permissions';
         const impersonateUser = 'impersonate:user';
         const isAdmin = user[permissionsScope].filter(s => s === impersonateUser).length > 0;
         setIsAdmin(isAdmin);

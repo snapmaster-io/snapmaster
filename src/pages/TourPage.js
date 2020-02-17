@@ -88,8 +88,11 @@ const HelpPage = () => {
     setShowEndModal(true);
   }
 
-  const exitPage = (show = showTour) => {
-    profile.skipTour = !show; 
+  const exitPage = (showFlag) => {
+    if (showFlag === null) {
+      showFlag = showTour;
+    }
+    profile.skipTour = !showFlag; 
     storeProfile();
     navigate('/reputation/dashboard');
   }
@@ -369,7 +372,7 @@ const HelpPage = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showEndModal} onHide={ exitPage }>
+      <Modal show={showEndModal} onHide={ () => { exitPage(null) } }>
         <Modal.Body>
           <Jumbotron><h1><center>That's it!</center></h1></Jumbotron>
           <h5>
@@ -388,7 +391,7 @@ const HelpPage = () => {
             onChange={ () => setShowTour(!showTour) }
             style={{ fontSize: '1.2em' }}
             />
-          <Button variant="primary" onClick={ exitPage }>
+          <Button variant="primary" onClick={ () => { exitPage(null) } }>
             Dashboard
           </Button>
         </Modal.Footer>

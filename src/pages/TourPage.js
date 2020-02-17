@@ -244,11 +244,11 @@ const HelpPage = () => {
               eventKey="/reputation">
               <img src="/SnapMaster-logo-220.png" height="40px" alt="logo"/>
             </NavbarNavItem>
-            <NavbarNavItem className="navBarItem" eventKey="/reputation" style={{ fontSize: '1.2em' }} ref={reputation}>
-              Reputation
+            <NavbarNavItem className="navBarItem" eventKey="/reputation" style={{ fontSize: '1.2em' }}>
+              <span ref={reputation}>Reputation</span>
             </NavbarNavItem>
-            <NavbarNavItem className="navBarItem" eventKey="/sources" style={{ fontSize: '1.2em' }} ref={sources}>
-              Sources
+            <NavbarNavItem className="navBarItem" eventKey="/sources" style={{ fontSize: '1.2em' }}>
+              <span ref={sources}>Sources</span>
             </NavbarNavItem>
             <NavDropdown className="navBarItem" 
               autoOpen
@@ -273,27 +273,27 @@ const HelpPage = () => {
           <SideNav style={{ minWidth: collapsedWidth }}>
             <SideNav.Toggle />
             <SideNav.Nav>
-              <NavItem ref={dashboard} eventKey="/reputation/dashboard">
+              <NavItem eventKey="/reputation/dashboard">
                 <NavIcon>
-                  <i className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
+                  <i ref={dashboard} className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">Dashboard</NavText>
               </NavItem>
-              <NavItem ref={summary} eventKey="/reputation/summary">
+              <NavItem eventKey="/reputation/summary">
                 <NavIcon>
-                  <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
+                  <i ref={summary} className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">Summary</NavText>
               </NavItem>
-              <NavItem ref={alerts} eventKey="/reputation/alerts">
+              <NavItem eventKey="/reputation/alerts">
                 <NavIcon>
-                  <i className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
+                  <i ref={alerts} className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">Alerts</NavText>
               </NavItem>
-              <NavItem ref={history} eventKey="/reputation/history">
+              <NavItem eventKey="/reputation/history">
                 <NavIcon>
-                  <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                  <i ref={history} className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">History</NavText>
               </NavItem>
@@ -313,15 +313,15 @@ const HelpPage = () => {
           <SideNav style={{ minWidth: collapsedWidth }}>
             <SideNav.Toggle />
             <SideNav.Nav>
-              <NavItem ref={connections} eventKey="/sources/connections">
+              <NavItem eventKey="/sources/connections">
                 <NavIcon>
-                  <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                  <i ref={connections} className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>Sources</NavText>
               </NavItem>
-              <NavItem ref={twitter} eventKey="/sources/twitter">
+              <NavItem eventKey="/sources/twitter">
                 <NavIcon>
-                  <i className="fa fa-fw fa-twitter" style={{ fontSize: '1.75em' }} />
+                  <i ref={twitter} className="fa fa-fw fa-twitter" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>Twitter</NavText>
               </NavItem>
@@ -393,7 +393,6 @@ const HelpPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
       { step >= 0 && 
         <Overlay 
           show
@@ -402,7 +401,6 @@ const HelpPage = () => {
           { steps[step].markup }
         </Overlay>
       }
-
     </div>
   )
 }

@@ -115,9 +115,8 @@ const LandingPage = () => {
           padding: 20,
           zIndex: 100,
           width: '100vw',
-//          backgroundColor: `rgba(0, 0, 0, ${ isMobileDevice ? 1.0 : 0.0 })`
           backgroundColor: `rgba(0, 0, 0, 1.0)`
-}}>
+        }}>
           <img src="/SnapMaster-logo-220.png" className="Landing-logo" alt="logo"/>
           <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SnapMaster</h1>
         </div>
@@ -125,9 +124,12 @@ const LandingPage = () => {
         <div className={ isDesktopDevice ? "tagline-desktop" : "tagline-mobile" }>
           <h1>The Definitive DevOps Integration Platform</h1>
           <br/>
-          <h5 style={{ transform: 'translateX(50%)', width: '50%' }}>
-            With SnapMaster, you can effortlessly automate your manual, error-prone, 
-            soul-crushing integration busywork, so you can focus on what matters.
+          <h5>
+            Effortlessly automate your manual, error-prone, 
+            soul-crushing integration busywork.
+          </h5>
+          <h5>
+            <strong>Focus on what matters.</strong>
           </h5>
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 

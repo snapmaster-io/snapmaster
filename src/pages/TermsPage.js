@@ -126,7 +126,7 @@ const TermsPage = () =>
       <h4>Effective as of December 17, 2019 </h4>
       <br/>
     </div>
-    <WebsiteFooter />
+    <WebsiteFooter className="websiteFooter"/>
   </div>
 
 export default TermsPage

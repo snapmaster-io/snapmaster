@@ -25,9 +25,13 @@
 }
 
 .tagline-desktop {
-  height: 40vh;
+  height: 50vh;
   top: 50%;
-  transform: translateY(40%);
+  transform: translateY(30%);
+}
+
+.benefits-desktop {
+  height: 50vh;
 }
 
 .tagline-mobile {
@@ -58,4 +62,13 @@
   padding: 15px;
 /* color: #db3d44;*/
   color: white;
+}
+
+.tool-icons {
+  display: flex;
+  justify-content: center;
+}
+
+.tool-icon {
+  margin: 10px;
 }

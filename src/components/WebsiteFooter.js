@@ -9,14 +9,14 @@ import '@trendmicro/react-navs/dist/react-navs.css'
 import '@trendmicro/react-navbar/dist/react-navbar.css'
 import './WebsiteFooter.css'
 
-const WebsiteFooter = () => {
+const WebsiteFooter = ({className}) => {
   const onClick = (path) => {
     navigate(path);
     window.scrollTo(0,0);
   }
 
   return (
-    <div className="websiteFooter">
+    <div className={className}>
       <Navbar>
         <Navbar.Header>
           <Navbar.Toggle />
@@ -28,7 +28,7 @@ const WebsiteFooter = () => {
           <NavItem onSelect={() => onClick('/privacy')}>
             Privacy
           </NavItem>
-          <NavItem style={{ position: 'fixed', right: 0 }}>
+          <NavItem style={{ float: 'right' }}>
             Copyright &copy; 2020 SnapMaster
           </NavItem>
         </Nav>

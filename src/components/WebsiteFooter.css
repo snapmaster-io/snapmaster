@@ -9,6 +9,11 @@
 
 .websiteFooter nav {
   background-color: rgba(20, 20, 20, 1);
+  width: 100%;
+}
+
+.websiteFooter nav ul {
+  width: 100%;
 }
 
 .websiteFooter .navbarFooter li { 
@@ -18,10 +23,40 @@
 
 .websiteFooter .navbarFooter li a { 
   background-color: rgba(20, 20, 20, 1);
+  font-weight: 400;
 }
 
 .websiteFooter .navbarFooter li a:hover, 
 .websiteFooter .navbarFooter li a:focus {
+  background-color: rgba(50, 50, 50, 1);
+}
+
+.landingFooter {
+  z-index: 100;
+  width: 100%;
+}
+
+.landingFooter nav {
+  background-color: rgba(20, 20, 20, 1);
+  width: 100%;
+}
+
+.landingFooter nav ul {
+  width: 100%;
+}
+
+.landingFooter .navbarFooter li { 
+  border-right-color: rgba(50, 50, 50, 1);
+  border-right-width: 0px;
+}
+
+.landingFooter .navbarFooter li a { 
+  background-color: rgba(20, 20, 20, 1);
+  font-weight: 400;
+}
+
+.landingFooter .navbarFooter li a:hover, 
+.landingFooter .navbarFooter li a:focus {
   background-color: rgba(50, 50, 50, 1);
 }
 

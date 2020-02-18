@@ -3,7 +3,7 @@ import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { post } from '../utils/api'
 import Loading from '../components/Loading'
 import WebsiteFooter from '../components/WebsiteFooter'
-import { Button, Carousel, Modal, InputGroup, FormControl } from 'react-bootstrap'
+import { Button, Carousel, Modal, InputGroup, FormControl, Container, Row, Col } from 'react-bootstrap'
 import { isBrowser, isMobile } from 'react-device-detect'
 import './LandingPage.css'
 
@@ -115,14 +115,20 @@ const LandingPage = () => {
           padding: 20,
           zIndex: 100,
           width: '100vw',
-          backgroundColor: `rgba(0, 0, 0, ${ isMobileDevice ? 1.0 : 0.0 })`
-        }}>
+//          backgroundColor: `rgba(0, 0, 0, ${ isMobileDevice ? 1.0 : 0.0 })`
+          backgroundColor: `rgba(0, 0, 0, 1.0)`
+}}>
           <img src="/SnapMaster-logo-220.png" className="Landing-logo" alt="logo"/>
           <h1 style={ isDesktopDevice ? { fontSize: '3em' } : { fontsize: '2em' } }>SnapMaster</h1>
         </div>
 
         <div className={ isDesktopDevice ? "tagline-desktop" : "tagline-mobile" }>
-          <h1>Master your DevOps Toolchain</h1>
+          <h1>The Definitive DevOps Integration Platform</h1>
+          <br/>
+          <h5 style={{ transform: 'translateX(50%)', width: '50%' }}>
+            With SnapMaster, you can effortlessly automate your manual, error-prone, 
+            soul-crushing integration busywork, so you can focus on what matters.
+          </h5>
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 
             <Button size="lg" variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>Get started</Button>          
@@ -133,6 +139,48 @@ const LandingPage = () => {
               <Button style={{ margin: 20 }} size="lg" variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>Get started</Button>          
             </div>
           }
+        </div>
+
+        <div className={ isDesktopDevice ? "benefits-desktop" : "tagline-mobile" }>
+          <h1>Master your DevOps Toolchain</h1>
+          { isDesktopDevice && <br/> }
+
+          <Container>
+            <Row>
+              <Col>
+                <h3>
+                  <i className="soc-icon fa fa-xl fa-cloud"></i>
+                  Integrate
+                </h3>
+                <p>Integrate all the DevOps tools you use today</p>
+                <br/>
+                <div className="tool-icons">
+                  <img className="tool-icon" src="github-logo.png" height="50px" />
+                  <img className="tool-icon" src="gitlab-logo.png" height="50px" />
+                  <img className="tool-icon" src="circleci-logo.png" height="50px" />
+                </div>
+                <div className="tool-icons">
+                  <img className="tool-icon" src="kubernetes-logo.png" height="50px" />
+                  <img className="tool-icon" src="gcp-logo.png" height="50px" />
+                  <img className="tool-icon" src="slack-logo.png" height="50px" />
+                </div>
+              </Col>
+              <Col>
+                <h3>
+                  <i className="soc-icon fa fa-xl fa-cogs"></i>
+                  Automate
+                </h3>
+                <p>Create workflows called 'snaps' that get triggered by events, and fire off actions</p>
+              </Col>
+              <Col>
+                <h3>
+                  <i className="soc-icon fa fa-xl fa-share-alt"></i>
+                  Share
+                </h3>
+                <p>Share workflows across your entire team, so no one has to reinvent the wheel</p>
+              </Col>
+            </Row>
+          </Container>
         </div>
       </div>
 
@@ -146,12 +194,7 @@ const LandingPage = () => {
             backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
-            <h3><strong>Connect all of the tools you use for your online business identity</strong></h3>
-            <i className="soc-icon fa fa-lg fa-facebook-square"></i>
-            <i className="soc-icon fa fa-lg fa-twitter"></i>
-            <i className="soc-icon fa fa-lg fa-google"></i>
-            <i className="soc-icon fa fa-lg fa-yelp"></i>
-            <i className="soc-icon fa fa-lg fa-instagram"></i>
+            <h3><strong>Connect all of the tools you use to build cloud applications</strong></h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item 
@@ -163,11 +206,7 @@ const LandingPage = () => {
             backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
-            <h3><strong>View all user feedback for your business from one console</strong></h3>
-            <i className="soc-icon fa fa-lg fa-comment-o"></i>
-            <i className="soc-icon fa fa-lg fa-heart-o"></i>
-            <i className="soc-icon fa fa-lg fa-hashtag"></i>
-            <i className="soc-icon fa fa-lg fa-map-marker"></i>
+            <h3><strong>Choose from a set of common snaps in the gallery, or create your own</strong></h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item 
@@ -179,9 +218,7 @@ const LandingPage = () => {
             backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
-            <h3><strong>Effortlessly prioritize and reply to positive and negative feedback</strong></h3>
-            <i className="soc-icon fa fa-lg fa-thumbs-o-up"></i>
-            <i className="soc-icon fa fa-lg fa-thumbs-o-down"></i>
+            <h3><strong>Tailor the snaps your team uses to the policies and constraints of your organization</strong></h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item 
@@ -193,9 +230,7 @@ const LandingPage = () => {
             backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
-            <h3><strong>Track your reputation over time with beautiful charts</strong></h3>
-            <i className="soc-icon fa fa-lg fa-tachometer"></i>
-            <i className="soc-icon fa fa-lg fa-pie-chart"></i>
+            <h3><strong>Review a complete audit trail of all the invoked actions</strong></h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item 
@@ -207,14 +242,12 @@ const LandingPage = () => {
             backgroundSize: 'contain',
           }}>
           <Carousel.Caption>
-            <h3><strong>Get email or SMS notifications when new reviews roll in</strong></h3>
-            <i className="soc-icon fa fa-lg fa-envelope"></i>
-            <i className="soc-icon fa fa-lg fa-phone"></i>
+            <h3><strong>Extend the system with your own integrations - it's all open source!</strong></h3>
           </Carousel.Caption>
         </Carousel.Item>        
       </Carousel>
 
-      { isDesktopDevice && <WebsiteFooter /> }
+      { isDesktopDevice && <WebsiteFooter className="landingFooter" /> }
 
       <Modal show={showModal} onHide={ () => { setShowModal(false) } }>
         <Modal.Header closeButton>

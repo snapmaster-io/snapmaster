@@ -19,7 +19,7 @@ import './index.css'
 
 // a function that routes the user to the right place after login
 const onRedirectCallback = appState => {
-  // if this login was a result of linking, then redirect to /sources/connections
+  // if this login was a result of linking, then redirect to /tools/connections
   const linking = localStorage.getItem('linking');
   if (linking) {
     if (linking === 'login') {
@@ -39,7 +39,7 @@ const onRedirectCallback = appState => {
       window.history.replaceState(
         {},
         document.title,
-        `${window.location.origin}/sources/${redirectSegment}`
+        `${window.location.origin}/tools/${redirectSegment}`
       );
       return;
     }  
@@ -47,7 +47,7 @@ const onRedirectCallback = appState => {
     window.history.replaceState(
       {},
       document.title,
-      `${window.location.origin}/sources/connections`
+      `${window.location.origin}/tools/connections`
     );
     return;
   }

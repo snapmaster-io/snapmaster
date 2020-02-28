@@ -45,8 +45,8 @@ const StickyNavbar = ({ state, actions }) => {
           <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/snaps" onSelect={actions.selectTab}>
             Snaps
           </NavItem>
-          <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/sources" onSelect={actions.selectTab}>
-            Sources
+          <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/tools" onSelect={actions.selectTab}>
+            Tools
           </NavItem>
           <NavDropdown className="navBarItem" 
             autoOpen

@@ -8,7 +8,7 @@ import StickyNavbar from '../components/StickyNavbar'
 
 // Tabs contain the complete control tree 
 import SnapsTab from '../components/SnapsTab'
-import SourcesTab from '../components/SourcesTab'
+import ToolsTab from '../components/ToolsTab'
 
 // Other pages
 import ProfilePage from './ProfilePage'
@@ -21,7 +21,7 @@ import ServiceDownPage from './ServiceDownPage'
 // define routes
 const routes = {
   '/snaps*': () => <SnapsTab />,
-  '/sources*': () => <SourcesTab />,
+  '/tools*': () => <ToolsTab />,
   '/profile': () => <ProfilePage />,
   '/notifications': () => <NotificationsPage />,
   '/tour': () => <TourPage />,

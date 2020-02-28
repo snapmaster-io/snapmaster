@@ -51,13 +51,13 @@ const HelpPage = () => {
   const [showTour, setShowTour] = useState(true);
   const [step, setStep] = useState(-1);
   const snaps = useRef(null);
-  const sources = useRef(null);
+  const tools = useRef(null);
   const dashboard = useRef(null);
   const installed = useRef(null);
   const gallery = useRef(null);
   const mySnaps = useRef(null);
+  const library = useRef(null);
   const connections = useRef(null);
-  const twitter = useRef(null);
   const collapsedWidth = 64;
   const topOffset = 50;
 
@@ -154,9 +154,9 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Unhandled Feedback</strong> page shows you what new pieces of 
-                feedback you haven't yet marked as handled, so you can easily identify items you should 
-                respond to, and mark them as handled.</h5>
+                <h5>The <strong>Gallery</strong> page shows you all of the existing snaps that are available - 
+                either built-in or snaps that other users have created and made public.  You can install these  
+                snaps, fork and modify them, or create your own from scratch.</h5>
                 <br/>
                 <center><img src="/alerts.png" alt="gallery" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
@@ -175,13 +175,13 @@ const HelpPage = () => {
                 <h5>The <strong>My Snaps</strong> page graphs your snaps over time, 
                 both across the board and for each provider.</h5>
                 <br/>
-                <center><img src="/mysnaps.png" alt="history" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/history.png" alt="my snaps" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
       </Popover>
     }, {
-    target: sources,
+    target: tools,
     placement: 'bottom',
     markup:
       <Popover className="tour">
@@ -189,8 +189,26 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Sources tab</strong> is where you'll configure snaps sources,
-                as well as view and handle feedback specific to each of these sources.</h5>
+                <h5>The <strong>Tools tab</strong> is where you'll view the gallery of tools at your disposal, 
+                as well as connect the specific tools that you'd like to use in your snaps.</h5>
+              </div>
+            }/>
+        </Popover.Content>
+      </Popover>
+    }, {
+    target: library,
+    placement: 'right',
+    markup:
+      <Popover className="tour">
+        <Popover.Content as="h5">
+          <Step prev={prev} next={next} done={end}
+            text={
+              <div>
+                <h5>The <strong>Library page</strong> contains all of the tools that are currently available  
+                in SnapMaster.  Select a tool to connect it with your organization's tenant information. </h5>
+                <h5>Once it's connected, the tool will show up in your Connections.</h5>
+                <br/>
+                <center><img src="/twitter.png" alt="twitter" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -201,31 +219,13 @@ const HelpPage = () => {
     markup:
       <Popover className="tour">
         <Popover.Content as="h5">
-          <Step prev={prev} next={next} done={end}
-            text={
-              <div>
-                <h5>The <strong>Sources page</strong> is where you'll manage your snaps sources. 
-                The more sources you connect to, the richer your experience will be!</h5>
-                <br/>
-                <center><img src="/connections.png" alt="connections" style={{ maxHeight: 'calc(40vh)' }} /></center>
-              </div>
-            }/>
-        </Popover.Content>
-      </Popover>
-    }, {
-    target: twitter,
-    placement: 'right',
-    markup:
-      <Popover className="tour">
-        <Popover.Content as="h5">
           <Step prev={prev} next={end} done={end}
             text={
               <div>
-                <h5>Each <strong>Source page</strong> details the feedback specific to that 
-                source, allowing you to view and respond to it in its native app, and mark it as handled.</h5>
-                <h5>For example, in the Twitter page shown below, the feedback table shows all of your mentions.</h5>
+                <h5>The <strong>Connections page</strong> is where you'll manage your connections to the tools you select to use. 
+                The more tools you connect to, the richer your experience will be!</h5>
                 <br/>
-                <center><img src="/twitter.png" alt="twitter" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/connections.png" alt="connections" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -250,8 +250,8 @@ const HelpPage = () => {
             <NavbarNavItem className="navBarItem" eventKey="/snaps" style={{ fontSize: '1.2em' }}>
               <span ref={snaps}>Snaps</span>
             </NavbarNavItem>
-            <NavbarNavItem className="navBarItem" eventKey="/sources" style={{ fontSize: '1.2em' }}>
-              <span ref={sources}>Sources</span>
+            <NavbarNavItem className="navBarItem" eventKey="/tools" style={{ fontSize: '1.2em' }}>
+              <span ref={tools}>Tools</span>
             </NavbarNavItem>
             <NavDropdown className="navBarItem" 
               autoOpen
@@ -316,35 +316,17 @@ const HelpPage = () => {
           <SideNav style={{ minWidth: collapsedWidth }}>
             <SideNav.Toggle />
             <SideNav.Nav>
-              <NavItem eventKey="/sources/connections">
+            <NavItem eventKey="/tools/library">
+                <NavIcon>
+                  <i ref={library} className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                </NavIcon>
+                <NavText>Library</NavText>
+              </NavItem>
+              <NavItem eventKey="/tools/connections">
                 <NavIcon>
                   <i ref={connections} className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
-                <NavText>Sources</NavText>
-              </NavItem>
-              <NavItem eventKey="/sources/twitter">
-                <NavIcon>
-                  <i ref={twitter} className="fa fa-fw fa-twitter" style={{ fontSize: '1.75em' }} />
-                </NavIcon>
-                <NavText>Twitter</NavText>
-              </NavItem>
-              <NavItem eventKey="/sources/facebook">
-                <NavIcon>
-                  <i className="fa fa-fw fa-facebook" style={{ fontSize: '1.75em' }} />
-                </NavIcon>
-                <NavText>Facebook</NavText>
-              </NavItem>
-              <NavItem eventKey="/sources/instagram">
-                <NavIcon>
-                  <i className="fa fa-fw fa-instagram" style={{ fontSize: '1.75em' }} />
-                </NavIcon>
-                <NavText>Instagram</NavText>
-              </NavItem>
-              <NavItem eventKey="/sources/google">
-                <NavIcon>
-                  <i className="fa fa-fw fa-google" style={{ fontSize: '1.75em' }} />
-                </NavIcon>
-                <NavText>Google</NavText>
+                <NavText>Connections</NavText>
               </NavItem>
             </SideNav.Nav>
           </SideNav>

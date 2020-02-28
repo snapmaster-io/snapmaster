@@ -9,27 +9,17 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 
 // import pages
 import ConnectionsPage from '../pages/ConnectionsPage'
+import LibraryPage from '../pages/LibraryPage'
 import NotFoundPage from '../pages/NotFoundPage'
-
-// import data provider pages
-import TwitterPage from '../providers/Twitter'
-import FacebookPage from '../providers/Facebook'
-import InstagramPage from '../providers/Instagram'
-import GooglePage from '../providers/Google'
-import YelpPage from '../providers/Yelp'
 
 // define routes
 const routes = {
-  '/': () => <ConnectionsPage />,
+  '/': () => <LibraryPage />,
+  '/library': () => <LibraryPage />,
   '/connections': () => <ConnectionsPage />,
-  '/twitter': () => <TwitterPage />,
-  '/facebook': () => <FacebookPage />,
-  '/instagram': () => <InstagramPage />,
-  '/google': () => <GooglePage />,
-  '/yelp': () => <YelpPage />,
 };
 
-const SourcesTab = () => {
+const ToolsTab = () => {
   const { profile, storeProfile } = useProfile();
   const { connections } = useConnections();
 
@@ -46,10 +36,10 @@ const SourcesTab = () => {
     navigate(`${selected}`)
   }
 
-  useRedirect('/', '/sources/connections');
+  useRedirect('/', '/tools/library');
   const routeResult = useRoutes(routes);
 
-  // create an array containing the names of all the sources tabs that are connected and should be displayed
+  // create an array containing the names of all the tools tabs that are connected and should be displayed
   const sideNavTabs = connections.filter(c => c.connected !== null).map(c => c.provider.split('-')[0]);
 
   return (
@@ -73,15 +63,21 @@ const SourcesTab = () => {
           }}>
           <SideNav.Toggle />
           <SideNav.Nav selected={currentPath}>
-            <NavItem eventKey="/sources/connections">
+          <NavItem eventKey="/tools/library">
               <NavIcon>
                 <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText style={{ fontSize: '1.2em' }}>Sources</NavText>
+              <NavText style={{ fontSize: '1.2em' }}>Library</NavText>
+            </NavItem>
+            <NavItem eventKey="/tools/connections">
+              <NavIcon>
+                <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText style={{ fontSize: '1.2em' }}>Connections</NavText>
             </NavItem>
             {
               sideNavTabs.map(c => 
-                <NavItem key={c} eventKey={`/sources/${c}`}>
+                <NavItem key={c} eventKey={`/tools/${c}`}>
                   <NavIcon>
                     <i className={`fa fa-fw fa-${c}`} style={{ fontSize: '1.75em' }} />
                   </NavIcon>
@@ -105,4 +101,4 @@ const SourcesTab = () => {
   )
 }
 
-export default SourcesTab
+export default ToolsTab

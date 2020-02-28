@@ -75,7 +75,7 @@ const Dashboard = () => {
       </div>
       <CardDeck style={{padding: 25}}>
         <HighlightCard
-          onClick={ () => { navigate('/sources/connections')} }
+          onClick={ () => { navigate('/tools/connections')} }
           className='mx-auto'
           text='white'
           style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
@@ -109,7 +109,7 @@ const Dashboard = () => {
             </CardDeck>
           </Card.Body>
           <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/sources/connections')}}>Connect more sources!</Button>
+            <Button onClick={ () => { navigate('/tools/connections')}}>Connect more tools!</Button>
           </Card.Footer>
         </HighlightCard>
 

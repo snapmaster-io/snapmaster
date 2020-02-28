@@ -11,14 +11,14 @@ import CardDeck from 'react-bootstrap/CardDeck'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 
-const ConnectionsPage = () => {
+const LibraryPage = () => {
   const { loading, loadConnections, connections } = useConnections();
   const { user, loginWithRedirect } = useAuth0();
   const { post } = useApi();
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [linkProvider, setLinkProvider] = useState();
-  const pageTitle = 'Connections';
+  const pageTitle = 'Library';
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (!connections && loading) {
@@ -251,4 +251,4 @@ const ConnectionsPage = () => {
   )
 }
 
-export default ConnectionsPage
+export default LibraryPage

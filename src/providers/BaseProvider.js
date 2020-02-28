@@ -87,7 +87,7 @@ const BaseProvider = ({
     const [provider] = pageTitle.split(' ');
     return(
       <div className="page-header">
-        <Button onClick={ () => { navigate('/sources/connections') }}>
+        <Button onClick={ () => { navigate('/tools/connections') }}>
           {`Connect to ${provider}`} 
         </Button>
       </div>

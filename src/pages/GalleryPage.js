@@ -116,7 +116,7 @@ const GalleryPage = () => {
 
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
-      navigate(`/sources/${row.provider}`);
+      navigate(`/tools/${row.provider}`);
     }
   };
 

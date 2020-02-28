@@ -89,7 +89,7 @@ const PrivacyPage = () =>
 
       <h4>E-mail Communications </h4>
       <p>
-        From time to time, SnapMaster may contact you via email for the purpose of providing announcements, promotional offers, alerts, confirmations, surveys, and/or other general communication. In order to improve our Services, we may receive a notification when you open an email from SnapMaster or click on a link therein. 
+        From time to time, SnapMaster may contact you via email for the purpose of providing announcements, promotional offers, gallery, confirmations, surveys, and/or other general communication. In order to improve our Services, we may receive a notification when you open an email from SnapMaster or click on a link therein. 
       </p>
       <p>
         If you would like to stop receiving marketing or promotional communications via email from SnapMaster, you may opt out of such communications by Customers may unsubscribe from emails by clicking on the UNSUBSCRIBE button.. 

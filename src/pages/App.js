@@ -7,7 +7,7 @@ import './App.css'
 import StickyNavbar from '../components/StickyNavbar'
 
 // Tabs contain the complete control tree 
-import ReputationTab from '../components/ReputationTab'
+import SnapsTab from '../components/SnapsTab'
 import SourcesTab from '../components/SourcesTab'
 
 // Other pages
@@ -20,7 +20,7 @@ import ServiceDownPage from './ServiceDownPage'
 
 // define routes
 const routes = {
-  '/reputation*': () => <ReputationTab />,
+  '/snaps*': () => <SnapsTab />,
   '/sources*': () => <SourcesTab />,
   '/profile': () => <ProfilePage />,
   '/notifications': () => <NotificationsPage />,
@@ -55,11 +55,11 @@ const App = () => {
   // determine which page to route to
   const routeResult = useRoutes(routes);
 
-  // redirect to reputation tab if skip tour flag is set
+  // redirect to snaps tab if skip tour flag is set
   if (profile && currentPath === '/') {
     if (profile.skipTour) {
-      setState( { tab: '/reputation' });
-      navigate('/reputation')
+      setState( { tab: '/snaps' });
+      navigate('/snaps')
     } else {
       navigate('/tour')
     }

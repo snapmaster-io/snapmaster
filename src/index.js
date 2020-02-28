@@ -57,7 +57,7 @@ const onRedirectCallback = appState => {
     document.title,
     appState && appState.targetUrl
       ? appState.targetUrl
-//      : `${window.location.pathname}/reputation/dashboard`
+//      : `${window.location.pathname}/snaps/dashboard`
 //      : window.location.pathname
       : `${window.location.origin}`
   );

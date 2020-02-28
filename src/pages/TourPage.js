@@ -50,23 +50,23 @@ const HelpPage = () => {
   const [showEndModal, setShowEndModal] = useState(false);
   const [showTour, setShowTour] = useState(true);
   const [step, setStep] = useState(-1);
-  const reputation = useRef(null);
+  const snaps = useRef(null);
   const sources = useRef(null);
   const dashboard = useRef(null);
-  const summary = useRef(null);
-  const alerts = useRef(null);
-  const history = useRef(null);
+  const installed = useRef(null);
+  const gallery = useRef(null);
+  const mySnaps = useRef(null);
   const connections = useRef(null);
   const twitter = useRef(null);
   const collapsedWidth = 64;
   const topOffset = 50;
 
   useEffect(() => {
-    reputation && setShowModal(true);
-  }, [reputation]);
+    snaps && setShowModal(true);
+  }, [snaps]);
 
   const done = () => {
-    navigate('/reputation/dashboard');
+    navigate('/snaps/dashboard');
   }
 
   const next = () => {
@@ -94,19 +94,19 @@ const HelpPage = () => {
     }
     profile.skipTour = !showFlag; 
     storeProfile();
-    navigate('/reputation/dashboard');
+    navigate('/snaps/dashboard');
   }
 
   const steps = [{
-    target: reputation,
+    target: snaps,
     placement: 'bottom',
     markup:
       <Popover className="tour" border="dark">
         <Popover.Content as="h5">
           <Step next={next} done={end}
             text={
-              <h5>The <strong>Reputation tab</strong> contains all the different views 
-              for your online reputation.</h5>
+              <h5>The <strong>Snaps tab</strong> contains all the different views 
+              for your online snaps.</h5>
             }/>
         </Popover.Content>
       </Popover>
@@ -119,7 +119,7 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Reputation Dashboard</strong> is the default page for the app. 
+                <h5>The <strong>Dashboard</strong> is the default page for the app. 
                 It gives you a high-level overview of what's going on, and is a great launching point for 
                 other pages.</h5>
                 <br/>
@@ -129,7 +129,7 @@ const HelpPage = () => {
         </Popover.Content>
       </Popover>
     }, {
-    target: summary,
+    target: installed,
     placement: 'right',
     markup:
       <Popover className="tour">
@@ -137,8 +137,8 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Reputation Summary</strong> page gives a summary of your positive, 
-                neutral, and negative reputation, overall and for each reputation source.</h5>
+                <h5>The <strong>Installed Snaps</strong> page gives a summary of your positive, 
+                neutral, and negative snaps, overall and for each snaps source.</h5>
                 <br/>
                 <center><img src="/summary.png" alt="summary" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
@@ -146,7 +146,7 @@ const HelpPage = () => {
         </Popover.Content>
       </Popover>
     }, {
-    target: alerts,
+    target: gallery,
     placement: 'right',
     markup:
       <Popover className="tour">
@@ -158,13 +158,13 @@ const HelpPage = () => {
                 feedback you haven't yet marked as handled, so you can easily identify items you should 
                 respond to, and mark them as handled.</h5>
                 <br/>
-                <center><img src="/alerts.png" alt="alerts" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/alerts.png" alt="gallery" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
       </Popover>
     }, {
-    target: history,
+    target: mySnaps,
     placement: 'right',
     markup:
       <Popover className="tour">
@@ -172,10 +172,10 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Reputation History</strong> page graphs your reputation over time, 
+                <h5>The <strong>My Snaps</strong> page graphs your snaps over time, 
                 both across the board and for each provider.</h5>
                 <br/>
-                <center><img src="/history.png" alt="history" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/mysnaps.png" alt="history" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -189,7 +189,7 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Sources tab</strong> is where you'll configure reputation sources,
+                <h5>The <strong>Sources tab</strong> is where you'll configure snaps sources,
                 as well as view and handle feedback specific to each of these sources.</h5>
               </div>
             }/>
@@ -204,7 +204,7 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Sources page</strong> is where you'll manage your reputation sources. 
+                <h5>The <strong>Sources page</strong> is where you'll manage your snaps sources. 
                 The more sources you connect to, the richer your experience will be!</h5>
                 <br/>
                 <center><img src="/connections.png" alt="connections" style={{ maxHeight: 'calc(40vh)' }} /></center>
@@ -244,11 +244,11 @@ const HelpPage = () => {
             <NavbarNavItem 
               className="stickyNavBarLogo text-center" 
               style={{ width: 65 }} 
-              eventKey="/reputation">
+              eventKey="/snaps">
               <img src="/SnapMaster-logo-220.png" height="40px" alt="logo"/>
             </NavbarNavItem>
-            <NavbarNavItem className="navBarItem" eventKey="/reputation" style={{ fontSize: '1.2em' }}>
-              <span ref={reputation}>Reputation</span>
+            <NavbarNavItem className="navBarItem" eventKey="/snaps" style={{ fontSize: '1.2em' }}>
+              <span ref={snaps}>Snaps</span>
             </NavbarNavItem>
             <NavbarNavItem className="navBarItem" eventKey="/sources" style={{ fontSize: '1.2em' }}>
               <span ref={sources}>Sources</span>
@@ -276,29 +276,29 @@ const HelpPage = () => {
           <SideNav style={{ minWidth: collapsedWidth }}>
             <SideNav.Toggle />
             <SideNav.Nav>
-              <NavItem eventKey="/reputation/dashboard">
+              <NavItem eventKey="/snaps/dashboard">
                 <NavIcon>
                   <i ref={dashboard} className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">Dashboard</NavText>
               </NavItem>
-              <NavItem eventKey="/reputation/summary">
+              <NavItem eventKey="/snaps/summary">
                 <NavIcon>
-                  <i ref={summary} className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
+                  <i ref={installed} className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
-                <NavText className="navText">Summary</NavText>
+                <NavText className="navText">Installed Snaps</NavText>
               </NavItem>
-              <NavItem eventKey="/reputation/alerts">
+              <NavItem eventKey="/snaps/gallery">
                 <NavIcon>
-                  <i ref={alerts} className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
+                  <i ref={gallery} className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
-                <NavText className="navText">Alerts</NavText>
+                <NavText className="navText">Gallery</NavText>
               </NavItem>
-              <NavItem eventKey="/reputation/history">
+              <NavItem eventKey="/snaps/mysnaps">
                 <NavIcon>
-                  <i ref={history} className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                  <i ref={mySnaps} className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
-                <NavText className="navText">History</NavText>
+                <NavText className="navText">My Snaps</NavText>
               </NavItem>
             </SideNav.Nav>
           </SideNav>
@@ -351,7 +351,7 @@ const HelpPage = () => {
         </div>
       }
 
-      <Modal show={showModal} onHide={ () => {navigate('/reputation/dashboard')} }>
+      <Modal show={showModal} onHide={ () => {navigate('/snaps/dashboard')} }>
         <Modal.Body>
           <Jumbotron><h1><center>Welcome to <br/> SnapMaster!</center></h1></Jumbotron>
           <h4>
@@ -360,7 +360,7 @@ const HelpPage = () => {
           </h4>
         </Modal.Body>
         <Modal.Footer>
-        <Button variant="secondary" onClick={ () => navigate('/reputation/dashboard') }>
+        <Button variant="secondary" onClick={ () => navigate('/snaps/dashboard') }>
             Skip the tour
           </Button>
           <Button variant="secondary" onClick={ () => { exitPage(false) } }>

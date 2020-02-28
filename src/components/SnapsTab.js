@@ -8,26 +8,26 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 
 // import pages
 import Dashboard from '../pages/Dashboard'
-import SummaryPage from '../pages/SummaryPage'
-import AlertsPage from '../pages/AlertsPage'
-import HistoryPage from '../pages/HistoryPage'
+import InstalledPage from '../pages/InstalledPage'
+import GalleryPage from '../pages/GalleryPage'
+import MySnapsPage from '../pages/MySnapsPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // define routes
 const routes = {
   '/': () => <Dashboard />,
   '/dashboard': () => <Dashboard />,
-  '/summary': () => <SummaryPage />,
-  '/alerts': () => <AlertsPage />,
-  '/history': () => <HistoryPage />,
+  '/installed': () => <InstalledPage />,
+  '/gallery': () => <GalleryPage />,
+  '/mysnaps': () => <MySnapsPage />,
 };
 
-const ReputationTab = () => {
+const SnapsTab = () => {
   const { profile, storeProfile } = useProfile();
 
   // create state variables for current path (which determines selected tab) and expanded state
-  const currentPath = window.location.pathname === '/reputation' ? 
-    '/reputation/dashboard' : window.location.pathname;
+  const currentPath = window.location.pathname === '/snaps' ? 
+    '/snaps/dashboard' : window.location.pathname;
   const [expanded, setExpanded] = useState(profile && profile.expanded);
 
   // constants that describe the top offset (to honor NavBar) and SidNav width
@@ -62,29 +62,29 @@ const ReputationTab = () => {
           }}>
           <SideNav.Toggle />
           <SideNav.Nav selected={currentPath}>
-            <NavItem eventKey="/reputation/dashboard">
+            <NavItem eventKey="/snaps/dashboard">
               <NavIcon>
                 <i className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>Dashboard</NavText>
             </NavItem>
-            <NavItem eventKey="/reputation/summary">
+            <NavItem eventKey="/snaps/installed">
               <NavIcon>
                 <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText" style={{ fontSize: '1.2em' }}>Summary</NavText>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>Installed Snaps</NavText>
             </NavItem>
-            <NavItem eventKey="/reputation/alerts">
+            <NavItem eventKey="/snaps/gallery">
               <NavIcon>
                 <i className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText" style={{ fontSize: '1.2em' }}>Alerts</NavText>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>Gallery</NavText>
             </NavItem>
-            <NavItem eventKey="/reputation/history">
+            <NavItem eventKey="/snaps/mysnaps">
               <NavIcon>
                 <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
               </NavIcon>
-              <NavText className="navText" style={{ fontSize: '1.2em' }}>History</NavText>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>My Snaps</NavText>
             </NavItem>
           </SideNav.Nav>
         </SideNav>
@@ -102,4 +102,4 @@ const ReputationTab = () => {
   )
 }
 
-export default ReputationTab
+export default SnapsTab

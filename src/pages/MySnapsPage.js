@@ -7,22 +7,22 @@ import StackedLineChart from '../components/StackedLineChart'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 
-const HistoryPage = () => {
+const MySnapsPage = () => {
   const { get } = useApi();
-  const [history, setHistory] = useState([]);
+  const [mySnaps, setMySnaps] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
   const [checkboxState, setCheckboxState] = useState();
   const [refresh, setRefresh] = useState(false);
   const [providers, setProviders] = useState();
-  const pageTitle = 'History';
+  const pageTitle = 'My Snaps';
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (loading && !refresh) {
     return <Loading />
   }
 
-  // load history data
+  // load snaps data
   const loadData = async () => { 
     setLoading(true);
     setRefresh(true);
@@ -31,7 +31,7 @@ const HistoryPage = () => {
     if (error || !response.ok) {
       setLoadedData(true);
       setLoading(false);
-      setHistory(null);
+      setMySnaps(null);
       setRefresh(false);
       return;
     }
@@ -40,7 +40,7 @@ const HistoryPage = () => {
     setLoadedData(true);
     setLoading(false);
     setRefresh(false);
-    setHistory(responseData);
+    setMySnaps(responseData);
   };
 
   // if haven't loaded profile yet, do so now
@@ -48,8 +48,8 @@ const HistoryPage = () => {
     loadData();
   }
 
-  // if there is no history data to display, show a message instead
-  if (loadedData && (!history || !history.length > 0)) {
+  // if there is no snaps data to display, show a message instead
+  if (loadedData && (!mySnaps || !mySnaps.length > 0)) {
     return (
       <div>
         <div className="page-header">
@@ -57,11 +57,11 @@ const HistoryPage = () => {
           <PageTitle title={pageTitle} />
         </div>
         {
-          history && history.length === 0 &&
-          <span>No history yet :)</span>
+          mySnaps && mySnaps.length === 0 &&
+          <span>No snaps yet :)</span>
         }
         {
-          !history && 
+          !mySnaps && 
           <div>
             <i className="fa fa-frown-o"/>
             <span>&nbsp;Can't reach service - try refreshing later</span>
@@ -75,9 +75,9 @@ const HistoryPage = () => {
   const colors = ['#dc3545', '#ffc107', '#28a745'];
 
   // get the set of unique providers returned in metadata, if haven't yet
-  if (!providers && history && history.length > 0) {
+  if (!providers && mySnaps && mySnaps.length > 0) {
     const set = new Set();
-    for (const h of history) {
+    for (const h of mySnaps) {
       const keys = Object.keys(h).filter(k => 
         k !== 'timestamp' && k !== 'averageScore' && 
         !sentimentValues.find(v => v === k));
@@ -103,7 +103,7 @@ const HistoryPage = () => {
 
   // prepare data by converting timestamp to a date
   var options = { year: '2-digit', month: '2-digit', day: '2-digit' };  
-  const allData = history && history.length > 0 && history.map(h => { 
+  const allData = mySnaps && mySnaps.length > 0 && mySnaps.map(h => { 
     const date = new Date(h.timestamp).toLocaleDateString("en-US", options)
     return { ...h, date }
   });
@@ -208,4 +208,4 @@ const HistoryPage = () => {
   )
 }
 
-export default HistoryPage
+export default MySnapsPage

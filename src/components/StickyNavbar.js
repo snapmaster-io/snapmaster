@@ -38,12 +38,12 @@ const StickyNavbar = ({ state, actions }) => {
           <NavItem 
             className="stickyNavBarLogo text-center" 
             style={{ width: 65 }} 
-            eventKey="/reputation" 
+            eventKey="/snaps" 
             onSelect={actions.selectTab}>
             <img src="/SnapMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
-          <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/reputation" onSelect={actions.selectTab}>
-            Reputation
+          <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/snaps" onSelect={actions.selectTab}>
+            Snaps
           </NavItem>
           <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/sources" onSelect={actions.selectTab}>
             Sources

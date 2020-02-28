@@ -6,7 +6,7 @@ import RefreshButton from '../components/RefreshButton'
 import ProviderFilter from '../components/ProviderFilter'
 import PageTitle from '../components/PageTitle'
 
-const AlertsPage = () => {
+const GalleryPage = () => {
   const { loadMetadata, loading } = useMetadata();
   const [metadata, setMetadata] = useState();
   const [checkboxState, setCheckboxState] = useState();
@@ -33,7 +33,7 @@ const AlertsPage = () => {
     return;
   }
 
-  // if there is no metadata / alerts to display, show a message instead
+  // if there is no metadata / gallery to display, show a message instead
   if (!loading && (!metadata || metadata.length === 0)) {
     return (
       <div>
@@ -43,7 +43,7 @@ const AlertsPage = () => {
         </div>
         {
           metadata && metadata.length === 0 &&
-          <span>No alerts yet :)</span>
+          <span>No gallery yet :)</span>
         }
         {
           !metadata && 
@@ -100,8 +100,8 @@ const AlertsPage = () => {
   // extract the set of providers that are checked by the ProviderFilter control
   const checkedProviders = checkboxState && providers && providers.filter(p => checkboxState[p].state);
 
-  // create the alerts array, which only contains unhandled entries of checked providers
-  const alerts = checkedProviders && metadata && metadata.map && 
+  // create the gallery array, which only contains unhandled entries of checked providers
+  const gallery = checkedProviders && metadata && metadata.map && 
     metadata
       .filter(a => a.__handled !== true && checkedProviders.find(p => p === a.__provider))
       .map(item => {
@@ -134,10 +134,10 @@ const AlertsPage = () => {
         </div>
       </div>
       { 
-        alerts ? 
+        gallery ? 
         <DataTable
           columns={columns}
-          data={alerts}
+          data={gallery}
           keyField="id"
           rowEvents={rowEvents}
         /> :
@@ -147,4 +147,4 @@ const AlertsPage = () => {
   )
 }
 
-export default AlertsPage
+export default GalleryPage

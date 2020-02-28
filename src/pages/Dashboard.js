@@ -79,7 +79,7 @@ const Dashboard = () => {
           className='mx-auto'
           text='white'
           style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
-          <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation sources</Card.Header>
+          <Card.Header style={{ background: '#ff7777'}} as="h5">Connections</Card.Header>
           <Card.Body>
             <CardDeck>
             {
@@ -114,11 +114,11 @@ const Dashboard = () => {
         </HighlightCard>
 
         <HighlightCard
-          onClick={ () => { navigate('/reputation/summary')} }
+          onClick={ () => { navigate('/snaps/installed')} }
           className='mx-auto'
           text='white'
           style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
-          <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation summary</Card.Header>
+          <Card.Header style={{ background: '#ff7777'}} as="h5">Installed Snaps</Card.Header>
           <Card.Body>
             <CardDeck>
             {
@@ -142,14 +142,14 @@ const Dashboard = () => {
             </CardDeck>
           </Card.Body>
           <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/reputation/summary')}}>Check out reputation!</Button>
+            <Button onClick={ () => { navigate('/snaps/installed')}}>Check out snaps!</Button>
           </Card.Footer>
         </HighlightCard>        
       </CardDeck>
 
       <CardDeck style={{padding: 25}}>
         <HighlightCard
-          onClick={ () => { navigate('/reputation/alerts')} }
+          onClick={ () => { navigate('/snaps/gallery')} }
           className='mx-auto'
           text='white'
           style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
@@ -180,12 +180,12 @@ const Dashboard = () => {
             </CardDeck>
           </Card.Body>
           <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/reputation/alerts')}}>Handle some feedback!</Button>
+            <Button onClick={ () => { navigate('/snaps/gallery')}}>Handle some feedback!</Button>
           </Card.Footer>
         </HighlightCard>     
 
         <HighlightCard
-          onClick={ () => { navigate('/reputation/history')} }
+          onClick={ () => { navigate('/snaps/mysnaps')} }
           className='mx-auto'
           text='white'
           style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
@@ -217,7 +217,7 @@ const Dashboard = () => {
             </CardDeck>
           </Card.Body>
           <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/reputation/history')}}>Check out history!</Button>
+            <Button onClick={ () => { navigate('/snaps/mysnaps')}}>Check out your snaps!</Button>
           </Card.Footer>
         </HighlightCard>           
       </CardDeck>

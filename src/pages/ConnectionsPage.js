@@ -18,7 +18,7 @@ const ConnectionsPage = () => {
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [linkProvider, setLinkProvider] = useState();
-  const pageTitle = 'Reputation sources';
+  const pageTitle = 'Connections';
 
   // if in the middle of a loading loop, put up loading banner and bail
   if (!connections && loading) {
@@ -217,7 +217,7 @@ const ConnectionsPage = () => {
             </Modal.Header>
             <Modal.Body>
               <p>
-              To connect to {linkProvider} as a new reputation source, you will need to login  
+              To connect to {linkProvider} as a new snaps source, you will need to login  
               to {linkProvider} and allow SnapMaster access to your data.  
               </p>
               <p>
@@ -226,7 +226,7 @@ const ConnectionsPage = () => {
               </p>
               <p>
               At the end of the process, you will see data from {linkProvider} as one of your   
-              reputation sources!
+              snaps sources!
               </p>
             </Modal.Body>
             <Modal.Footer>

@@ -6,12 +6,12 @@ import Legend from '../components/Legend'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 
-const SummaryPage = () => {
+const InstalledPage = () => {
   const { loadMetadata, loading } = useMetadata();
   const [metadata, setMetadata] = useState();
   const [checkboxState, setCheckboxState] = useState();
   const [providers, setProviders] = useState();
-  const pageTitle = 'Summary';
+  const pageTitle = 'Installed Snaps';
 
   // create a callback function that wraps the loadMetadata effect
   const loadMeta = useCallback(() => {
@@ -44,7 +44,7 @@ const SummaryPage = () => {
         </div>
         {
           metadata && metadata.length === 0 &&
-          <span>No reputation data yet :)</span>
+          <span>No snaps data yet :)</span>
         }
         {
           !metadata && 
@@ -152,5 +152,5 @@ const SummaryPage = () => {
   )
 }
 
-export default SummaryPage
+export default InstalledPage
 

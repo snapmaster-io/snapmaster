@@ -71,15 +71,15 @@ const ActiveSnapsPage = () => {
     }
   }
 
-  const deleteFormatter = (cell, row) => {
+  const deactivateFormatter = (cell, row) => {
     return (
-      <Button className="btn btn-danger" onClick={ () => handleDelete(row.activeSnapId)}>
-        <i className="fa fa-remove" />&nbsp;&nbsp;Delete
+      <Button className="btn btn-danger" onClick={ () => deactivate(row.activeSnapId)}>
+        <i className="fa fa-remove" />&nbsp;&nbsp;Deactivate
       </Button>
     )
   }
 
-  const handleDelete = async (activeSnapId) => {
+  const deactivate = async (activeSnapId) => {
     // post the deactivate request to the activesnaps endpoint
     const request = {
       action: 'deactivate',
@@ -131,7 +131,7 @@ const ActiveSnapsPage = () => {
   }, {
     dataField: 'activeSnapId',
     text: 'Actions',
-    formatter: deleteFormatter
+    formatter: deactivateFormatter
   }];  
 
   /*

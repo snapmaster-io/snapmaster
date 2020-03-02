@@ -71,8 +71,13 @@ const SnapPage = ({snapId}) => {
   }
 
   const fork = async () => {
-    // post a request to the snaps endpoint 
-    const [response, error] = await post('snaps', JSON.stringify({ snapId: snapId }));
+    // post the fork request to the snaps endpoint
+    const request = {
+      action: 'fork',
+      snapId: snapId
+    };
+
+    const [response, error] = await post('snaps', JSON.stringify(request));
     if (error || !response.ok) {
       return;
     }

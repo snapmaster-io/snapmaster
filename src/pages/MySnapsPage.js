@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap'
 import { navigate } from 'hookrouter'
 
 const MySnapsPage = () => {
-  const { get } = useApi();
+  const { get, post } = useApi();
   const [mySnaps, setMySnaps] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedData, setLoadedData] = useState(false);
@@ -81,10 +81,36 @@ const MySnapsPage = () => {
     }
   }
 
+  const deleteFormatter = (cell, row) => {
+    console.log(row);
+    return (
+      <Button className="btn btn-danger" onClick={ () => handleDelete(row.snapId)}>
+        <i className="fa fa-remove" />&nbsp;&nbsp;Delete
+      </Button>
+    )
+  }
+
+  const handleDelete = async (snapId) => {
+    // post the delete request to the snaps endpoint
+    const request = {
+      action: 'delete',
+      snapId: snapId
+    };
+
+    const [response, error] = await post('snaps', JSON.stringify(request));
+    if (error || !response.ok) {
+      return;
+    }
+
+    const newSnaps = mySnaps.filter(a => a.snapId !== snapId);
+    setMySnaps(newSnaps);
+  }
+
   const dataRows = mySnaps && mySnaps.map(s => {
     const userId = s.snapId.split('/')[0];
     const name = s.snapId.split('/')[1];
     return {
+      snapId: s.snapId,
       name: name,
       userId: userId,
       private: s.private,
@@ -110,6 +136,10 @@ const MySnapsPage = () => {
     dataField: 'url',
     text: 'Definition',
     formatter: urlFormatter
+  }, {
+    dataField: 'snapId',
+    text: 'Actions',
+    formatter: deleteFormatter
   }];  
   
   return(
@@ -122,7 +152,7 @@ const MySnapsPage = () => {
       <DataTable 
         columns={columns} 
         data={dataRows} 
-        keyField='name' />
+        keyField='snapId' />
     </div>
   )
 }

@@ -57,12 +57,21 @@ const SnapPage = ({snapId}) => {
     )
   }
 
-  const activate = () => {
+  const activate = async () => {
+    // post a request to the activesnaps endpoint
+    const request = {
+      action: 'activate',
+      snapId: snapId
+    };
 
+    const [response, error] = await post('activesnaps', JSON.stringify(request));
+    if (error || !response.ok) {
+      return;
+    }
   }
 
   const fork = async () => {
-    // post the metadata to the API path
+    // post a request to the snaps endpoint 
     const [response, error] = await post('snaps', JSON.stringify({ snapId: snapId }));
     if (error || !response.ok) {
       return;
@@ -75,7 +84,6 @@ const SnapPage = ({snapId}) => {
   const userName = userId; //userId.replace('%7C', '|'); 
 
   const providerName = snap && snap.trigger;
-  console.log(providerName);
   const provider = providerName && connections && connections.find(el => el.provider === providerName);
 
   return (
@@ -88,14 +96,14 @@ const SnapPage = ({snapId}) => {
         </div>
       </div>
 
-      <Tabs id="controlled-tab-example" activeKey={key} onSelect={k => setKey(k)}>
+      <Tabs activeKey={key} onSelect={k => setKey(k)}>
         <Tab eventKey="visual" title={<span><i className="fa fa-sitemap" />&nbsp;&nbsp;Visual</span>}>
           <div style={{ display: 'flex' }}>
             { provider && <ProviderCard provider={provider} /> }
-            <i style={{ fontSize: '5em', margin: 50 }} className="fa fa-play text-muted" />
+            { provider && <i style={{ fontSize: '5em', margin: 50 }} className="fa fa-play text-muted" /> }
             { snap && snap.actions && snap.actions.map(a => { 
                 const actionProvider = connections && connections.find(el => el.provider === a);
-                return actionProvider && <ProviderCard provider={actionProvider} />
+                return actionProvider && <ProviderCard key={a} provider={actionProvider} />
               })
             }
           </div>

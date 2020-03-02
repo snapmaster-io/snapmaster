@@ -8,7 +8,7 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 
 // import pages
 import Dashboard from '../pages/Dashboard'
-import InstalledPage from '../pages/InstalledPage'
+import ActiveSnapsPage from '../pages/ActiveSnapsPage'
 import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
 import SnapPage from '../pages/SnapPage'
@@ -18,7 +18,7 @@ import NotFoundPage from '../pages/NotFoundPage'
 const routes = {
   '/': () => <Dashboard />,
   '/dashboard': () => <Dashboard />,
-  '/installed': () => <InstalledPage />,
+  '/active': () => <ActiveSnapsPage />,
   '/gallery': () => <GalleryPage />,
   '/mysnaps': () => <MySnapsPage />,
   '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
@@ -66,9 +66,15 @@ const SnapsTab = () => {
           <SideNav.Nav selected={currentPath}>
             <NavItem eventKey="/snaps/dashboard">
               <NavIcon>
-                <i className="fa fa-fw fa-play" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>Dashboard</NavText>
+            </NavItem>
+            <NavItem eventKey="/snaps/active">
+              <NavIcon>
+                <i className="fa fa-fw fa-play" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>Active Snaps</NavText>
             </NavItem>
             <NavItem eventKey="/snaps/gallery">
               <NavIcon>

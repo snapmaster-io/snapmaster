@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
@@ -10,205 +10,79 @@ import Card from 'react-bootstrap/Card'
 import CardDeck from 'react-bootstrap/CardDeck'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import PageTitle from '../components/PageTitle';
 
 const LibraryPage = () => {
-  const { loading, loadConnections, connections } = useConnections();
-  const { user, loginWithRedirect } = useAuth0();
-  const { post } = useApi();
+  const { get, post } = useApi();
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [linkProvider, setLinkProvider] = useState();
-  const pageTitle = 'Library';
+  const pageTitle = 'Tool Library';
 
-  // if in the middle of a loading loop, put up loading banner and bail
-  if (!connections && loading) {
-    return <Loading />
-  }
+  const [library, setLibrary] = useState();
+  const [loading, setLoading] = useState();
 
-  if (connections && connections.find) {
-    errorMessage && setErrorMessage(null);
-  } else {
-    !errorMessage && setErrorMessage("Can't reach service - try refreshing later");
-  }
+  // create a callback function that wraps the loadData effect
+  const loadData = useCallback(() => {
+    async function call() {
+      setLoading(true);
+      const [response, error] = await get('library');
 
-  // call the link / unlink user API
-  const call = async (action, primaryUserId, secondaryUserId) => { 
-    try {
-      const body = JSON.stringify({ 
-        action: action,
-        primaryUserId: primaryUserId,
-        secondaryUserId: secondaryUserId 
-      });
-
-      const [response, error] = await post('link', body);
       if (error || !response.ok) {
+        setLoading(false);
+        setLibrary(null);
         return;
       }
-
-      const responseData = await response.json();
-      const success = responseData && responseData.message === 'success';
-
-      // if linking was successful, re-login with primary account
-      if (action === 'link' && success) {
-        const [provider] = primaryUserId.split('|');
-        // log back in with the primary account 
-        loginWithRedirect({
-          access_type: 'offline', 
-          connection: provider,
-          redirect_uri: `${window.location.origin}`
-        });
-      } else {
-        // refresh the page
-        loadConnections();
-      }
-    } catch (error) {
-      console.error(error);
-      return;
+  
+      const items = await response.json();
+      setLoading(false);
+      setLibrary(items);
     }
-  };  
+    call();
+  }, [get]);
 
-  // start the account linking process
-  // linking state machine: null => linking => login => null
-  const link = (provider) => { 
-    // move the state machine from null to 'linking'
-    localStorage.setItem('linking', 'linking');
-    // store the currently logged in userid (will be used as primary)
-    localStorage.setItem('primary', user.sub);
-    // store the provider being connected to
-    localStorage.setItem('provider', provider);
-
-    // need to sign in with new IdP
-    loginWithRedirect({
-      access_type: 'offline', 
-      connection: provider,
-      redirect_uri: `${window.location.origin}`
-    });
-  }
-
-  // get the state of the linking state machine
-  const linking = localStorage.getItem('linking');
-  if (linking === 'linking') {
-    // move the state machine from 'linking' to 'login'
-    localStorage.setItem('linking', 'login');
-    const primaryUserId = localStorage.getItem('primary');
-
-    // link the accounts
-    call('link', primaryUserId, user.sub);
-  }
-
-  // add or remove a simple connection
-  const processConnection = async (action, provider) => {
-    const body = JSON.stringify({ action: action, provider: provider });
-    const [response, error] = await post('connections', body);
-    if (error || !response.ok) {
-      return;
-    }
-
-    const responseData = await response.json();
-    const success = responseData && responseData.message === 'success';
-    if (success) {
-      loadConnections();
-    }
-  }
-
-  const connectedTools = connections && connections.filter(c => c.connected);
-  const nonConnectedTools = connections && connections.filter(c => !c.connected);
+  // load data automatically on first page render
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   return(
     <div>
       <div className="page-header">
-        <RefreshButton load={loadConnections} loading={loading}/>
-        <h4 className="page-title">{pageTitle}</h4>
+        <RefreshButton load={loadData} loading={loading}/>
+        <PageTitle title={pageTitle} />
       </div>
       { 
-        connections && connections.map ? 
+        library && library.map ? 
         <div>
           <CardDeck>
-            <Card border="success" style={{ 
-              minWidth: connectedTools.length * 180,
-              maxWidth: connectedTools.length * 180,
-              marginBottom: 10
-            }}>
-              <Card.Header>Connected</Card.Header>
-              <Card.Body>
-                <CardDeck>
-                {
-                  connectedTools.map((connection, key) => {
-                    // set up some variables
-                    const connected = connection.connected;
-                    const uid = `${connection.provider}|${connection.userId}`;
-                    const connectionTitle = connection.provider.split('-')[0];
-                    return (
-                      <HighlightCard 
-                        key={key} 
-                        style={{ maxWidth: '150px', textAlign: 'center' }}>
-                        <Card.Body 
-                          onClick= { () => connectionTitle && navigate(`/tools/${connectionTitle}` )}>
-                          <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
-                        </Card.Body>
-                        <Card.Footer>
-                        { 
-                          connected === 'base' && 
-                            <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Main Login</center>
-                        }
-                        { 
-                          connected !== 'base' && connection.type === 'link' &&
-                            <Button variant='danger' onClick={ () => { call('unlink', null, uid) } }>Disconnect</Button>
-                        }
-                        { 
-                          connected !== 'base' && connection.type === 'simple' &&
-                            <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
-                        }
-                        </Card.Footer>
-                      </HighlightCard>
-                    )
-                  })
-                }
-                </CardDeck>
-              </Card.Body>
-            </Card>
+          {
+            library.map((tool, key) => {
+              // set up the link action
+              const action = () => { 
+                setLinkProvider(tool.provider); 
+                setShowModal(true);
+              };
 
-            <Card border="danger" style={{ 
-              minWidth: nonConnectedTools.length * 180,
-              maxWidth: nonConnectedTools.length * 180,
-              marginBottom: 10
-            }}>
-              <Card.Header>Not connected</Card.Header>
-              <Card.Body>
-                <CardDeck>
-                {
-                  // filter for all the non-connected tools
-                  nonConnectedTools.map((connection, key) => {
-                    // set up the link action
-                    const action = () => { 
-                      setLinkProvider(connection.provider); 
-                      setShowModal(true);
-                    };
-
-                    return (
-                      <Card 
-                        key={key} 
-                        style={{ maxWidth: '150px', textAlign: 'center' }}>
-                        <Card.Body> 
-                          <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
-                        </Card.Body>
-                        <Card.Footer>
-                          { 
-                            connection.type === 'link' &&
-                              <Button variant='primary' onClick={action}>Connect</Button>
-                          }
-                          { 
-                            connection.type === 'simple' &&
-                              <Button variant='primary' onClick={ () => { processConnection('add', connection.provider) } }>Connect</Button>
-                          }
-                        </Card.Footer>
-                      </Card>
-                    )
-                  })
-                }
-                </CardDeck>
-              </Card.Body>
-            </Card>
+              return (
+                <Card 
+                  key={key} 
+                  style={{ maxWidth: '150px', textAlign: 'center' }}>
+                  <Card.Body> 
+                    <Card.Img variant="top" src={tool.image} style={{ width: '6rem' }}/>
+                  </Card.Body>
+                  <Card.Footer>
+                    { 
+                      !tool.connected && <Button variant='primary' onClick={action}>Connect</Button>
+                    }
+                    { 
+                      tool.connected && <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Connected</center>
+                    }
+                  </Card.Footer>
+                </Card>
+              )
+            })
+          }
           </CardDeck>
 
           <Modal show={showModal} onHide={ () => setShowModal(false) }>
@@ -233,7 +107,7 @@ const LibraryPage = () => {
               <Button variant="secondary" onClick={ () => setShowModal(false) }>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={ () => link(linkProvider) }>
+              <Button variant="primary" onClick={ () => setShowModal(false) }>
                 Link
               </Button>
             </Modal.Footer>

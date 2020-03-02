@@ -40,7 +40,7 @@ const InstalledPage = () => {
       <div>
         <div className="page-header">
           <RefreshButton load={loadMeta} loading={loading}/>
-          <h4 className="page-title">{pageTitle}</h4>
+          <PageTitle title={pageTitle} />
         </div>
         {
           metadata && metadata.length === 0 &&

@@ -65,7 +65,7 @@ const ToolsTab = () => {
           <SideNav.Nav selected={currentPath}>
           <NavItem eventKey="/tools/library">
               <NavIcon>
-                <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-university" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText style={{ fontSize: '1.2em' }}>Library</NavText>
             </NavItem>

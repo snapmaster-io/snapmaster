@@ -1,52 +1,55 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { navigate } from 'hookrouter'
-import { useMetadata } from '../utils/metadata'
+import { useApi } from '../utils/api'
 import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
-import ProviderFilter from '../components/ProviderFilter'
 import PageTitle from '../components/PageTitle'
+import { Button } from 'react-bootstrap'
 
 const GalleryPage = () => {
-  const { loadMetadata, loading } = useMetadata();
-  const [metadata, setMetadata] = useState();
-  const [checkboxState, setCheckboxState] = useState();
-  const [providers, setProviders] = useState();
+  const { get } = useApi();
+  const [gallery, setGallery] = useState();
+  const [loading, setLoading] = useState();
+  const pageTitle = 'Gallery';
 
-  // create a callback function that wraps the loadMetadata effect
-  const loadMeta = useCallback(() => {
+  // create a callback function that wraps the loadData effect
+  const loadData = useCallback(() => {
     async function call() {
-      const meta = await loadMetadata();
-      setMetadata(meta);
+      setLoading(true);
+      const [response, error] = await get('gallery');
+
+      if (error || !response.ok) {
+        setLoading(false);
+        setGallery(null);
+        return;
+      }
+  
+      const items = await response.json();
+      setLoading(false);
+      setGallery(items);
     }
     call();
-  }, [loadMetadata]);
+  }, [get]);
 
-  // load metadata automatically on first page render
+  // load data automatically on first page render
   useEffect(() => {
-    loadMeta();
-  }, [loadMeta]);
+    loadData();
+  }, [loadData]);
 
-  // get the set of unique providers returned in metadata, if haven't yet
-  if (!providers && metadata && metadata.length > 0) {
-    const list = metadata.map(m => m.__provider);
-    setProviders([...new Set(list)]);
-    return;
-  }
-
-  // if there is no metadata / gallery to display, show a message instead
-  if (!loading && (!metadata || metadata.length === 0)) {
+  // if there is no gallery to display, show a message instead
+  if (!loading && (!gallery || gallery.length === 0)) {
     return (
       <div>
         <div className="page-header">
-          <RefreshButton load={loadMetadata} loading={loading}/>
-          <h4 className="page-title">Unhandled feedback</h4>
+          <RefreshButton load={loadData} loading={loading}/>
+          <PageTitle title={pageTitle} />
         </div>
         {
-          metadata && metadata.length === 0 &&
+          gallery && gallery.length === 0 &&
           <span>No gallery yet :)</span>
         }
         {
-          !metadata && 
+          !gallery && 
           <div>
             <i className="fa fa-frown-o"/>
             <span>&nbsp;Can't reach service - try refreshing later</span>
@@ -56,95 +59,76 @@ const GalleryPage = () => {
     )
   }
 
-  const formatter = (cell, row, rowIndex, formatExtraData) => {
-    return (
-      <i className={ formatExtraData[cell] } />
-    )
+  const urlFormatter = (cell, row) => {
+    if (row.url) {
+      return <a href={row.url} target="_">{cell}</a>
+    } else {
+      return (
+        <Button onClick={ () => { navigate(`/snaps/${row.snapId}`) }}>
+          {`View definition`} 
+        </Button>
+      )
+    }
   }
 
-  const columns = [{
-    dataField: 'provider',
-    text: 'Source',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '100px' };
-    },
-    align: 'center',
-    formatter: formatter,
-    formatExtraData: {
-      facebook: 'fa fa-facebook fa-2x text-muted',
-      twitter: 'fa fa-twitter fa-2x text-muted',
-      yelp: 'fa fa-yelp fa-2x text-muted',
-      'google-oauth2': 'fa fa-google fa-2x text-muted',
-      instagram: 'fa fa-instagram fa-2x text-muted'
-    }
-  }, {
-    dataField: 'type',
-    text: 'Type',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '80px' };
-    },
-    align: 'center',
-    formatter: formatter,
-    formatExtraData: {
-      positive: 'fa fa-thumbs-up fa-2x text-success',
-      neutral: 'fa fa-minus fa-2x text-warning',
-      negative: 'fa fa-thumbs-down fa-2x text-danger'
-    }
-  }, {
-    dataField: 'text',
-    text: 'Text'
-  }];
-
-  // extract the set of providers that are checked by the ProviderFilter control
-  const checkedProviders = checkboxState && providers && providers.filter(p => checkboxState[p].state);
-
-  // create the gallery array, which only contains unhandled entries of checked providers
-  const gallery = checkedProviders && metadata && metadata.map && 
-    metadata
-      .filter(a => a.__handled !== true && checkedProviders.find(p => p === a.__provider))
-      .map(item => {
+  const dataRows = gallery && gallery.map(s => {
+    const userId = s.snapId.split('/')[0];
+    const name = s.snapId.split('/')[1];
     return {
-      id: item.__id, 
-      type: item.__sentiment,
-      provider: item.__provider, 
-      text: item.__text,
-      handled: item.__handled
+      snapId: s.snapId,
+      name: name,
+      userId: userId,
+      private: s.private,
+      url: s.url
     }
   });
 
+  const columns = [{
+    dataField: 'userId',
+    text: 'Namespace',
+    sort: true,
+    headerStyle: (column, colIndex) => {
+      return { width: '300px' };
+    }
+  }, {
+    dataField: 'name',
+    text: 'Name',
+    sort: true,
+    headerStyle: (column, colIndex) => {
+      return { width: '250px' };
+    }
+  }, {
+    dataField: 'url',
+    text: 'Definition',
+    formatter: urlFormatter
+  }];  
+
+  /*
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
-      navigate(`/tools/${row.provider}`);
+      navigate(`/snaps/${row.snapId}`);
     }
   };
-
+  */
+  
   return (
     <div>
       <div className="page-header">
-        <RefreshButton load={loadMeta} loading={loading}/>
-        <PageTitle title="Unhandled feedback" />
-        <div style={{ marginLeft: 50 }}>
-          <ProviderFilter 
-            providers={providers}
-            checkboxState={checkboxState}
-            setCheckboxState={setCheckboxState}
-            />
-        </div>
+        <RefreshButton load={loadData} loading={loading}/>
+        <PageTitle title={pageTitle} />
       </div>
       { 
-        gallery ? 
+        dataRows ? 
         <DataTable
           columns={columns}
-          data={gallery}
-          keyField="id"
-          rowEvents={rowEvents}
+          data={dataRows}
+          keyField="snapId"
+          //rowEvents={rowEvents}
         /> :
         <div/>
       }
     </div>
   )
-}
+}  
 
 export default GalleryPage

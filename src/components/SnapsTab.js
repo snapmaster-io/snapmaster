@@ -11,6 +11,7 @@ import Dashboard from '../pages/Dashboard'
 import InstalledPage from '../pages/InstalledPage'
 import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
+import SnapPage from '../pages/SnapPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // define routes
@@ -20,6 +21,7 @@ const routes = {
   '/installed': () => <InstalledPage />,
   '/gallery': () => <GalleryPage />,
   '/mysnaps': () => <MySnapsPage />,
+  '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
 };
 
 const SnapsTab = () => {
@@ -64,25 +66,19 @@ const SnapsTab = () => {
           <SideNav.Nav selected={currentPath}>
             <NavItem eventKey="/snaps/dashboard">
               <NavIcon>
-                <i className="fa fa-fw fa-tachometer" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-play" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>Dashboard</NavText>
             </NavItem>
-            <NavItem eventKey="/snaps/installed">
-              <NavIcon>
-                <i className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
-              </NavIcon>
-              <NavText className="navText" style={{ fontSize: '1.2em' }}>Installed Snaps</NavText>
-            </NavItem>
             <NavItem eventKey="/snaps/gallery">
               <NavIcon>
-                <i className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-sitemap" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>Gallery</NavText>
             </NavItem>
             <NavItem eventKey="/snaps/mysnaps">
               <NavIcon>
-                <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-code" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>My Snaps</NavText>
             </NavItem>

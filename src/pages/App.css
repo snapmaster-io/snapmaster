@@ -21,3 +21,16 @@
 nav {
   font-weight: 400;
 }
+
+nav.nav.nav-tabs {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  background: white;
+  margin-top: -1px;
+}
+
+div.tab-content {
+  position: relative;
+  top: 50px;
+}

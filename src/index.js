@@ -8,9 +8,10 @@ import { ConnectionsProvider } from './utils/connections'
 import { ProfileProvider } from './utils/profile'
 import config from './utils/auth_config.json'
 
-// import bootstrap and font-awesome CSS
+// import bootstrap, font-awesome, and cloudfont CSS
 import 'bootstrap/dist/css/bootstrap.css'
 import 'font-awesome/css/font-awesome.min.css'
+import 'cloudfont/css/cloudfont.css'
 
 // import local styles after default styles so they take precedence
 import './index.css'

@@ -123,92 +123,73 @@ const ConnectionsPage = () => {
       { 
         connections && connections.map ? 
         <div>
+
           <CardDeck>
-            <Card border="success" style={{ 
-              minWidth: connectedTools.length * 180,
-              maxWidth: connectedTools.length * 180,
-              marginBottom: 10
-            }}>
-              <Card.Header>Connected</Card.Header>
-              <Card.Body>
-                <CardDeck>
-                {
-                  connectedTools.map((connection, key) => {
-                    // set up some variables
-                    const connected = connection.connected;
-                    const uid = `${connection.provider}|${connection.userId}`;
-                    const connectionTitle = connection.provider.split('-')[0];
-                    return (
-                      <HighlightCard 
-                        key={key} 
-                        style={{ maxWidth: '150px', textAlign: 'center' }}>
-                        <Card.Body 
-                          onClick= { () => connectionTitle && navigate(`/tools/${connectionTitle}` )}>
-                          <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
-                        </Card.Body>
-                        <Card.Footer>
-                        { 
-                          connected === 'base' && 
-                            <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Main Login</center>
-                        }
-                        { 
-                          connected !== 'base' && connection.type === 'link' &&
-                            <Button variant='danger' onClick={ () => { call('unlink', null, uid) } }>Disconnect</Button>
-                        }
-                        { 
-                          connected !== 'base' && connection.type === 'simple' &&
-                            <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
-                        }
-                        </Card.Footer>
-                      </HighlightCard>
-                    )
-                  })
-                }
-                </CardDeck>
-              </Card.Body>
-            </Card>
+          {
+            connectedTools.map((connection, key) => {
+              // set up some variables
+              const connected = connection.connected;
+              const uid = `${connection.provider}|${connection.userId}`;
+              const connectionTitle = connection.provider.split('-')[0];
+              return (
+                <HighlightCard 
+                  key={key} 
+                  style={{ maxWidth: '150px', textAlign: 'center' }}>
+                  <Card.Body 
+                    onClick= { () => connectionTitle && navigate(`/tools/${connectionTitle}` )}>
+                    <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
+                  </Card.Body>
+                  <Card.Footer>
+                  { 
+                    connected === 'base' && 
+                      <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Main Login</center>
+                  }
+                  { 
+                    connected !== 'base' && connection.type === 'link' &&
+                      <Button variant='danger' onClick={ () => { call('unlink', null, uid) } }>Disconnect</Button>
+                  }
+                  { 
+                    connected !== 'base' && connection.type === 'simple' &&
+                      <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
+                  }
+                  </Card.Footer>
+                </HighlightCard>
+              )
+            })
+          }
+          </CardDeck>
 
-            <Card border="danger" style={{ 
-              minWidth: nonConnectedTools.length * 180,
-              maxWidth: nonConnectedTools.length * 180,
-              marginBottom: 10
-            }}>
-              <Card.Header>Not connected</Card.Header>
-              <Card.Body>
-                <CardDeck>
-                {
-                  // filter for all the non-connected tools
-                  nonConnectedTools.map((connection, key) => {
-                    // set up the link action
-                    const action = () => { 
-                      setLinkProvider(connection.provider); 
-                      setShowModal(true);
-                    };
+          <CardDeck>
+          { /*
+            // filter for all the non-connected tools
+            nonConnectedTools.map((connection, key) => {
+              // set up the link action
+              const action = () => { 
+                setLinkProvider(connection.provider); 
+                setShowModal(true);
+              };
 
-                    return (
-                      <Card 
-                        key={key} 
-                        style={{ maxWidth: '150px', textAlign: 'center' }}>
-                        <Card.Body> 
-                          <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
-                        </Card.Body>
-                        <Card.Footer>
-                          { 
-                            connection.type === 'link' &&
-                              <Button variant='primary' onClick={action}>Connect</Button>
-                          }
-                          { 
-                            connection.type === 'simple' &&
-                              <Button variant='primary' onClick={ () => { processConnection('add', connection.provider) } }>Connect</Button>
-                          }
-                        </Card.Footer>
-                      </Card>
-                    )
-                  })
-                }
-                </CardDeck>
-              </Card.Body>
-            </Card>
+              return (
+                <Card 
+                  key={key} 
+                  style={{ maxWidth: '150px', textAlign: 'center' }}>
+                  <Card.Body> 
+                    <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>
+                  </Card.Body>
+                  <Card.Footer>
+                    { 
+                      connection.type === 'link' &&
+                        <Button variant='primary' onClick={action}>Connect</Button>
+                    }
+                    { 
+                      connection.type === 'simple' &&
+                        <Button variant='primary' onClick={ () => { processConnection('add', connection.provider) } }>Connect</Button>
+                    }
+                  </Card.Footer>
+                </Card>
+              )
+            })*/
+          }
           </CardDeck>
 
           <Modal show={showModal} onHide={ () => setShowModal(false) }>

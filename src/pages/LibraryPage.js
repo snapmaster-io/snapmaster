@@ -14,14 +14,27 @@ import PageTitle from '../components/PageTitle';
 
 const LibraryPage = () => {
   const { get, post } = useApi();
+  const { loading, loadConnections, connections } = useConnections();
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [linkProvider, setLinkProvider] = useState();
   const pageTitle = 'Tool Library';
 
-  const [library, setLibrary] = useState();
-  const [loading, setLoading] = useState();
+  //const [library, setLibrary] = useState();
+  //const [loading, setLoading] = useState();
 
+  // if in the middle of a loading loop, put up loading banner and bail
+  if (!connections && loading) {
+    return <Loading />
+  }
+
+  if (connections && connections.find) {
+    errorMessage && setErrorMessage(null);
+  } else {
+    !errorMessage && setErrorMessage("Can't reach service - try refreshing later");
+  }
+  
+  /*
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
     async function call() {
@@ -45,19 +58,35 @@ const LibraryPage = () => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+  */
+
+  // add or remove a simple connection
+  const processConnection = async (action, provider) => {
+    const body = JSON.stringify({ action: action, provider: provider });
+    const [response, error] = await post('connections', body);
+    if (error || !response.ok) {
+      return;
+    }
+
+    const responseData = await response.json();
+    const success = responseData && responseData.message === 'success';
+    if (success) {
+      loadConnections();
+    }
+  }
 
   return(
     <div>
       <div className="page-header">
-        <RefreshButton load={loadData} loading={loading}/>
+        <RefreshButton load={loadConnections} loading={loading}/>
         <PageTitle title={pageTitle} />
       </div>
       { 
-        library && library.map ? 
+        connections && connections.map ? 
         <div>
           <CardDeck>
           {
-            library.map((tool, key) => {
+            connections.map((tool, key) => {
               // set up the link action
               const action = () => { 
                 setLinkProvider(tool.provider); 
@@ -73,7 +102,12 @@ const LibraryPage = () => {
                   </Card.Body>
                   <Card.Footer>
                     { 
-                      !tool.connected && <Button variant='primary' onClick={action}>Connect</Button>
+                      !tool.connected && tool.type === 'link' &&
+                        <Button variant='primary' onClick={action}>Connect</Button>
+                    }
+                    { 
+                      !tool.connected && tool.type === 'simple' &&
+                        <Button variant='primary' onClick={ () => { processConnection('add', tool.provider) } }>Connect</Button>
                     }
                     { 
                       tool.connected && <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Connected</center>

@@ -105,7 +105,7 @@ const SnapPage = ({snapId}) => {
         <Tab eventKey="visual" title={<span><i className="fa fa-sitemap" />&nbsp;&nbsp;Visual</span>}>
           <div style={{ display: 'flex' }}>
             { provider && <ProviderCard provider={provider} /> }
-            { provider && <i style={{ fontSize: '5em', margin: 50 }} className="fa fa-play text-muted" /> }
+            { provider && <i style={{ fontSize: '6em', margin: 50 }} className="fa fa-play text-muted" /> }
             { snap && snap.actions && snap.actions.map(a => { 
                 const actionProvider = connections && connections.find(el => el.provider === a);
                 return actionProvider && <ProviderCard key={a} provider={actionProvider} />

@@ -46,7 +46,7 @@ const GalleryPage = () => {
         </div>
         {
           gallery && gallery.length === 0 &&
-          <span>No gallery yet :)</span>
+          <span>No snaps in the gallery yet :)</span>
         }
         {
           !gallery && 

@@ -5,7 +5,7 @@ import PageTitle from '../components/PageTitle'
 import RefreshButton from '../components/RefreshButton'
 import Highlight from '../components/Highlight'
 import ButtonRow from '../components/ButtonRow'
-import { Button, Tabs, Tab } from 'react-bootstrap'
+import { Button, Tabs, Tab, Card, Form, Row, Col } from 'react-bootstrap'
 import { useConnections } from '../utils/connections'
 import ProviderCard from '../components/ProviderCard'
 
@@ -61,7 +61,8 @@ const SnapPage = ({snapId}) => {
     // post a request to the activesnaps endpoint
     const request = {
       action: 'activate',
-      snapId: snapId
+      snapId: snapId,
+      params: snap.parameters
     };
 
     const [response, error] = await post('activesnaps', JSON.stringify(request));
@@ -103,6 +104,7 @@ const SnapPage = ({snapId}) => {
 
       <Tabs activeKey={key} onSelect={k => setKey(k)}>
         <Tab eventKey="visual" title={<span><i className="fa fa-sitemap" />&nbsp;&nbsp;Visual</span>}>
+          <h5 style={{ margin: 10 }}>{snap && snap.description}</h5>
           <div style={{ display: 'flex' }}>
             { provider && <ProviderCard provider={provider} /> }
             { provider && <i style={{ fontSize: '6em', margin: 50 }} className="fa fa-play text-muted" /> }
@@ -112,12 +114,47 @@ const SnapPage = ({snapId}) => {
               })
             }
           </div>
+          <h5 style={{ margin: 10 }}>{snap && 'Parameters:'}</h5>
+          <div style={{ marginLeft: 20 }}>
+            { snap && snap.parameters && 
+              <Card>
+                <Card.Body>
+                { 
+                  snap.parameters.map(p => 
+                    <div key={p.name} style={{ display: 'flex'}}>
+                      <h5 style={{ fontWeight: 400 }}>{p.name}: </h5>
+                      <h5>&nbsp;&nbsp;{p.description}</h5>
+                    </div>
+                  )
+                }
+                </Card.Body>
+              </Card>
+            }
+          </div>
         </Tab>
         <Tab eventKey="code" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Code</span>}>
-          { snap && <Highlight>{snap.text}</Highlight> }
+          { snap && snap.text && <Highlight>{snap.text}</Highlight> }
         </Tab>
         <Tab eventKey="activate" title={<span><i className="fa fa-play" />&nbsp;&nbsp;Activate</span>}>
-          <Button onClick={ activate }><i className="fa fa-play"></i>&nbsp;&nbsp;Activate</Button>
+          <Card style={{ minWidth: 'calc(100% - 220px)', maxWidth: 'calc(100% - 220px)'}}>
+          { 
+            snap && snap.parameters && snap.parameters.map(p => 
+            <Form>
+              <div>
+                <Form.Group as={Row} style={{ margin: 20 }}>
+                  <Form.Label style={{ fontWeight: 400 }} column sm="2">{p.name}: </Form.Label>
+                  <Col sm="10">
+                    <Form.Control placeholder={p.description} onChange={ (e) => { p.value = e.target.value }} />
+                  </Col>
+                </Form.Group>
+              </div>
+            </Form> 
+            )
+          }
+          </Card> 
+          <Button variant="primary" style={{ marginTop: 10 }} onClick={ activate }>
+            <i className="fa fa-play"></i>&nbsp;&nbsp;Activate
+          </Button>
         </Tab>
       </Tabs>
     </div>

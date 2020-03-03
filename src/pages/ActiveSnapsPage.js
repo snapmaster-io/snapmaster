@@ -79,6 +79,24 @@ const ActiveSnapsPage = () => {
     )
   }
 
+  const paramsFormatter = (cell, row) => {
+    console.log(row);
+    return (
+      <div>
+        { row.params && row.params.map(p => 
+            <span><span style={{ fontWeight: 400 }}>{p.name}</span>: &nbsp;{p.value};&nbsp;&nbsp;</span>
+          )
+        }
+      </div>
+    )
+  }
+
+  const toolFormatter = (cell, row, rowIndex, formatExtraData) => {
+    return (
+      <i className={ `cloudfont-${row.trigger }`} style={{ fontSize: '1.5em'}} />
+    )
+  }
+
   const deactivate = async (activeSnapId) => {
     // post the deactivate request to the activesnaps endpoint
     const request = {
@@ -103,31 +121,29 @@ const ActiveSnapsPage = () => {
       snapId: s.snapId,
       name: name,
       userId: userId,
-      url: s.url
+      params: s.params
     }
   });
 
   const columns = [{
-    dataField: 'userId',
-    text: 'Namespace',
+    dataField: 'trigger',
+    text: 'Trigger',
+    headerStyle: (column, colIndex) => {
+      return { width: '75px' };
+    },
+    align: 'center',
+    formatter: toolFormatter,
+  }, {
+    dataField: 'snapId',
+    text: 'Name',
     sort: true,
     headerStyle: (column, colIndex) => {
       return { width: '300px' };
     }
   }, {
-    dataField: 'name',
-    text: 'Name',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '250px' };
-    }
-  }, {
-    dataField: 'url',
-    text: 'Definition',
-    formatter: urlFormatter
-  }, {
     dataField: 'params',
-    text: 'Parameters'
+    text: 'Parameters',
+    formatter: paramsFormatter
   }, {
     dataField: 'activeSnapId',
     text: 'Actions',

@@ -8,11 +8,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   font-weight: 300;
 }
 
-h5, p, nav {
+p, nav {
   font-weight: 400;
 }
 

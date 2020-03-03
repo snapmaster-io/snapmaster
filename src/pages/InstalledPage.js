@@ -139,7 +139,7 @@ const InstalledPage = () => {
                     style={{ height: '150px', width: '150px' }}
                     />
                   <center style={{ marginTop: 10 }}>
-                    <i className={`fa fa-fw fa-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />
+                    <i className={`cloudfont-${p.providerName} text-muted`} style={{ fontSize: '1.75em' }} />
                   </center>
                 </div>
               )

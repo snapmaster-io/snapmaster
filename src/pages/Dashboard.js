@@ -88,7 +88,8 @@ const Dashboard = () => {
                 const connected = connection.connected ? true : false;
                 const color = connected ? 'success' : 'danger';
                 const [providerTitle] = connection.provider.split('-');
-                const label = <i className={`fa fa-fw fa-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />
+                const label = <i className={`cloudfont-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />
+                //const label = <i className={`cloudfont-aws text-${color}`} style={{ fontSize: '1.2em' }} />
                 const glyph = connected ? 'check' : 'times';
                 const connectedGlyph = <i className={`fa fa-${glyph} text-gray`} />
                 return (
@@ -161,7 +162,7 @@ const Dashboard = () => {
                 connections.map((connection, index) => {
                 // set up some variables
                 const [providerTitle] = connection.provider.split('-');
-                const label = <i className={`fa fa-fw fa-${providerTitle} text-muted`} style={{ fontSize: '1.2em' }} />
+                const label = <i className={`cloudfont-${providerTitle} text-muted`} style={{ fontSize: '1.2em' }} />
                 const value = unhandledFeedback[index];
                 return (
                   <Card 
@@ -198,7 +199,7 @@ const Dashboard = () => {
                 const score = sentimentScores[index];
                 const color = score === -1 ? 'white' : score > 70 ? 'success' : score < 30 ? 'danger' : 'warning';
                 const [providerTitle] = connection.provider.split('-');
-                const label = <i className={`fa fa-fw fa-${providerTitle} text-muted`} style={{ fontSize: '1.2em' }} />
+                const label = <i className={`cloudfont-${providerTitle} text-muted`} style={{ fontSize: '1.2em' }} />
                 return (
                   <Card 
                     key={index} 

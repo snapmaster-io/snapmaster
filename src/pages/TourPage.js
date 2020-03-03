@@ -284,19 +284,19 @@ const HelpPage = () => {
               </NavItem>
               <NavItem eventKey="/snaps/summary">
                 <NavIcon>
-                  <i ref={installed} className="fa fa-fw fa-pie-chart" style={{ fontSize: '1.75em' }} />
+                  <i ref={installed} className="fa fa-fw fa-play" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">Installed Snaps</NavText>
               </NavItem>
               <NavItem eventKey="/snaps/gallery">
                 <NavIcon>
-                  <i ref={gallery} className="fa fa-fw fa-bell" style={{ fontSize: '1.75em' }} />
+                  <i ref={gallery} className="fa fa-fw fa-sitemap" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">Gallery</NavText>
               </NavItem>
               <NavItem eventKey="/snaps/mysnaps">
                 <NavIcon>
-                  <i ref={mySnaps} className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                  <i ref={mySnaps} className="fa fa-fw fa-code" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">My Snaps</NavText>
               </NavItem>
@@ -318,7 +318,7 @@ const HelpPage = () => {
             <SideNav.Nav>
             <NavItem eventKey="/tools/library">
                 <NavIcon>
-                  <i ref={library} className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                  <i ref={library} className="fa fa-fw fa-university" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>Library</NavText>
               </NavItem>

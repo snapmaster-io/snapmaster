@@ -19,7 +19,7 @@ const ProfilePage = () => {
     const connected = connection.connected ? true : false;
     const color = connected ? 'success' : 'danger';
     const [providerTitle] = connection.provider.split('-');
-    const label = <i className={`fa fa-fw fa-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />;
+    const label = <i className={`cloudfont-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />;
     const provider = profile.identities.find(p => p.provider === connection.provider);
     const userName = (provider && provider.profileData && provider.profileData.name) || name;
     const userPicture = (provider && provider.profileData && provider.profileData.picture) || picture;

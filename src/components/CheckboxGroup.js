@@ -18,7 +18,7 @@ const CheckboxGroup = ({
           <div style={{ display: 'flex' }}>
           {  /* horizontal layout */
             state && Object.keys(state).map(item => {
-              const label = <i className={`fa fa-fw fa-${state[item].title} text-muted`} style={{ fontSize: '1.2em' }} />
+              const label = <i className={`cloudfont-${state[item].title} text-muted`} style={{ fontSize: '1.2em' }} />
               return (
                 <Card.Subtitle key={item}>
                   <Form.Check label={<span style={{ marginRight: 20 }}>&nbsp;{label}</span>}

@@ -79,7 +79,7 @@ const ToolsTab = () => {
               sideNavTabs.map(c => 
                 <NavItem key={c} eventKey={`/tools/${c}`}>
                   <NavIcon>
-                    <i className={`fa fa-fw fa-${c}`} style={{ fontSize: '1.75em' }} />
+                    <i className={`cloudfont-${c}`} style={{ fontSize: '1.75em' }} />
                   </NavIcon>
                   <NavText style={{ fontSize: '1.2em' }}>{c.charAt(0).toUpperCase() + c.slice(1)}</NavText>
                 </NavItem>

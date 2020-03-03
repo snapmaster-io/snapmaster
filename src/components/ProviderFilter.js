@@ -1,7 +1,7 @@
 import React from 'react'
 import CheckboxGroup from '../components/CheckboxGroup'
 
-const ProviderFilter = ({providers, checkboxState, setCheckboxState}) => {
+const ProviderFilter = ({providers, checkboxState, setCheckboxState, initialState = true}) => {
 
   // if haven't initialized the state yet, set it now
   if (!checkboxState && providers && providers.length > 0) {
@@ -13,7 +13,7 @@ const ProviderFilter = ({providers, checkboxState, setCheckboxState}) => {
       items[p] = { 
         name: `dashboardCB-${p}`,
         title: providerTitle,
-        state: true
+        state: initialState
       }
     }
     setCheckboxState(items);

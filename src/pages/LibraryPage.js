@@ -13,8 +13,9 @@ import Modal from 'react-bootstrap/Modal'
 import PageTitle from '../components/PageTitle';
 
 const LibraryPage = () => {
-  const { get, post } = useApi();
   const { loading, loadConnections, connections } = useConnections();
+  const { user, loginWithRedirect } = useAuth0();
+  const { get, post } = useApi();
   const [errorMessage, setErrorMessage] = useState();
   const [showModal, setShowModal] = useState(false);
   const [linkProvider, setLinkProvider] = useState();
@@ -59,6 +60,71 @@ const LibraryPage = () => {
     loadData();
   }, [loadData]);
   */
+
+  // call the link / unlink user API
+  const call = async (action, primaryUserId, secondaryUserId) => { 
+    try {
+      const body = JSON.stringify({ 
+        action: action,
+        primaryUserId: primaryUserId,
+        secondaryUserId: secondaryUserId 
+      });
+
+      const [response, error] = await post('link', body);
+      if (error || !response.ok) {
+        return;
+      }
+
+      const responseData = await response.json();
+      const success = responseData && responseData.message === 'success';
+
+      // if linking was successful, re-login with primary account
+      if (action === 'link' && success) {
+        const [provider] = primaryUserId.split('|');
+        // log back in with the primary account 
+        loginWithRedirect({
+          access_type: 'offline', 
+          connection: provider,
+          redirect_uri: `${window.location.origin}`
+        });
+      } else {
+        // refresh the page
+        loadConnections();
+      }
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  };  
+
+  // start the account linking process
+  // linking state machine: null => linking => login => null
+  const link = (provider) => { 
+    // move the state machine from null to 'linking'
+    localStorage.setItem('linking', 'linking');
+    // store the currently logged in userid (will be used as primary)
+    localStorage.setItem('primary', user.sub);
+    // store the provider being connected to
+    localStorage.setItem('provider', provider);
+
+    // need to sign in with new IdP
+    loginWithRedirect({
+      access_type: 'offline', 
+      connection: provider,
+      redirect_uri: `${window.location.origin}`
+    });
+  }
+
+  // get the state of the linking state machine
+  const linking = localStorage.getItem('linking');
+  if (linking === 'linking') {
+    // move the state machine from 'linking' to 'login'
+    localStorage.setItem('linking', 'login');
+    const primaryUserId = localStorage.getItem('primary');
+
+    // link the accounts
+    call('link', primaryUserId, user.sub);
+  }
 
   // add or remove a simple connection
   const processConnection = async (action, provider) => {
@@ -141,7 +207,7 @@ const LibraryPage = () => {
               <Button variant="secondary" onClick={ () => setShowModal(false) }>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={ () => setShowModal(false) }>
+              <Button variant="primary" onClick={ () => link(linkProvider) }>
                 Link
               </Button>
             </Modal.Footer>

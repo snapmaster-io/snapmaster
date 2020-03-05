@@ -80,7 +80,6 @@ const ActiveSnapsPage = () => {
   }
 
   const paramsFormatter = (cell, row) => {
-    console.log(row);
     return (
       <div>
         { row.params && row.params.map(p => 

@@ -12,11 +12,15 @@ import ConnectionsPage from '../pages/ConnectionsPage'
 import LibraryPage from '../pages/LibraryPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
+// import providers
+import Github from '../providers/Github'
+
 // define routes
 const routes = {
   '/': () => <LibraryPage />,
   '/library': () => <LibraryPage />,
   '/connections': () => <ConnectionsPage />,
+  '/github': () => <Github />,
 };
 
 const ToolsTab = () => {

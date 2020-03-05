@@ -139,7 +139,7 @@ const SnapPage = ({snapId}) => {
           <Card style={{ minWidth: 'calc(100% - 220px)', maxWidth: 'calc(100% - 220px)'}}>
           { 
             snap && snap.parameters && snap.parameters.map(p => 
-            <Form>
+            <Form key={p.name}>
               <div>
                 <Form.Group as={Row} style={{ margin: 20 }}>
                   <Form.Label style={{ fontWeight: 400 }} column sm="2">{p.name}: </Form.Label>

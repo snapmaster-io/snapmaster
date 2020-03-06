@@ -1,14 +1,14 @@
 import React from 'react'
 
-const ButtonRow = ({children}) => {
+const ButtonRow = ({width, children}) => {
   return (
     <div style={{
       position: "fixed",
       display: "flex",
       background: "white",
-      width: "100%",
       padding: "10px 10px 10px 10px",
       marginTop: "-1px",
+      width: width,
       zIndex: 5
     }}>
     { 

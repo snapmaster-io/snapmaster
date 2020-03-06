@@ -4,21 +4,22 @@ import BaseProvider from './BaseProvider'
 import { CardDeck, Card, FormControl, InputGroup, Modal, Button, Alert } from 'react-bootstrap'
 import HighlightCard from '../components/HighlightCard'
 import FilterTable from '../components/FilterTable'
+import DataTable from '../components/DataTable'
 
 const GithubPage = () => {
   const [data, setData] = useState();
   return (
     <BaseProvider 
-      pageTitle='Github triggers'
+      pageTitle='Github setup'
       connectionName='github'
       endpoint='github'
       setData={setData}>
-      <BusinessCards data={data} setData={setData} />
+      <RepositoryCards data={data} setData={setData} />
     </BaseProvider>
   )
 }
 
-const BusinessCards = ({data, setData}) => {
+const RepositoryCards = ({data, setData}) => {
   const { get, post } = useApi();
   const [reviewsData, setReviewsData] = useState();
   const [reviews, setReviews] = useState();
@@ -26,15 +27,49 @@ const BusinessCards = ({data, setData}) => {
   const [phone, setPhone] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [repositories, setRepositories] = useState();
+  const [allRepos, setAllRepos] = useState();
 
-  const getBusiness = async (id) => {
+  const getRepositories = async () => {
+    // dismiss the Alert
+    setNotFound(false);
+
+    const [response, error] = await get('github');
+    if (error || !response.ok) {
+      setRepositories(null);
+      return;
+    }
+
+    const items = await response.json();
+    if (items && items.map) {
+      setRepositories(items);
+    }
+  }
+
+  const getAllRepos = async () => {
+    // dismiss the Alert
+    setNotFound(false);
+
+    const [response, error] = await get('github/repos');
+    if (error || !response.ok) {
+      setAllRepos(null);
+      return;
+    }
+
+    const items = await response.json();
+    if (items && items.map) {
+      setAllRepos(items);
+    }
+  }
+
+  const getRepository = async (id) => {
     // dismiss the Alert
     setNotFound(false);
 
     // store the state associated with the selected business
     setSelected(id);
 
-    const endpoint = `github/repos/${id}`;
+    const endpoint = `github//${id}`;
     const [response, error] = await get(endpoint);
 
     if (error || !response.ok) {
@@ -63,7 +98,7 @@ const BusinessCards = ({data, setData}) => {
     }
   }
 
-  const processBusiness = async (action, param) => {
+  const processRepository = async (action, param) => {
     setShowModal(false);
     const data = { action: action };
     if (action === 'add') {
@@ -103,31 +138,11 @@ const BusinessCards = ({data, setData}) => {
   }
 
   const columns = [{
-    dataField: 'date',
-    text: 'Date',
+    dataField: 'name',
+    text: 'Name',
     sort: true,
     headerStyle: (column, colIndex) => {
       return { width: '220px' };
-    }
-  }, {
-    dataField: 'type',
-    text: 'Type',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '100px' };
-    },
-    align: 'center',
-    formatter: typeFormatter,
-    formatExtraData: {
-      positive: 'fa fa-thumbs-up fa-2x text-success',
-      neutral: 'fa fa-minus fa-2x text-warning',
-      negative: 'fa fa-thumbs-down fa-2x text-danger'
-    }
-  }, {
-    dataField: 'user',
-    text: 'User',
-    headerStyle: (column, colIndex) => {
-      return { width: '120px' };
     }
   }, {
     dataField: 'text',
@@ -135,11 +150,9 @@ const BusinessCards = ({data, setData}) => {
     formatter: urlFormatter
   }];
 
-  const addBusiness = () => {
+  const addRepositories = async () => {
     setNotFound(false);
-    setSelected(null);
-    setReviews(null);
-    setReviewsData(null);
+    await getAllRepos();
     setShowModal(true);
   }
 
@@ -158,20 +171,20 @@ const BusinessCards = ({data, setData}) => {
         <CardDeck>
         {
           data && data.map ? data.map((item, key) => {
-            const { name, id, url, image_url } = item;
+            const { __id: id, url, image_url } = item;
             const border = (id === selected) ? 'primary' : null;
+            const name = id;
             const displayName = name.length > 19 ? name.slice(0, 18) + '...' : name;
           
             const loadReviews = () => {
-              getBusiness(id);
+              getRepository(id);
             }
 
-            const removeBusiness = (e) => {
+            const removeRepository = (e) => {
               e.stopPropagation();
               e.nativeEvent.stopImmediatePropagation();
-              processBusiness('remove', id);
+              processRepository('remove', id);
             }
-
 
             return (
               <HighlightCard className="text-center" onClick={loadReviews} 
@@ -179,22 +192,23 @@ const BusinessCards = ({data, setData}) => {
                 style={{ maxWidth: '200px' }}>
                 <Card.Header>
                   <Card.Link href={url} target="_blank">{displayName}</Card.Link>
-                  <Button type="button" className="close" onClick={removeBusiness}>
+                  <Button type="button" className="close" onClick={removeRepository}>
                     <span className="float-right"><i className="fa fa-remove"></i></span>
                   </Button>
                 </Card.Header>
                 <Card.Body>
-                  <Card.Img src={image_url} alt={displayName} style={{ maxHeight: 100, maxWidth: 100 }} />
+                  <Card.Title>{id}</Card.Title>
+                  { /* <Card.Img src={image_url} alt={displayName} style={{ maxHeight: 100, maxWidth: 100 }} /> */ }
                 </Card.Body>
               </HighlightCard>
             )
           })
           : <div/>
         }
-          <HighlightCard className="text-center" onClick={addBusiness}
+          <HighlightCard className="text-center" onClick={addRepositories}
             key='add' 
             style={{ maxWidth: '200px' }}>
-            <Card.Header>Add a new business</Card.Header>
+            <Card.Header>Add repositories</Card.Header>
             <Card.Body>
               <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />
             </Card.Body>
@@ -229,31 +243,50 @@ const BusinessCards = ({data, setData}) => {
 
       <Modal show={showModal} onHide={ () => setShowModal(false) }>
         <Modal.Header closeButton>
-          <Modal.Title>Add a business</Modal.Title>
+          <Modal.Title>Manage repositories</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>
-          Look up the business by phone number:  
+          Select repositories to enable:  
           </p>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="inputGroup-sizing-default">Phone number</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              aria-label="phone"
-              aria-describedby="inputGroup-sizing-default"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </InputGroup>
+          {
+            allRepos && 
+            <FilterTable
+              data={allRepos}
+              setData={setAllRepos}
+              dataRows={allRepos}
+              columns={[{
+                dataField: 'name',
+                text: 'Name',
+                sort: true,
+              }]}
+              keyField="name"
+              path={`github/repos`}
+              maxHeight="calc(80vh - 120px)">
+              <Button variant="secondary" onClick={ () => setShowModal(false) }>
+                Done
+              </Button>              
+            </FilterTable>
+          }
+          {
+            false && 
+            <DataTable
+              data={allRepos}
+              setData={setAllRepos}
+              dataRows={allRepos}
+              columns={[{
+                dataField: 'name',
+                text: 'Name',
+                sort: true,
+              }]}
+              keyField="name"
+              path={`github/repos/${selected}`}
+              maxHeight="calc(80vh - 120px)"
+            /> 
+          }
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={ () => setShowModal(false) }>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={ () => processBusiness('add', phone) }>
-            Add
-          </Button>
+          &nbsp;
         </Modal.Footer>
       </Modal>      
     </div>

@@ -84,11 +84,7 @@ const SnapPage = ({snapId}) => {
     }
   }
 
-  const userId = snap && snap.userId; // snapId.split('/')[0];
-  const snapName = snap && snap.name; // snapId.split('/')[1];
-  // HACK: replace encoded character with pipe. this goes away when users can select account names
-  const userName = userId; //userId.replace('%7C', '|'); 
-
+  const userId = snap && snap.userId; 
   const providerName = snap && snap.trigger;
   const provider = providerName && connections && connections.find(el => el.provider === providerName);
 
@@ -98,7 +94,7 @@ const SnapPage = ({snapId}) => {
         <RefreshButton load={loadData} loading={loading}/>
         <h4 className="page-title">{snap && snap.snapId}</h4>
         <div style={{ marginLeft: 50 }}>
-          { userName !== user.sub && <Button onClick={ fork }><i className="fa fa-code-fork"></i>&nbsp;&nbsp;Fork</Button> }
+          { userId !== user.sub && <Button onClick={ fork }><i className="fa fa-code-fork"></i>&nbsp;&nbsp;Fork</Button> }
         </div>
       </div>
 

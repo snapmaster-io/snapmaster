@@ -5,13 +5,14 @@ import ButtonRow from '../components/ButtonRow'
 import Button from 'react-bootstrap/Button'
 
 const FilterTable = ({
-  data,     // raw data array returned from API
-  setData,  // setstate method for data
-  dataRows, // processed data rows 
-  columns,  // columns
-  keyField, // key field for both data and dataRows
-  path,     // API path to call back to update __handled field
-  maxHeight // control height 
+  data,      // raw data array returned from API
+  setData,   // setstate method for data
+  dataRows,  // processed data rows 
+  columns,   // columns
+  keyField,  // key field for both data and dataRows
+  path,      // API path to call back to update __handled field
+  maxHeight, // control height 
+  children   // additional buttons
 }) => {
   const { post } = useApi();
   const [hiddenRowKeys, setHiddenRowKeys] = useState();
@@ -89,8 +90,9 @@ const FilterTable = ({
     dataRows && dataRows.length > 0 ? 
       <div>
         <ButtonRow>
-          <Button onClick={ markRead }>Mark Checked as Handled</Button>
-          <Button onClick={ toggleShow }>{ showAll ? "Hide Handled" : "Show All" }</Button>
+          <Button onClick={ markRead }>Enable Checked Repos</Button>
+          <Button onClick={ toggleShow }>{ showAll ? "Hide Active Repos" : "Show All" }</Button>
+          { children }
         </ButtonRow>
         <div style={{
           position: "relative",

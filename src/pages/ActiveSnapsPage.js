@@ -83,7 +83,7 @@ const ActiveSnapsPage = () => {
     return (
       <div>
         { row.params && row.params.map(p => 
-            <span><span style={{ fontWeight: 400 }}>{p.name}</span>: &nbsp;{p.value};&nbsp;&nbsp;</span>
+            <span key={p.name}><span style={{ fontWeight: 400 }}>{p.name}</span>: &nbsp;{p.value};&nbsp;&nbsp;</span>
           )
         }
       </div>

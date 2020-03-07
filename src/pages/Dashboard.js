@@ -89,7 +89,6 @@ const Dashboard = () => {
                 const color = connected ? 'success' : 'danger';
                 const [providerTitle] = connection.provider.split('-');
                 const label = <i className={`cloudfont-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />
-                //const label = <i className={`cloudfont-aws text-${color}`} style={{ fontSize: '1.2em' }} />
                 const glyph = connected ? 'check' : 'times';
                 const connectedGlyph = <i className={`fa fa-${glyph} text-gray`} />
                 return (

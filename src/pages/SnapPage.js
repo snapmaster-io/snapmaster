@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
-import PageTitle from '../components/PageTitle'
+import { navigate } from 'hookrouter'
+import { useConnections } from '../utils/connections'
+import { Button, Tabs, Tab, Card, Form, Row, Col } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import Highlight from '../components/Highlight'
-import ButtonRow from '../components/ButtonRow'
-import { Button, Tabs, Tab, Card, Form, Row, Col } from 'react-bootstrap'
-import { useConnections } from '../utils/connections'
 import ProviderCard from '../components/ProviderCard'
 
 const SnapPage = ({snapId}) => {
@@ -69,6 +68,8 @@ const SnapPage = ({snapId}) => {
     if (error || !response.ok) {
       return;
     }
+
+    navigate('/snaps/active');
   }
 
   const fork = async () => {
@@ -82,6 +83,8 @@ const SnapPage = ({snapId}) => {
     if (error || !response.ok) {
       return;
     }
+
+    navigate('/snaps/mysnaps');
   }
 
   const userId = snap && snap.userId; 

@@ -60,14 +60,14 @@ const RepositoryCards = ({data, setData}) => {
     const data = { __id: param };
     if (action === 'remove') {
       setSelected(null);
-      data.__handled = false;
+      data.__active = false;
     }
 
     await refreshData(post, [data]);
   }
 
   // get the subset of repo's that have been activated
-  const activeRepos = data && data.filter && data.filter(r => r.__handled);
+  const activeRepos = data && data.filter && data.filter(r => r.__active);
 
   return (
     <div>
@@ -88,12 +88,12 @@ const RepositoryCards = ({data, setData}) => {
             const displayName = name.length > 12 ? name.slice(0, 11) + '...' : name;
           
             const selectRepo = (repo) => {
-              // initialize triggers and actions if they don't yet exist with a new array based on the template
+              // initialize triggers and actions if they don't yet exist with a deep-copy array based on the template
               if (!repo.__triggers) {
-                repo.__triggers = [...githubTriggers];
+                repo.__triggers = JSON.parse(JSON.stringify(githubTriggers));
               }              
               if (!repo.__actions) {
-                repo.__actions = [...githubActions];
+                repo.__actions = JSON.parse(JSON.stringify(githubActions));
               }
               
               setRepo(repo);

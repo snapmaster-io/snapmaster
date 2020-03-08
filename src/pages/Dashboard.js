@@ -52,7 +52,7 @@ const Dashboard = () => {
   });
 
   const unhandledFeedback = metadata && metadata.filter && connections && connections.map(c => 
-    metadata.filter(a => a.__handled !== true && a.__provider === c.provider).length);
+    metadata.filter(a => a.__active !== true && a.__provider === c.provider).length);
 
   const sentimentScores = metadata && metadata.filter && connections && connections.map(c => {
     const array = metadata.filter(m => m.__provider === c.provider);

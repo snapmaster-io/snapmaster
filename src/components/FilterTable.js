@@ -10,7 +10,7 @@ const FilterTable = ({
   dataRows,  // processed data rows 
   columns,   // columns
   keyField,  // key field for both data and dataRows
-  path,      // API path to call back to update __handled field
+  path,      // API path to call back to update __active field
   maxHeight, // control height 
   children   // additional buttons
 }) => {
@@ -18,50 +18,50 @@ const FilterTable = ({
   const [hiddenRowKeys, setHiddenRowKeys] = useState();
   const [showAll, setShowAll] = useState(false);
 
-  // build up the list of handled records
-  let handled = data.filter(r => r.__handled).map(r => r[keyField]);
+  // build up the list of active records
+  let active = data.filter(r => r.__active).map(r => r[keyField]);
 
   // if the hidden row keys array doesn't yet exist, initialize it
-  if (handled.length > 0 && !hiddenRowKeys) {
-    setHiddenRowKeys(handled);
+  if (active.length > 0 && !hiddenRowKeys) {
+    setHiddenRowKeys(active);
   }  
 
   const selectRow = { 
     mode: 'checkbox', 
     clickToSelect: true,
-    selected: handled,
+    selected: active,
     onSelect: (row, isSelect) => {
       if (isSelect) {
-        handled.push(row[keyField]);
+        active.push(row[keyField]);
       } else {
-        handled = handled.filter(x => x !== row[keyField]);
+        active = active.filter(x => x !== row[keyField]);
       }
     },
     onSelectAll: (isSelect, rows) => {
       const ids = rows.map(r => r[keyField]);
       if (isSelect) {
-        handled = ids;
+        active = ids;
       } else {
-        handled = [];
+        active = [];
       }
     }
   };
   
-  const markRead = async () => {
+  const markActive = async () => {
     const metadata = data.map(r => {
       const id = r[keyField];
-      const isHandled = handled.find(h => h === id) ? true : false;
+      const isActive = active.find(h => h === id) ? true : false;
 
       // adjust the local state of the current row
-      r.__handled = isHandled;
-      // return an entry with the __id and the __handled flag
-      return { __id: id, __handled: isHandled }
+      r.__active = isActive;
+      // return an entry with the __id and the __active flag
+      return { __id: id, __active: isActive }
     });
 
     // hide the rows that have been marked read 
     // do this before posting the operation to the API in order to 
     // update the display without waiting for the network operation
-    setHiddenRowKeys(handled);
+    setHiddenRowKeys(active);
     setShowAll(false);
         
     // post the metadata to the API path
@@ -76,9 +76,9 @@ const FilterTable = ({
   }
 
   const toggleShow = () => {
-    // if already showing all records, flip the state, don't show handled
+    // if already showing all records, flip the state, don't show active
     if (showAll) {
-      setHiddenRowKeys(handled);
+      setHiddenRowKeys(active);
       setShowAll(false);
     } else {
       setHiddenRowKeys([]);
@@ -90,7 +90,7 @@ const FilterTable = ({
     dataRows && dataRows.length > 0 ? 
       <div>
         <ButtonRow>
-          <Button onClick={ markRead }>Enable Checked Repos</Button>
+          <Button onClick={ markActive }>Enable Checked Repos</Button>
           <Button onClick={ toggleShow }>{ showAll ? "Hide Active Repos" : "Show All" }</Button>
           { children }
         </ButtonRow>

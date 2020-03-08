@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useApi } from '../utils/api'
 import { Button, Tabs, Tab } from 'react-bootstrap'
 import DataTable from './DataTable'
-import Highlight from './Highlight'
 
 const TriggerActionConfig = ({
   entity, 
@@ -17,7 +16,6 @@ const TriggerActionConfig = ({
   const arrayEquals = (array1, array2) => 
     array1 && array2 && array1.length === array2.length && array1.every((value, index) => { return value === array2[index]})
   
-
   const triggers = entity.__triggers.filter(r => r.enabled).map(r => r.name);
   if (!arrayEquals(selectedTriggers, triggers)) {
     setSelectedTriggers(triggers);

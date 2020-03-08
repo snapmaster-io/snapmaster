@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useApi } from '../utils/api'
 import BaseProvider from './BaseProvider'
-import { CardDeck, Card, Modal, Button, Alert } from 'react-bootstrap'
+import { CardDeck, Card, Modal, Button } from 'react-bootstrap'
 import HighlightCard from '../components/HighlightCard'
 import FilterTable from '../components/FilterTable'
 import TriggerActionConfig from '../components/TriggerActionConfig'

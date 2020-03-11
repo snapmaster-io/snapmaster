@@ -42,23 +42,27 @@
       "type": "image/png"
     },    
     {
-      "src": "negative-icon.png",
-      "type": "image/png"
-    },    
-    {
-      "src": "neutral-icon.png",
-      "type": "image/png"
-    },    
-    {
-      "src": "positive-icon.png",
-      "type": "image/png"
-    },    
-    {
       "src": "twitter.png",
       "type": "image/png"
     },    
     {
-      "src": "google-logo.png",
+      "src": "aws-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "azure-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "circleci-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "gcp-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "gcp-logo-small.png",
       "type": "image/png"
     },    
     {
@@ -66,7 +70,11 @@
       "type": "image/png"
     },    
     {
-      "src": "github-dark-logo.png",
+      "src": "github-logo-small.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "gitlab-logo.png",
       "type": "image/png"
     },    
     {
@@ -75,6 +83,10 @@
     },    
     {
       "src": "facebook-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "google-logo.png",
       "type": "image/png"
     },    
     {

@@ -2,12 +2,9 @@ import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
+import { Card, CardDeck, Button, Modal, Form, Row, Col } from 'react-bootstrap'
 import Loading from '../components/Loading'
 import RefreshButton from '../components/RefreshButton'
-import Card from 'react-bootstrap/Card'
-import CardDeck from 'react-bootstrap/CardDeck'
-import Button from 'react-bootstrap/Button'
-import Modal from 'react-bootstrap/Modal'
 import PageTitle from '../components/PageTitle';
 
 const LibraryPage = () => {
@@ -15,8 +12,9 @@ const LibraryPage = () => {
   const { user, loginWithRedirect } = useAuth0();
   const { post } = useApi();
   const [errorMessage, setErrorMessage] = useState();
-  const [showModal, setShowModal] = useState(false);
-  const [linkProvider, setLinkProvider] = useState();
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [showSimpleModal, setShowSimpleModal] = useState(false);
+  const [providerToConnect, setProviderToConnect] = useState();
   const pageTitle = 'Tool Library';
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -96,8 +94,11 @@ const LibraryPage = () => {
   }
 
   // add or remove a simple connection
-  const processConnection = async (action, provider) => {
-    const body = JSON.stringify({ action: action, provider: provider });
+  const processConnection = async (action, providerName) => {
+    const provider = connections.find(c => c.provider === providerName);
+    const connectionInfo = provider.definition.connection.connectionInfo;
+
+    const body = JSON.stringify({ action: action, provider: providerName, connectionInfo: connectionInfo });
     const [response, error] = await post('connections', body);
     if (error || !response.ok) {
       return;
@@ -123,9 +124,15 @@ const LibraryPage = () => {
           {
             connections.map((tool, key) => {
               // set up the link action
-              const action = () => { 
-                setLinkProvider(tool.provider); 
-                setShowModal(true);
+              const linkAction = () => { 
+                setProviderToConnect(tool.provider); 
+                setShowLinkModal(true);
+              };
+
+              // set up the connect action
+              const connectAction = () => { 
+                setProviderToConnect(tool.provider); 
+                setShowSimpleModal(true);
               };
 
               return (
@@ -138,11 +145,11 @@ const LibraryPage = () => {
                   <Card.Footer>
                     { 
                       !tool.connected && tool.type === 'link' &&
-                        <Button variant='primary' onClick={action}>Connect</Button>
+                        <Button variant='primary' onClick={linkAction}>Connect</Button>
                     }
                     { 
                       !tool.connected && tool.type === 'simple' &&
-                        <Button variant='primary' onClick={ () => { processConnection('add', tool.provider) } }>Connect</Button>
+                        <Button variant='primary' onClick={connectAction}>Connect</Button>
                     }
                     { 
                       tool.connected && <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Connected</center>
@@ -154,29 +161,59 @@ const LibraryPage = () => {
           }
           </CardDeck>
 
-          <Modal show={showModal} onHide={ () => setShowModal(false) }>
+          <Modal show={showSimpleModal} onHide={ () => setShowSimpleModal(false) }>
+            <Modal.Header closeButton>
+              <Modal.Title>Connecting to {providerToConnect}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Enter information to connect to {providerToConnect}:</p>
+              {
+                providerToConnect && connections.find(c => c.provider === providerToConnect).definition.connection.connectionInfo.map(p =>
+                  <Form key={p.name}>
+                    <div>
+                      <Form.Group as={Row} style={{ margin: 20 }}>
+                        <Form.Label style={{ fontWeight: 400, marginRight: 10 }} column sm="2">{p.name}: </Form.Label>
+                        <Col sm="8">
+                          <Form.Control placeholder={p.description} onChange={ (e) => { p.value = e.target.value }} />
+                        </Col>
+                      </Form.Group>
+                    </div>
+                  </Form> )
+              }
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={ () => setShowSimpleModal(false) }>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={ () => processConnection('add', providerToConnect) }>
+                Connect
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={showLinkModal} onHide={ () => setShowLinkModal(false) }>
             <Modal.Header closeButton>
               <Modal.Title>Linking a new source</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <p>
-              To connect to {linkProvider} as a new snaps source, you will need to login  
-              to {linkProvider} and allow SnapMaster access to your data.  
+              To connect to {providerToConnect}, you will need to login  
+              to {providerToConnect} and allow SnapMaster access to your data.  
               </p>
               <p>
               Note that once your approve these permissions, you will be 
               asked to log in again with your primary login.
               </p>
               <p>
-              At the end of the process, you will see data from {linkProvider} as one of your   
+              At the end of the process, you will see {providerToConnect} connected as one of your   
               tools!
               </p>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={ () => setShowModal(false) }>
+              <Button variant="secondary" onClick={ () => setShowLinkModal(false) }>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={ () => link(linkProvider) }>
+              <Button variant="primary" onClick={ () => link(providerToConnect) }>
                 Link
               </Button>
             </Modal.Footer>

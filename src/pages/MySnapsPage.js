@@ -82,7 +82,6 @@ const MySnapsPage = () => {
   }
 
   const deleteFormatter = (cell, row) => {
-    console.log(row);
     return (
       <Button className="btn btn-danger" onClick={ () => handleDelete(row.snapId)}>
         <i className="fa fa-remove" />&nbsp;&nbsp;Delete

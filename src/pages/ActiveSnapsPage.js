@@ -92,7 +92,7 @@ const ActiveSnapsPage = () => {
 
   const toolFormatter = (cell, row, rowIndex, formatExtraData) => {
     return (
-      <i className={ `cloudfont-${row.trigger }`} style={{ fontSize: '1.5em'}} />
+      <i className={ `cloudfont-${row.provider }`} style={{ fontSize: '1.5em'}} />
     )
   }
 
@@ -125,7 +125,7 @@ const ActiveSnapsPage = () => {
   });
 
   const columns = [{
-    dataField: 'trigger',
+    dataField: 'provider',
     text: 'Trigger',
     headerStyle: (column, colIndex) => {
       return { width: '75px' };

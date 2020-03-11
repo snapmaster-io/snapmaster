@@ -88,8 +88,14 @@ const SnapPage = ({snapId}) => {
   }
 
   const userId = snap && snap.userId; 
-  const providerName = snap && snap.trigger;
+  const providerName = snap && snap.provider;
   const provider = providerName && connections && connections.find(el => el.provider === providerName);
+
+  // construct array of action provider names
+  const actionList = snap && snap.actions && snap.actions.map(action => {
+    const actionConfig = snap.config && snap.config.find(c => c.name === action);
+    return actionConfig.provider;
+  });
 
   return (
     <div>
@@ -107,7 +113,7 @@ const SnapPage = ({snapId}) => {
           <div style={{ display: 'flex' }}>
             { provider && <ProviderCard provider={provider} /> }
             { provider && <i style={{ fontSize: '6em', margin: 50 }} className="fa fa-play text-muted" /> }
-            { snap && snap.actions && snap.actions.map(a => { 
+            { actionList && actionList.map(a => { 
                 const actionProvider = connections && connections.find(el => el.provider === a);
                 return actionProvider && <ProviderCard key={a} provider={actionProvider} />
               })

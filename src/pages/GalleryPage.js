@@ -77,12 +77,12 @@ const GalleryPage = () => {
 
   const toolFormatter = (cell, row, rowIndex, formatExtraData) => {
     return (
-      <i className={ `cloudfont-${row.trigger }`} style={{ fontSize: '1.5em'}} />
+      <i className={ `cloudfont-${row.provider }`} style={{ fontSize: '1.5em'}} />
     )
   }
 
   const columns = [{
-    dataField: 'trigger',
+    dataField: 'provider',
     text: 'Trigger',
     headerStyle: (column, colIndex) => {
       return { width: '75px' };
@@ -120,7 +120,7 @@ const GalleryPage = () => {
   }
 
   const dataRows = gallery && gallery
-    .filter(s => checkedProviders.find(p => p === s.trigger))
+    .filter(s => checkedProviders.find(p => p === s.provider))
     .map(s => {
       const userId = s.snapId.split('/')[0];
       const name = s.snapId.split('/')[1];
@@ -129,7 +129,7 @@ const GalleryPage = () => {
         name: name,
         userId: userId,
         private: s.private,
-        trigger: s.trigger,
+        provider: s.provider,
         url: s.url
       }
     });

@@ -120,6 +120,7 @@ const ActiveSnapsPage = () => {
       snapId: s.snapId,
       name: name,
       userId: userId,
+      provider: s.provider,
       params: s.params
     }
   });

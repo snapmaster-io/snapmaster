@@ -71,11 +71,16 @@ const ActiveSnapsPage = () => {
     }
   }
 
-  const deactivateFormatter = (cell, row) => {
+  const actionButtonsFormatter = (cell) => {
     return (
-      <Button className="btn btn-danger" onClick={ () => deactivate(row.activeSnapId)}>
-        <i className="fa fa-remove" />&nbsp;&nbsp;Deactivate
-      </Button>
+      <div style={{ display: 'flex' }}>
+        <Button className="btn" onClick={ () => navigate(`/snaps/logs/${cell}`)}>
+          <i className="fa fa-book" />&nbsp;&nbsp;Logs
+        </Button>
+        <Button style={{ marginLeft: 20 }} className="btn btn-danger" onClick={ () => deactivate(cell)}>
+          <i className="fa fa-remove" />&nbsp;&nbsp;Deactivate
+        </Button>
+      </div>
     )
   }
 
@@ -147,7 +152,7 @@ const ActiveSnapsPage = () => {
   }, {
     dataField: 'activeSnapId',
     text: 'Actions',
-    formatter: deactivateFormatter
+    formatter: actionButtonsFormatter
   }];  
 
   /*

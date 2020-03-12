@@ -4,8 +4,8 @@ import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { navigate } from 'hookrouter'
 import { useConnections } from '../utils/connections'
 import { Button, Tabs, Tab, Card, Form, Row, Col } from 'react-bootstrap'
-import RefreshButton from '../components/RefreshButton'
 import Highlight from '../components/Highlight'
+import RefreshButton from '../components/RefreshButton'
 import ProviderCard from '../components/ProviderCard'
 
 const SnapPage = ({snapId}) => {
@@ -138,7 +138,7 @@ const SnapPage = ({snapId}) => {
           </div>
         </Tab>
         <Tab eventKey="code" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Code</span>}>
-          { snap && snap.text && <Highlight>{snap.text}</Highlight> }
+          { snap && snap.text && <Highlight language='yaml'>{snap.text}</Highlight> }
         </Tab>
         <Tab eventKey="activate" title={<span><i className="fa fa-play" />&nbsp;&nbsp;Activate</span>}>
           <Card style={{ minWidth: 'calc(100% - 220px)', maxWidth: 'calc(100% - 220px)'}}>

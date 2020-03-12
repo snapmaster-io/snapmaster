@@ -12,6 +12,7 @@ import ActiveSnapsPage from '../pages/ActiveSnapsPage'
 import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
 import SnapPage from '../pages/SnapPage'
+import LogsPage from '../pages/LogsPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // define routes
@@ -21,6 +22,7 @@ const routes = {
   '/active': () => <ActiveSnapsPage />,
   '/gallery': () => <GalleryPage />,
   '/mysnaps': () => <MySnapsPage />,
+  '/logs/:activeSnapId': ({activeSnapId}) => <LogsPage activeSnapId={activeSnapId} />,
   '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
 };
 

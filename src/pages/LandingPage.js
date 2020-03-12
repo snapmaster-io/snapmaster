@@ -157,14 +157,19 @@ const LandingPage = () => {
                 <p>Integrate all the DevOps tools you use today</p>
                 <br/>
                 <div className="tool-icons">
-                  <img className="tool-icon" src="github-logo-small.png" alt="github" height="50px" />
-                  <img className="tool-icon" src="gitlab-logo.png" alt="gitlab" height="50px" />
-                  <img className="tool-icon" src="circleci-logo.png" alt="circle-ci" height="50px" />
+                  <img className="tool-icon" src="/github-logo-small.png" alt="github" height="50px" />
+                  <img className="tool-icon" src="/gitlab-logo.png" alt="gitlab" height="50px" />
+                  <img className="tool-icon" src="/circleci-logo.png" alt="circle-ci" height="50px" />
                 </div>
                 <div className="tool-icons">
-                  <img className="tool-icon" src="kubernetes-logo.png" alt="kubernetes" height="50px" />
-                  <img className="tool-icon" src="gcp-logo-small.png" alt="gcp" height="50px" />
-                  <img className="tool-icon" src="slack-logo.png" alt="slack" height="50px" />
+                  <img className="tool-icon" src="/aws-logo.png" alt="aws" height="50px" />
+                  <img className="tool-icon" src="/azure-logo.png" alt="azure" height="50px" />
+                  <img className="tool-icon" src="/gcp-logo-small.png" alt="gcp" height="50px" />
+                </div>
+                <div className="tool-icons">
+                  <img className="tool-icon" src="/kubernetes-logo.png" alt="kubernetes" height="50px" />
+                  <img className="tool-icon" src="/docker-logo.png" alt="docker" height="50px" />
+                  <img className="tool-icon" src="/slack-logo.png" alt="slack" height="50px" />
                 </div>
               </Col>
               <Col>
@@ -173,6 +178,7 @@ const LandingPage = () => {
                   Automate
                 </h3>
                 <p>Create workflows called 'snaps' that get triggered by events, and fire off actions</p>
+                <img src="/snapyaml.png" alt="snap" height="225px" />
               </Col>
               <Col>
                 <h3>

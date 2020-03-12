@@ -75,7 +75,7 @@ const ToolsTab = () => {
             </NavItem>
             <NavItem eventKey="/tools/connections">
               <NavIcon>
-                <i className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-usb" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText style={{ fontSize: '1.2em' }}>Connections</NavText>
             </NavItem>

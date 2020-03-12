@@ -134,7 +134,12 @@ const ConnectionsPage = () => {
               return (
                 <HighlightCard 
                   key={key} 
-                  style={{ maxWidth: '150px', textAlign: 'center' }}>
+                  style={{ 
+                    maxWidth: '150px', 
+                    minWidth: '150px', 
+                    marginBottom: '30px',
+                    textAlign: 'center' 
+                  }}>
                   <Card.Body 
                     onClick= { () => connectionTitle && navigate(`/tools/${connectionTitle}` )}>
                     <Card.Img variant="top" src={connection.image} style={{ width: '6rem' }}/>

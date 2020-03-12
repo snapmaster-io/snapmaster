@@ -138,7 +138,12 @@ const LibraryPage = () => {
               return (
                 <Card 
                   key={key} 
-                  style={{ maxWidth: '150px', textAlign: 'center' }}>
+                  style={{ 
+                    maxWidth: '150px', 
+                    minWidth: '150px', 
+                    marginBottom: '30px',
+                    textAlign: 'center' 
+                  }}>
                   <Card.Body> 
                     <Card.Img variant="top" src={tool.image} style={{ width: '6rem' }}/>
                   </Card.Body>
@@ -172,7 +177,7 @@ const LibraryPage = () => {
                   <Form key={p.name}>
                     <div>
                       <Form.Group as={Row} style={{ margin: 20 }}>
-                        <Form.Label style={{ fontWeight: 400, marginRight: 10 }} column sm="2">{p.name}: </Form.Label>
+                        <Form.Label style={{ fontWeight: 400, marginRight: 10 }} column sm="3">{p.name}: </Form.Label>
                         <Col sm="8">
                           <Form.Control placeholder={p.description} onChange={ (e) => { p.value = e.target.value }} />
                         </Col>

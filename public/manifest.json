@@ -34,11 +34,15 @@
       "type": "image/png"
     },    
     {
-      "src": "connections.png",
+      "src": "library.png",
       "type": "image/png"
     },    
     {
-      "src": "email.png",
+      "src": "snapdef.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "snapyaml.png",
       "type": "image/png"
     },    
     {

@@ -208,7 +208,7 @@ const HelpPage = () => {
                 in SnapMaster.  Select a tool to connect it with your organization's tenant information. </h5>
                 <h5>Once it's connected, the tool will show up in your Connections.</h5>
                 <br/>
-                <center><img src="/twitter.png" alt="twitter" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/library.png" alt="library" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -324,9 +324,33 @@ const HelpPage = () => {
               </NavItem>
               <NavItem eventKey="/tools/connections">
                 <NavIcon>
-                  <i ref={connections} className="fa fa-fw fa-cog" style={{ fontSize: '1.75em' }} />
+                  <i ref={connections} className="fa fa-fw fa-usb" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>Connections</NavText>
+              </NavItem>
+              <NavItem eventKey="/tools/aws">
+                <NavIcon>
+                  <i ref={connections} className="cloudfont-aws" style={{ fontSize: '1.75em' }} />
+                </NavIcon>
+                <NavText>AWS</NavText>
+              </NavItem>
+              <NavItem eventKey="/tools/docker">
+                <NavIcon>
+                  <i ref={connections} className="cloudfont-docker" style={{ fontSize: '1.75em' }} />
+                </NavIcon>
+                <NavText>Docker</NavText>
+              </NavItem>
+              <NavItem eventKey="/tools/github">
+                <NavIcon>
+                  <i ref={connections} className="cloudfont-github" style={{ fontSize: '1.75em' }} />
+                </NavIcon>
+                <NavText>Github</NavText>
+              </NavItem>
+              <NavItem eventKey="/tools/slack">
+                <NavIcon>
+                  <i ref={connections} className="cloudfont-slack" style={{ fontSize: '1.75em' }} />
+                </NavIcon>
+                <NavText>Slack</NavText>
               </NavItem>
             </SideNav.Nav>
           </SideNav>

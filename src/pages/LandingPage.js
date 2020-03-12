@@ -190,7 +190,7 @@ const LandingPage = () => {
         <Carousel.Item 
           className="bg-carousel" 
           style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/connections.png")',
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/library.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundSize: 'contain',
@@ -202,7 +202,7 @@ const LandingPage = () => {
         <Carousel.Item 
           className="bg-carousel" 
           style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/dashboard.png")',
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/snapdef.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundSize: 'contain',
@@ -238,7 +238,7 @@ const LandingPage = () => {
         <Carousel.Item 
           className="bg-carousel" 
           style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/email.png")',
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/snapyaml.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundSize: 'contain',

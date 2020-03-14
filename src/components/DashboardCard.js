@@ -12,7 +12,6 @@ const DashboardCard = ({title, url, border, color, label, value}) =>
       maxWidth: '220px', 
       minWidth: '220px', 
       textAlign: 'center', 
-      borderWidth: 'medium',
       marginBottom: 25 }}>
     <Card.Header as="h5">{title}</Card.Header>
     <Card.Body>

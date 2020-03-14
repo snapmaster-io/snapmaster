@@ -1,13 +1,10 @@
 import React from 'react'
+import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const ServiceDownPage = () => {
   return (
-    <div className="page-header" style={{
-      marginLeft: 20
-    }}>
-      <h4>          
-        <i className="fa fa-frown-o"/>
-        <span>&nbsp;Cannot reach the service - please try refreshing the page</span></h4>
+    <div style={{ padding: 20 }}>
+      <ServiceDownBanner pageTitle="" />
     </div>
   )
 }

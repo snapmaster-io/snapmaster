@@ -6,12 +6,12 @@ import { Card, CardDeck, Button, Modal, Form, Row, Col } from 'react-bootstrap'
 import Loading from '../components/Loading'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle';
+import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const LibraryPage = () => {
   const { loading, loadConnections, connections } = useConnections();
   const { user, loginWithRedirect } = useAuth0();
   const { post } = useApi();
-  const [errorMessage, setErrorMessage] = useState();
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [showSimpleModal, setShowSimpleModal] = useState(false);
   const [providerToConnect, setProviderToConnect] = useState();
@@ -22,10 +22,13 @@ const LibraryPage = () => {
     return <Loading />
   }
 
-  if (connections && connections.find) {
-    errorMessage && setErrorMessage(null);
-  } else {
-    !errorMessage && setErrorMessage("Can't reach service - try refreshing later");
+  if (!loading && (!connections || !connections.length)) {
+    return (
+      <ServiceDownBanner
+        loadData={loadConnections}
+        loading={loading}
+        pageTitle={pageTitle}/>
+    )
   }
 
   // call the link / unlink user API
@@ -118,7 +121,7 @@ const LibraryPage = () => {
         <PageTitle title={pageTitle} />
       </div>
       { 
-        connections && connections.map ? 
+        connections && connections.map && 
         <div>
           <CardDeck>
           {
@@ -224,13 +227,6 @@ const LibraryPage = () => {
             </Modal.Footer>
           </Modal>
         </div>
-        : errorMessage ? 
-        <div>
-          <i className="fa fa-frown-o"/>
-          <span>&nbsp;{errorMessage}</span>
-        </div>
-        :
-        <div />
       }
     </div>
   )

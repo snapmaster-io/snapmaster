@@ -1,226 +1,168 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { useApi } from '../utils/api'
 import { useConnections } from '../utils/connections'
-import { useMetadata } from '../utils/metadata'
-import { navigate } from 'hookrouter'
+import { CardDeck } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
-import CardDeck from 'react-bootstrap/CardDeck'
-import HighlightCard from '../components/HighlightCard'
+import RedirectBanner from '../components/RedirectBanner'
+import DashboardCard from '../components/DashboardCard';
 
 const Dashboard = () => {
-  const { connections, loading: loadingConnections } = useConnections();
-  const { loadMetadata, loading: loadingMetadata } = useMetadata();
-  const [metadata, setMetadata] = useState();
-  const loading = loadingMetadata || loadingConnections;
+  const { connections } = useConnections();
+  const { get } = useApi();
+  const [activeSnaps, setActiveSnaps] = useState();
+  const [loading, setLoading] = useState(false);
   const pageTitle = 'Dashboard';
 
-  // create a callback function that wraps the loadMetadata effect
-  const loadMeta = useCallback(() => {
+  // create a callback function that wraps the loadData effect
+  const loadData = useCallback(() => {
     async function call() {
-      const meta = await loadMetadata();
-      setMetadata(meta);
+      setLoading(true);
+      const [response, error] = await get('activesnaps');
+
+      if (error || !response.ok) {
+        setLoading(false);
+        setActiveSnaps(null);
+        return;
+      }
+  
+      const items = await response.json();
+      setLoading(false);
+      setActiveSnaps(items);
     }
     call();
-  }, [loadMetadata]);
+  }, [get]);
 
-  // load metadata automatically on first page render
+  // load data automatically on first page render
   useEffect(() => {
-    loadMeta();
-  }, [loadMeta]);
+    loadData();
+  }, [loadData]);
 
-  const sentimentValues = ['positive', 'neutral', 'negative'];
-  const sentimentColors = ['#28a745', '#ffc107', '#dc3545'];
-  const sentimentBorders = ['success', 'warning', 'danger'];
-  const sentimentIcons = [
-    'fa fa-thumbs-up fa-2x text-success', 
-    'fa fa-minus fa-2x text-warning',
-    'fa fa-thumbs-down fa-2x text-danger'
-  ];
+  // get some of the core dashboard metrics
+  const connectedToolsCount = connections && connections.filter(c => c.connected).length;
+  const disconnectedToolsCount = connections && connections.length - connectedToolsCount;
+  const activeSnapCount = activeSnaps && activeSnaps.length;
+  const activatedSnapCount = activeSnaps && activeSnaps.filter(c => c.state === 'active').length;
+  const pausedSnapCount = activeSnaps && activeSnapCount - activatedSnapCount;
 
-  // compute the pie data across all the providers
-  const sentiments = metadata && metadata.map && sentimentValues.map((val, index) => {
+  // if no tools connected, return a banner to connect tools
+  if (connectedToolsCount === 0) {
     return (
-      {
-        label: <i className={sentimentIcons[index]} style={{ fontSize: '1.2em' }} />,
-        color: sentimentColors[index],
-        border: sentimentBorders[index],
-        title: val,
-        value: metadata.filter(m => m.__sentiment === val).length
-      }
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText="No tools connected yet..."
+        redirectUrl="/tools/library"
+        anchorText="Library"
+        redirectText="to find and connect tools!" />
     )
-  });
+  }
 
-  const unhandledFeedback = metadata && metadata.filter && connections && connections.map(c => 
-    metadata.filter(a => a.__active !== true && a.__provider === c.provider).length);
+  // if no active snaps, return a banner to activate snaps
+  if (activeSnaps && activeSnapCount === 0) {
+    return (
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText="No active snaps yet..."
+        redirectUrl="/snaps/gallery"
+        anchorText="Gallery"
+        redirectText="to find and activate snaps!" />
+    )
+  }
 
-  const sentimentScores = metadata && metadata.filter && connections && connections.map(c => {
-    const array = metadata.filter(m => m.__provider === c.provider);
-    const count = array.length;
-    if (count === 0) {
-      return -1;
-    }
-    const scoreArray = array.map(m => m.__sentimentScore);
-    const totalScore = scoreArray.reduce((acc, val) => acc + val, 0);
-    const average = totalScore / count;
-    const finalScore = Math.round(average * 100 + 50);
-    return isNaN(finalScore) ? -1 : finalScore;
-  });
-  
+  const executionCount = activeSnaps && activeSnaps
+    .map(a => a.executionCount ? a.executionCount : 0)
+    .reduce((a, b) => a + b, 0);
+
+  const errorCount = activeSnaps && activeSnaps
+    .map(a => a.errorCount ? a.errorCount : 0)
+    .reduce((a, b) => a + b, 0);
+
+  // get snaps for top 3 executions
+  const topSnaps = activeSnaps && activeSnaps
+    .map(a => { return { snapId: a.snapId, executionCount: a.executionCount || 0 } })
+    .slice()
+    .sort((a, b) => {
+      if (a.executionCount > b.executionCount) return 1;
+      if (b.executionCount > a.executionCount) return -1;
+      return 0;
+    })
+    .slice(0, 3);
+
+  const createTitle = (icon, style, text) => 
+    <span>
+      <i className={`fa fa-${icon} fa-2x text-${style}`} style={{ fontSize: '1.2em' }} />
+      &nbsp;&nbsp;&nbsp;{text}
+    </span>
+
+  const dashboardCards = [{
+    title: createTitle('play', 'success', 'Active Snaps'),
+    url: '/snaps/active',
+    value: activatedSnapCount,
+    border: 'success',
+    color: '#28a745'
+  }, {
+    title: createTitle('pause', 'warning', 'Paused Snaps'),
+    url: '/snaps/active',
+    value: pausedSnapCount,
+    border: 'warning',
+    color: '#ffc107'
+  }, {
+    title: createTitle('play', 'success', 'Connected Tools'),
+    url: '/tools/connections',
+    value: connectedToolsCount ,
+    border: 'success',
+    color: '#28a745'
+  }, {
+    title: createTitle('times', 'danger', 'Not Connected'),
+    url: '/tools/library',
+    value: disconnectedToolsCount,
+    border: 'danger',
+    color: '#dc3545'
+  }, {
+    title: createTitle('play', 'success', 'Snap Executions'),
+    url: '/snaps/logs',
+    value: executionCount,
+    border: 'success',
+    color: '#28a745'
+  }, {
+    title: createTitle('times', 'danger', 'Execution Errors'),
+    url: '/snaps/logs',
+    value: errorCount,
+    border: 'danger',
+    color: '#dc3545'
+  }, {
+    title: createTitle('', '', 'Top Snap'),
+    url: topSnaps && `/snaps/${topSnaps[0].snapId}`,
+    label: topSnaps && <h5 style={{ color: 'gray' }}>{topSnaps[0].snapId}</h5>,
+    value: topSnaps && topSnaps[0].executionCount,
+  }];
+
   return (
     <div>
       <div className="page-header">
-        <RefreshButton load={loadMeta} loading={loading}/>
+        <RefreshButton load={loadData} loading={loading}/>
         <h4 className="page-title">{pageTitle}</h4>
       </div>
-      <CardDeck style={{padding: 25}}>
-        <HighlightCard
-          onClick={ () => { navigate('/tools/connections')} }
-          className='mx-auto'
-          text='white'
-          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
-          <Card.Header style={{ background: '#ff7777'}} as="h5">Connections</Card.Header>
-          <Card.Body>
-            <CardDeck>
-            {
-              connections && connections.map ? connections.map((connection, key) => {
-                // set up some variables
-                const connected = connection.connected ? true : false;
-                const color = connected ? 'success' : 'danger';
-                const [providerTitle] = connection.provider.split('-');
-                const label = <i className={`cloudfont-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />
-                const glyph = connected ? 'check' : 'times';
-                const connectedGlyph = <i className={`fa fa-${glyph} text-gray`} />
-                return (
-                  <Card 
-                    key={key} 
-                    className='mx-auto'
-                    border={color}
-                    style={{ maxWidth: '80px', minWidth: '80px', minHeight: '80px', textAlign: 'center' }}>
-                    <Card.Body>
-                      <Card.Title>{label}</Card.Title>
-                      <Card.Text style={{ color: 'gray' }}>{connectedGlyph}</Card.Text>
-                    </Card.Body>
-                  </Card>    
-                )
-              })
-            : <div/>
-            }
-            </CardDeck>
-          </Card.Body>
-          <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/tools/connections')}}>Connect more tools!</Button>
-          </Card.Footer>
-        </HighlightCard>
-
-        <HighlightCard
-          onClick={ () => { navigate('/snaps/installed')} }
-          className='mx-auto'
-          text='white'
-          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
-          <Card.Header style={{ background: '#ff7777'}} as="h5">Installed Snaps</Card.Header>
-          <Card.Body>
-            <CardDeck>
-            {
-              sentiments && sentiments.map ? sentiments.map((sentiment, key) => {
-                // set up some variables
-                return (
-                  <Card 
-                    key={key} 
-                    className='mx-auto'
-                    border={sentiment.border}
-                    style={{ maxWidth: '80px', minWidth: '80px', maxHeight: '80px', minHeight: '100px', textAlign: 'center' }}>
-                    <Card.Body>
-                      <Card.Title>{sentiment.label}</Card.Title>
-                      <Card.Title style={{ color: 'gray' }}>{sentiment.value}</Card.Title>
-                    </Card.Body>
-                  </Card>    
-                )
-              })
-            : <div/>
-            }
-            </CardDeck>
-          </Card.Body>
-          <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/snaps/installed')}}>Check out snaps!</Button>
-          </Card.Footer>
-        </HighlightCard>        
-      </CardDeck>
-
-      <CardDeck style={{padding: 25}}>
-        <HighlightCard
-          onClick={ () => { navigate('/snaps/gallery')} }
-          className='mx-auto'
-          text='white'
-          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
-          <Card.Header style={{ background: '#ff7777'}} as="h5">Unhandled feedback</Card.Header>
-          <Card.Body>
-            <CardDeck>
-            {
-              connections && connections.map && sentiments && sentiments.map ? 
-                connections.map((connection, index) => {
-                // set up some variables
-                const [providerTitle] = connection.provider.split('-');
-                const label = <i className={`cloudfont-${providerTitle} text-muted`} style={{ fontSize: '1.2em' }} />
-                const value = unhandledFeedback[index];
-                return (
-                  <Card 
-                    key={index} 
-                    className='mx-auto'
-                    style={{ maxWidth: '80px', minWidth: '80px', maxHeight: '80px', minHeight: '100px', textAlign: 'center' }}>
-                    <Card.Body style={{padding: 15}}>
-                      <Card.Title>{label}</Card.Title>
-                      <Card.Title style={{ color: 'gray' }}>{value}</Card.Title>
-                    </Card.Body>
-                  </Card>    
-                )
-              })
-            : <div/>
-            }
-            </CardDeck>
-          </Card.Body>
-          <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/snaps/gallery')}}>Handle some feedback!</Button>
-          </Card.Footer>
-        </HighlightCard>     
-
-        <HighlightCard
-          onClick={ () => { navigate('/snaps/mysnaps')} }
-          className='mx-auto'
-          text='white'
-          style={{ maxWidth: '500px', minWidth: '500px', textAlign: 'center', marginBottom: 10 }}>
-          <Card.Header style={{ background: '#ff7777'}} as="h5">Reputation scores by source</Card.Header>
-          <Card.Body>
-            <CardDeck>
-            {
-              connections && connections.map && sentimentScores ? connections.map((connection, index) => {
-                // set up some variables
-                const score = sentimentScores[index];
-                const color = score === -1 ? 'white' : score > 70 ? 'success' : score < 30 ? 'danger' : 'warning';
-                const [providerTitle] = connection.provider.split('-');
-                const label = <i className={`cloudfont-${providerTitle} text-muted`} style={{ fontSize: '1.2em' }} />
-                return (
-                  <Card 
-                    key={index} 
-                    className='mx-auto'
-                    border={color}
-                    style={{ maxWidth: '80px', minWidth: '80px', minHeight: '100px', maxHeight: '100px', textAlign: 'center' }}>
-                    <Card.Body style={{padding: 15}}>
-                    <Card.Title>{label}</Card.Title>
-                    <Card.Title style={{ color: 'gray' }}>{score === -1 ? 'none' : score}</Card.Title>
-                    </Card.Body>
-                  </Card>    
-                )
-              })
-            : <div/>
-            }
-            </CardDeck>
-          </Card.Body>
-          <Card.Footer style={{ background: 'white'}}>
-            <Button onClick={ () => { navigate('/snaps/mysnaps')}}>Check out your snaps!</Button>
-          </Card.Footer>
-        </HighlightCard>           
-      </CardDeck>
+      { activeSnapCount > 0 && 
+        <CardDeck style={{padding: 25}}>
+        {
+          dashboardCards && dashboardCards.map((c, key) => 
+            <DashboardCard 
+              key={key}
+              title={c.title}
+              url={c.url}
+              border={c.border}
+              color={c.color}
+              label={c.label}
+              value={c.value}
+            />
+          )  
+        }
+        </CardDeck>
+      }      
     </div>
   )
 }

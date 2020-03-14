@@ -6,7 +6,7 @@ import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 
-const LogsPage = ({activeSnapId}) => {
+const ActiveSnapLogsPage = ({activeSnapId}) => {
   const { get } = useApi();
   const [logs, setLogs] = useState();
   const [logEntry, setLogEntry] = useState();
@@ -167,4 +167,4 @@ const LogsPage = ({activeSnapId}) => {
   )
 }  
 
-export default LogsPage
+export default ActiveSnapLogsPage

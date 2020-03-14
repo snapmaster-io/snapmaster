@@ -85,8 +85,8 @@ const Dashboard = () => {
     .map(a => { return { snapId: a.snapId, executionCounter: a.executionCounter || 0 } })
     .slice()
     .sort((a, b) => {
-      if (a.executionCounter > b.executionCounter) return 1;
-      if (b.executionCounter > a.executionCounter) return -1;
+      if (a.executionCounter > b.executionCounter) return -1;
+      if (b.executionCounter > a.executionCounter) return 1;
       return 0;
     })
     .slice(0, 3);

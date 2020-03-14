@@ -12,6 +12,7 @@ import ActiveSnapsPage from '../pages/ActiveSnapsPage'
 import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
 import SnapPage from '../pages/SnapPage'
+import ActiveSnapPage from '../pages/ActiveSnapPage'
 import ActiveSnapLogsPage from '../pages/ActiveSnapLogsPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
@@ -24,6 +25,7 @@ const routes = {
   '/mysnaps': () => <MySnapsPage />,
   '/logs/:activeSnapId': ({activeSnapId}) => <ActiveSnapLogsPage activeSnapId={activeSnapId} />,
   '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
+  '/:userId/:snapId/:activeSnapId': ({userId, snapId, activeSnapId}) => <ActiveSnapPage snapId={`${userId}/${snapId}`} activeSnapId={activeSnapId} />,
 };
 
 const SnapsTab = () => {

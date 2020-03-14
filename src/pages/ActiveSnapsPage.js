@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { navigate, A } from 'hookrouter'
 import { useApi } from '../utils/api'
+import { Button, Modal } from 'react-bootstrap'
 import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
-import { Button, Modal } from 'react-bootstrap'
 
 const ActiveSnapsPage = () => {
   const { get, post } = useApi();
@@ -64,7 +64,7 @@ const ActiveSnapsPage = () => {
     )
   }
 
-  const snapIdFormatter = (cell, row) => <A href={`/snaps/${cell}`}>{cell}</A>
+  const snapIdFormatter = (cell, row) => <A href={`/snaps/${cell}/${row.activeSnapId}`}>{cell}</A>
 
   const actionButtonsFormatter = (cell, row) => {
     return (
@@ -73,13 +73,13 @@ const ActiveSnapsPage = () => {
           <i className="fa fa-book" />&nbsp;&nbsp;Logs
         </Button>
         { row.state === 'active' &&
-        <Button style={{ marginLeft: 20 }} className="btn btn-warning" onClick={ () => invokeAction('pause', cell)}>
-          <i className="fa fa-book" />&nbsp;&nbsp;Pause
+        <Button style={{ marginLeft: 20, width: 101 }} className="btn btn-warning" onClick={ () => invokeAction('pause', cell)}>
+          &nbsp;<i className="fa fa-pause" />&nbsp;&nbsp;Pause&nbsp;
         </Button>
         }
         { row.state === 'paused' &&
-        <Button style={{ marginLeft: 20 }} className="btn btn-success" onClick={ () => invokeAction('resume', cell)}>
-          <i className="fa fa-book" />&nbsp;&nbsp;Resume
+        <Button style={{ marginLeft: 20, width: 101 }} className="btn btn-success" onClick={ () => invokeAction('resume', cell)}>
+          <i className="fa fa-play" />&nbsp;&nbsp;Resume
         </Button>
         }        
         <Button style={{ marginLeft: 20 }} className="btn btn-danger" onClick={ () => invokeAction('deactivate', cell)}>

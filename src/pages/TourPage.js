@@ -105,8 +105,7 @@ const HelpPage = () => {
         <Popover.Content as="h5">
           <Step next={next} done={end}
             text={
-              <h5>The <strong>Snaps tab</strong> contains all the different views 
-              for your online snaps.</h5>
+              <h5>The <strong>Snaps tab</strong> is where you'll find and activate snaps.</h5> 
             }/>
         </Popover.Content>
       </Popover>
@@ -137,8 +136,8 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Installed Snaps</strong> page gives a summary of your positive, 
-                neutral, and negative snaps, overall and for each snaps source.</h5>
+                <h5>The <strong>Active Snaps</strong> page shows you all your active snaps, 
+                allows you to pause and resume them, and lets you check out the logs.</h5>
                 <br/>
                 <center><img src="/summary.png" alt="summary" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
@@ -155,10 +154,10 @@ const HelpPage = () => {
             text={
               <div>
                 <h5>The <strong>Gallery</strong> page shows you all of the existing snaps that are available - 
-                either built-in or snaps that other users have created and made public.  You can install these  
+                either built-in or snaps that other users have created and made public.  You can activate these  
                 snaps, fork and modify them, or create your own from scratch.</h5>
                 <br/>
-                <center><img src="/alerts.png" alt="gallery" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/gallery.png" alt="gallery" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -172,10 +171,10 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>My Snaps</strong> page graphs your snaps over time, 
-                both across the board and for each provider.</h5>
+                <h5>The <strong>My Snaps</strong> page shows you all the snaps in your own account, 
+                whether you've forked them from an existing snap or created a new one.</h5>
                 <br/>
-                <center><img src="/history.png" alt="my snaps" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/mysnaps.png" alt="my snaps" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -189,7 +188,7 @@ const HelpPage = () => {
           <Step prev={prev} next={next} done={end}
             text={
               <div>
-                <h5>The <strong>Tools tab</strong> is where you'll view the gallery of tools at your disposal, 
+                <h5>The <strong>Tools tab</strong> is where you'll view the library of tools at your disposal, 
                 as well as connect the specific tools that you'd like to use in your snaps.</h5>
               </div>
             }/>

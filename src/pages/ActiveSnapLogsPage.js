@@ -18,7 +18,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
   const loadData = useCallback(() => {
     async function call() {
       setLoading(true);
-      const [response, error] = await get(`activesnaps/${activeSnapId}`);
+      const [response, error] = await get(`logs/${activeSnapId}`);
 
       if (error || !response.ok) {
         setLoading(false);

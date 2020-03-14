@@ -232,7 +232,7 @@ const LandingPage = () => {
         <Carousel.Item 
           className="bg-carousel" 
           style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/mysnaps.png")',
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/logs.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundSize: 'contain',

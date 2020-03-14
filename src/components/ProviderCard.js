@@ -1,14 +1,12 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
-import HighlightCard from './HighlightCard'
 import { navigate } from 'hookrouter'
-import { Button } from 'react-bootstrap'
+import { Card, Button } from 'react-bootstrap'
 
 const ProviderCard = ({provider}) => {
   const providerTitle = provider.provider.split('-')[0];
   return (
     <div style={{ margin: 10 }}>
-      <HighlightCard 
+      <Card 
         key={providerTitle} 
         border={ provider.connected ? 'success' : 'danger' }
         style={{ maxWidth: '150px', textAlign: 'center' }}>
@@ -22,7 +20,7 @@ const ProviderCard = ({provider}) => {
               : <Button size='sm' onClick={ () => { navigate('/tools/library')}}>Connect</Button>
           }
         </Card.Footer>
-      </HighlightCard>
+      </Card>
     </div>
   )
 }

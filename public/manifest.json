@@ -82,7 +82,27 @@
       "type": "image/png"
     },    
     {
+      "src": "pagerduty-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "pagerduty-logo-dark.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "sendgrid-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "sendgrid-logo-small.png",
+      "type": "image/png"
+    },    
+    {
       "src": "slack-logo.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "twilio-logo.png",
       "type": "image/png"
     },    
     {

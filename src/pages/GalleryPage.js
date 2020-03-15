@@ -1,18 +1,23 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { navigate } from 'hookrouter'
 import { useApi } from '../utils/api'
+import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
+import { Button, CardDeck } from 'react-bootstrap'
 import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import ProviderFilter from '../components/ProviderFilter'
-import { Button } from 'react-bootstrap'
+import SnapCard from '../components/SnapCard'
+import RedirectBanner from '../components/RedirectBanner'
+import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const GalleryPage = () => {
   const { get } = useApi();
   const { connections } = useConnections();
+  const { user } = useAuth0();
   const [gallery, setGallery] = useState();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const [checkboxState, setCheckboxState] = useState();
   const pageTitle = 'Gallery';
 
@@ -40,26 +45,24 @@ const GalleryPage = () => {
     loadData();
   }, [loadData]);
 
-  // if there is no gallery to display, show a message instead
-  if (!loading && (!gallery || gallery.length === 0)) {
+  // if the service is down, show the banner
+  if (!loading && !gallery) {
     return (
-      <div>
-        <div className="page-header">
-          <RefreshButton load={loadData} loading={loading}/>
-          <PageTitle title={pageTitle} />
-        </div>
-        {
-          gallery && gallery.length === 0 &&
-          <span>No snaps in the gallery yet :)</span>
-        }
-        {
-          !gallery && 
-          <div>
-            <i className="fa fa-frown-o"/>
-            <span>&nbsp;Can't reach service - try refreshing later</span>
-          </div>
-        }
-      </div>
+      <ServiceDownBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}/>
+    )
+  }
+
+  // if there is no gallery to display, show a message instead
+  if (gallery && gallery.length === 0) {
+    return (
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText="No snaps in the gallery..." />
     )
   }
 
@@ -122,14 +125,14 @@ const GalleryPage = () => {
   const dataRows = gallery && gallery
     .filter(s => checkedProviders.find(p => p === s.provider))
     .map(s => {
-      const userId = s.snapId.split('/')[0];
-      const name = s.snapId.split('/')[1];
+      const [userId, name] = s.snapId.split('/');
       return {
         snapId: s.snapId,
-        name: name,
         userId: userId,
-        private: s.private,
+        name: name,
         provider: s.provider,
+        actions: s.actions,
+        config: s.config,
         url: s.url
       }
     });
@@ -157,16 +160,18 @@ const GalleryPage = () => {
             />
         </div>
       </div>
+      <CardDeck>
       { 
-        dataRows ? 
-        <DataTable
+        dataRows &&
+        /*<DataTable
           columns={columns}
           data={dataRows}
           keyField="snapId"
           //rowEvents={rowEvents}
-        /> :
-        <div/>
+        /> */
+        dataRows.map(snap => <SnapCard key={snap.snapId} snap={snap} currentUser={user.sub} />)
       }
+      </CardDeck>
     </div>
   )
 }  

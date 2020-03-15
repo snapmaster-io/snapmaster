@@ -84,13 +84,13 @@ const SnapsTab = () => {
             </NavItem>
             <NavItem eventKey="/snaps/gallery">
               <NavIcon>
-                <i className="fa fa-fw fa-sitemap" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-th" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>Gallery</NavText>
             </NavItem>
             <NavItem eventKey="/snaps/mysnaps">
               <NavIcon>
-                <i className="fa fa-fw fa-code" style={{ fontSize: '1.75em' }} />
+                <i className="fa fa-fw fa-sitemap" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>My Snaps</NavText>
             </NavItem>

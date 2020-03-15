@@ -15,7 +15,7 @@ const RedirectBanner = ({pageTitle, loadData, loading, messageText, redirectUrl,
       { redirectUrl && anchorText && redirectText &&
       <div>
         <br />
-        <h3 className="text-center">Browse the <A href={redirectUrl}>{anchorText}</A> {redirectText}</h3> }
+        <h3 className="text-center">Browse the <A href={redirectUrl}>{anchorText}</A> {redirectText}</h3>
         <br />
       </div>
       }

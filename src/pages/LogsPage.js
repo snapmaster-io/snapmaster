@@ -8,7 +8,7 @@ import PageTitle from '../components/PageTitle'
 import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 
-const ActiveSnapLogsPage = ({activeSnapId}) => {
+const LogsPage = () => {
   const { get } = useApi();
   const [logs, setLogs] = useState();
   const [logEntry, setLogEntry] = useState();
@@ -20,7 +20,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
   const loadData = useCallback(() => {
     async function call() {
       setLoading(true);
-      const [response, error] = await get(`logs/${activeSnapId}`);
+      const [response, error] = await get(`logs`);
 
       if (error || !response.ok) {
         setLoading(false);
@@ -33,7 +33,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
       setLogs(items);
     }
     call();
-  }, [get, activeSnapId]);
+  }, [get]);
 
   // load data automatically on first page render
   useEffect(() => {
@@ -80,7 +80,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
 
   const timestampFormatter = (cell) => new Date(cell).toLocaleString();
 
-  const dataRows = logs && logs.map(s => {
+  const dataRows = logs && logs.map && logs.map(s => {
     return {
       activeSnapId: s.activeSnapId,
       timestamp: s.timestamp,
@@ -168,4 +168,4 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
   )
 }  
 
-export default ActiveSnapLogsPage
+export default LogsPage

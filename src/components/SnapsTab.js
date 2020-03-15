@@ -11,6 +11,7 @@ import Dashboard from '../pages/Dashboard'
 import ActiveSnapsPage from '../pages/ActiveSnapsPage'
 import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
+import LogsPage from '../pages/LogsPage'
 import SnapPage from '../pages/SnapPage'
 import ActiveSnapPage from '../pages/ActiveSnapPage'
 import ActiveSnapLogsPage from '../pages/ActiveSnapLogsPage'
@@ -23,6 +24,7 @@ const routes = {
   '/active': () => <ActiveSnapsPage />,
   '/gallery': () => <GalleryPage />,
   '/mysnaps': () => <MySnapsPage />,
+  '/logs': () => <LogsPage />,
   '/logs/:activeSnapId': ({activeSnapId}) => <ActiveSnapLogsPage activeSnapId={activeSnapId} />,
   '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
   '/:userId/:snapId/:activeSnapId': ({userId, snapId, activeSnapId}) => <ActiveSnapPage snapId={`${userId}/${snapId}`} activeSnapId={activeSnapId} />,
@@ -92,6 +94,12 @@ const SnapsTab = () => {
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>My Snaps</NavText>
             </NavItem>
+            <NavItem eventKey="/snaps/logs">
+              <NavIcon>
+                <i className="fa fa-fw fa-book" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>Logs</NavText>
+            </NavItem>          
           </SideNav.Nav>
         </SideNav>
       </div>

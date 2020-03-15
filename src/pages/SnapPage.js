@@ -37,7 +37,7 @@ const SnapPage = ({snapId}) => {
     loadData();
   }, [loadData]);
 
-  // if there is no snap data to display, show a message instead
+  // if the service is down, show the banner
   if (!loading && !snap) {
     return (
       <ServiceDownBanner
@@ -46,8 +46,6 @@ const SnapPage = ({snapId}) => {
         pageTitle={snapId}/>
     )
   }
-
-  console.log(snapId);
 
   const fork = async () => {
     // post the fork request to the snaps endpoint

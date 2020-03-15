@@ -1,73 +1,67 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
-import Loading from '../components/Loading'
+import { navigate } from 'hookrouter'
+import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import DataTable from '../components/DataTable'
-import { Button } from 'react-bootstrap'
-import { navigate } from 'hookrouter'
+import RedirectBanner from '../components/RedirectBanner'
+import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const MySnapsPage = () => {
   const { get, post } = useApi();
-  const [mySnaps, setMySnaps] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [loadedData, setLoadedData] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+  const [mySnaps, setMySnaps] = useState();
+  const [loading, setLoading] = useState(true);
   const pageTitle = 'My Snaps';
 
-  // if in the middle of a loading loop, put up loading banner and bail
-  if (loading && !refresh) {
-    return <Loading />
-  }
+  // create a callback function that wraps the loadData effect
+  const loadData = useCallback(() => {
+    async function call() {
+      setLoading(true);
+      const [response, error] = await get('snaps');
 
-  // load snaps data
-  const loadData = async () => { 
-    setLoading(true);
-    setRefresh(true);
-
-    const [response, error] = await get('snaps');
-    if (error || !response.ok) {
-      setLoadedData(true);
+      if (error || !response.ok) {
+        setLoading(false);
+        setMySnaps(null);
+        return;
+      }
+  
+      const items = await response.json();
       setLoading(false);
-      setMySnaps(null);
-      setRefresh(false);
-      return;
+      setMySnaps(items);
     }
+    call();
+  }, [get]);
 
-    const responseData = await response.json();
-    setLoadedData(true);
-    setLoading(false);
-    setRefresh(false);
-    setMySnaps(responseData);
-  };
-
-  // if haven't loaded snaps yet, do so now
-  if (!loadedData && !loading) {
+  // load data automatically on first page render
+  useEffect(() => {
     loadData();
-  }
+  }, [loadData]);
 
-  // if there is no snaps data to display, show a message instead
-  if (loadedData && (!mySnaps || !mySnaps.length > 0)) {
+  // if the service is down, show the banner
+  if (!loading && !mySnaps) {
     return (
-      <div>
-        <div className="page-header">
-          <RefreshButton load={loadData} loading={refresh}/>
-          <PageTitle title={pageTitle} />
-        </div>
-        {
-          mySnaps && mySnaps.length === 0 &&
-          <span>You don't have any snaps yet.  Create a new snap or fork one from the Gallery :)</span>
-        }
-        {
-          !mySnaps && 
-          <div>
-            <i className="fa fa-frown-o"/>
-            <span>&nbsp;Can't reach service - try refreshing later</span>
-          </div>
-        }
-      </div>
+      <ServiceDownBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}/>
     )
   }
+
+  // if no tools connected, return a banner to connect tools
+  if (mySnaps && mySnaps.length === 0) {
+    return (
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText="You don't have any snaps yet..."
+        redirectUrl="/snaps/gallery"
+        anchorText="Gallery"
+        redirectText="to fork your own snaps!" />
+    )
+  }
+  /* You don't have any snaps yet.  Create a new snap or fork one from the Gallery :) */
 
   const urlFormatter = (cell, row) => {
     if (row.url) {
@@ -144,14 +138,16 @@ const MySnapsPage = () => {
   return(
     <div>
       <div className="page-header">
-        <RefreshButton load={loadData} loading={refresh}/>
+        <RefreshButton load={loadData} loading={loading}/>
         <PageTitle title={pageTitle} />
       </div>
-    
+
+      { mySnaps && 
       <DataTable 
         columns={columns} 
         data={dataRows} 
         keyField='snapId' />
+      }
     </div>
   )
 }

@@ -5,13 +5,15 @@ import Highlight from '../components/Highlight'
 import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
+import RedirectBanner from '../components/RedirectBanner'
+import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const ActiveSnapLogsPage = ({activeSnapId}) => {
   const { get } = useApi();
   const [logs, setLogs] = useState();
   const [logEntry, setLogEntry] = useState();
   const [showModal, setShowModal] = useState();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const pageTitle = 'Logs';
 
   // create a callback function that wraps the loadData effect
@@ -38,26 +40,24 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
     loadData();
   }, [loadData]);
 
-  // if there is no gallery to display, show a message instead
-  if (!loading && (!logs || logs.length === 0)) {
+  // if the service is down, show the banner
+  if (!loading && !logs) {
     return (
-      <div>
-        <div className="page-header">
-          <RefreshButton load={loadData} loading={loading}/>
-          <PageTitle title={pageTitle} />
-        </div>
-        {
-          logs && logs.length === 0 &&
-          <span>No logs yet :)</span>
-        }
-        {
-          !logs && 
-          <div>
-            <i className="fa fa-frown-o"/>
-            <span>&nbsp;Can't reach service - try refreshing later</span>
-          </div>
-        }
-      </div>
+      <ServiceDownBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}/>
+    )
+  }
+
+  // if no logs, put up a banner
+  if (logs && logs.length === 0) {
+    return (
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText="No logs yet..." />
     )
   }
 

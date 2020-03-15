@@ -12,9 +12,13 @@ const RedirectBanner = ({pageTitle, loadData, loading, messageText, redirectUrl,
     </div>
     <Jumbotron>
       <h1 className="text-center">{messageText}</h1>
-      <br />
-      { redirectUrl && anchorText && redirectText && <h3 className="text-center">Browse the <A href={redirectUrl}>{anchorText}</A> {redirectText}</h3> }
-      <br />
+      { redirectUrl && anchorText && redirectText &&
+      <div>
+        <br />
+        <h3 className="text-center">Browse the <A href={redirectUrl}>{anchorText}</A> {redirectText}</h3> }
+        <br />
+      </div>
+      }
     </Jumbotron>
   </div>
 

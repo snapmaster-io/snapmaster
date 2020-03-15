@@ -1,15 +1,18 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
+import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { navigate } from 'hookrouter'
 import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import DataTable from '../components/DataTable'
+import SnapCard from '../components/SnapCard'
 import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const MySnapsPage = () => {
   const { get, post } = useApi();
+  const { user } = useAuth0();
   const [mySnaps, setMySnaps] = useState();
   const [loading, setLoading] = useState(true);
   const pageTitle = 'My Snaps';
@@ -104,10 +107,13 @@ const MySnapsPage = () => {
     const name = s.snapId.split('/')[1];
     return {
       snapId: s.snapId,
-      name: name,
       userId: userId,
+      name: name,
+      provider: s.provider,
+      actions: s.actions,
+      config: s.config,
+      url: s.url,
       private: s.private,
-      url: s.url
     }
   });
 
@@ -143,10 +149,11 @@ const MySnapsPage = () => {
       </div>
 
       { mySnaps && 
-      <DataTable 
-        columns={columns} 
-        data={dataRows} 
-        keyField='snapId' />
+        dataRows.map(snap => <SnapCard key={snap.snapId} snap={snap} currentUser={user.sub} />)
+        /*<DataTable 
+          columns={columns} 
+          data={dataRows} 
+          keyField='snapId' />*/
       }
     </div>
   )

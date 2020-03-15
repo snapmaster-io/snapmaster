@@ -7,6 +7,7 @@ import HighlightCard from './HighlightCard'
 const SnapCard = ({snap, currentUser}) => {
   const { connections } = useConnections();
   const triggerConn = connections.find(c => c.provider === snap.provider);
+  console.log(snap.provider);
   const triggerIcon = triggerConn.image;
   const displayName = snap.name.length > 22 ? snap.name.slice(0, 21) + '...' : snap.name;
 

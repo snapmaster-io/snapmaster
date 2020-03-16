@@ -35,6 +35,7 @@ export const ProfileProvider = ({
     try {
       // create a copy of the profile that only includes data that can be changed by the profile page
       const data = { 
+        account: profile.account,
         name: profile.name,
         email: profile.email,
         phone: profile.phone,

@@ -1,11 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
-import { navigate } from 'hookrouter'
-import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
-import DataTable from '../components/DataTable'
 import SnapCard from '../components/SnapCard'
 import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
@@ -66,27 +63,10 @@ const MySnapsPage = () => {
   }
   /* You don't have any snaps yet.  Create a new snap or fork one from the Gallery :) */
 
-  const urlFormatter = (cell, row) => {
-    if (row.url) {
-      return <a href={row.url} target="_">{cell}</a>
-    } else {
-      return (
-        <Button onClick={ () => { navigate(`/snaps/${row.userId}/${row.name}`) }}>
-          {`View definition`} 
-        </Button>
-      )
-    }
-  }
+  const handleDelete = async (e, snapId) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
 
-  const deleteFormatter = (cell, row) => {
-    return (
-      <Button className="btn btn-danger" onClick={ () => handleDelete(row.snapId)}>
-        <i className="fa fa-remove" />&nbsp;&nbsp;Delete
-      </Button>
-    )
-  }
-
-  const handleDelete = async (snapId) => {
     // post the delete request to the snaps endpoint
     const request = {
       action: 'delete',
@@ -101,45 +81,6 @@ const MySnapsPage = () => {
     const newSnaps = mySnaps.filter(a => a.snapId !== snapId);
     setMySnaps(newSnaps);
   }
-
-  const dataRows = mySnaps && mySnaps.map(s => {
-    const userId = s.snapId.split('/')[0];
-    const name = s.snapId.split('/')[1];
-    return {
-      snapId: s.snapId,
-      userId: userId,
-      name: name,
-      provider: s.provider,
-      actions: s.actions,
-      config: s.config,
-      url: s.url,
-      private: s.private,
-    }
-  });
-
-  const columns = [{
-    dataField: 'name',
-    text: 'Name',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '250px' };
-    }
-  }, {
-    dataField: 'private',
-    text: 'Private?',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '100px' };
-    },
-  }, {
-    dataField: 'url',
-    text: 'Definition',
-    formatter: urlFormatter
-  }, {
-    dataField: 'snapId',
-    text: 'Actions',
-    formatter: deleteFormatter
-  }];  
   
   return(
     <div>
@@ -149,11 +90,13 @@ const MySnapsPage = () => {
       </div>
 
       { mySnaps && 
-        dataRows.map(snap => <SnapCard key={snap.snapId} snap={snap} currentUser={user.sub} />)
-        /*<DataTable 
-          columns={columns} 
-          data={dataRows} 
-          keyField='snapId' />*/
+        mySnaps.map(snap => 
+          <SnapCard 
+            key={snap.snapId} 
+            snap={snap} 
+            currentUser={user.sub} 
+            deleteAction={(e) => handleDelete(e, snap.snapId)}
+          />)
       }
     </div>
   )

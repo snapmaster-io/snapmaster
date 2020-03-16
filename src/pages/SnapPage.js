@@ -70,7 +70,7 @@ const SnapPage = ({snapId}) => {
         <RefreshButton load={loadData} loading={loading}/>
         <h4 className="page-title">{snap && snap.snapId}</h4>
         <div style={{ marginLeft: 50 }}>
-          { userId !== user.sub && <Button onClick={ fork }><i className="fa fa-code-fork"></i>&nbsp;&nbsp;Fork</Button> }
+          { userId && userId !== user.sub && <Button onClick={ fork }><i className="fa fa-code-fork"></i>&nbsp;&nbsp;Fork</Button> }
         </div>
       </div>
       <SnapDefinition snap={snap} />

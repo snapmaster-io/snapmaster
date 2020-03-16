@@ -1,15 +1,15 @@
 import React from 'react'
 import { navigate } from 'hookrouter'
 import { useConnections } from '../utils/connections'
-import { Card } from 'react-bootstrap'
+import { Card, Button } from 'react-bootstrap'
 import HighlightCard from './HighlightCard'
 
-const SnapCard = ({snap, currentUser}) => {
+const SnapCard = ({snap, currentUser, deleteAction}) => {
   const { connections } = useConnections();
   const triggerConn = connections.find(c => c.provider === snap.provider);
-  console.log(snap.provider);
   const triggerIcon = triggerConn.image;
-  const displayName = snap.name.length > 22 ? snap.name.slice(0, 21) + '...' : snap.name;
+  const [account, name] = snap.snapId.split('/');
+  const displayName = name.length > 22 ? name.slice(0, 21) + '...' : name;
 
   return (
     <HighlightCard 
@@ -24,7 +24,12 @@ const SnapCard = ({snap, currentUser}) => {
         textAlign: 'center'
       }}>
       <Card.Header>
-        { snap.userId !== currentUser && <Card.Subtitle as="h5">{snap.userId} /</Card.Subtitle> }
+        { deleteAction && 
+          <Button type="button" className="close" onClick={deleteAction}>
+            <span className="float-right"><i className="fa fa-remove"></i></span>
+          </Button>
+        }
+        { account !== currentUser && <Card.Subtitle as="h5">{account} /</Card.Subtitle> }
         <Card.Subtitle as="h5">{displayName}</Card.Subtitle>
       </Card.Header>
       <Card.Body>

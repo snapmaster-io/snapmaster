@@ -42,7 +42,7 @@ const Step = ({text, prev, next, done}) =>
     <Buttons prev={prev} next={next} done={done}/>
   </div>
 
-const HelpPage = () => {
+const TourPage = () => {
   const { user } = useAuth0();
   const { profile, storeProfile } = useProfile();
 
@@ -413,4 +413,4 @@ const HelpPage = () => {
   )
 }
 
-export default HelpPage
+export default TourPage

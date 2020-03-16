@@ -14,6 +14,7 @@ import ToolsTab from '../components/ToolsTab'
 import ProfilePage from './ProfilePage'
 import NotificationsPage from './NotificationsPage'
 import AdminPage from './AdminPage'
+import AccountSelectionPage from './AccountSelectionPage'
 import TourPage from './TourPage'
 import NotFoundPage from './NotFoundPage'
 import ServiceDownPage from './ServiceDownPage'
@@ -24,6 +25,7 @@ const routes = {
   '/tools*': () => <ToolsTab />,
   '/profile': () => <ProfilePage />,
   '/notifications': () => <NotificationsPage />,
+  '/account': () => <AccountSelectionPage />,
   '/tour': () => <TourPage />,
   '/admin': () => <AdminPage />,
 };
@@ -55,13 +57,20 @@ const App = () => {
   // determine which page to route to
   const routeResult = useRoutes(routes);
 
-  // redirect to snaps tab if skip tour flag is set
+  // determine page to navigate to
   if (profile && currentPath === '/') {
-    if (profile.skipTour) {
-      setState( { tab: '/snaps' });
-      navigate('/snaps')
+    // if account was not set, do so now (mandatory)
+    if (!profile.account) {
+      navigate('/account');
     } else {
-      navigate('/tour')
+    // redirect to snaps tab if skip tour flag is set
+    if (profile.skipTour) {
+        setState( { tab: '/snaps' });
+        navigate('/snaps');
+      } else {
+        // display tour
+        navigate('/tour');
+      }
     }
   }
 

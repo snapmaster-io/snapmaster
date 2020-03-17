@@ -19,8 +19,17 @@ const AccountSelectionPage = () => {
   const { user } = useAuth0();
   const { get, post } = useApi();
   const { profile, storeProfile } = useProfile();
-  const [account, setAccount] = useState(user.nickname);
+
+  // account names must start with a-z, and must be alphanumeric 1-20 characters
+  const validateAccountName = (value) => {
+    const re = /^[a-z]\w{0,19}$/;
+    const acct = String(value).toLowerCase();
+    return re.test(acct);
+  }
+
+  const [account, setAccount] = useState(validateAccountName(user.nickname) ? user.nickname : "");
   const [valid, setValid] = useState(false);
+  const [validationNeeded, setValidationNeeded] = useState(true);
 
   // create a callback function that wraps the loadData effect
   const validateAccount = useCallback(() => {
@@ -37,8 +46,10 @@ const AccountSelectionPage = () => {
         setValid(false);
       }
     }
-    call(account);
-  }, [get, account]);
+    if (validationNeeded) {
+      call(account);
+    }
+  }, [get, account, validationNeeded]);
 
   // validate account every time the account name is set (including first load)
   useEffect(() => {
@@ -48,6 +59,16 @@ const AccountSelectionPage = () => {
   // account can never be reset
   if (profile.account) {
     navigate('/');
+  }
+
+  const validate = (value) => {
+    if (validateAccountName(value)) {
+      setValidationNeeded(true);
+    } else {
+      setValidationNeeded(false);
+      setValid(false);
+    }
+    setAccount(value);
   }
 
   const storeAccount = async () => {
@@ -117,6 +138,10 @@ const AccountSelectionPage = () => {
             much like your github account is used to name your repos. You can't change it 
             later, so pick a good one! <i className="fa fa-smile-o" />
           </h5>
+          <h5>
+            Account names must start with a letter and must be entirely composed of 
+            alphanumeric characters, with a 20 character limit.
+          </h5>
           <br />
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
@@ -126,7 +151,7 @@ const AccountSelectionPage = () => {
               aria-label="account"
               aria-describedby="inputGroup-sizing-default"
               value={account}
-              onChange={(e) => { setAccount(e.target.value) }}
+              onChange={(e) => { validate(e.target.value) }}
             />
             &nbsp;&nbsp;
             <InputGroup.Prepend>

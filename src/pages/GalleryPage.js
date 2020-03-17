@@ -66,52 +66,6 @@ const GalleryPage = () => {
     )
   }
 
-  const urlFormatter = (cell, row) => {
-    if (row.url) {
-      return <a href={row.url} target="_">{cell}</a>
-    } else {
-      return (
-        <Button onClick={ () => { navigate(`/snaps/${row.snapId}`) }}>
-          {`View definition`} 
-        </Button>
-      )
-    }
-  }
-
-  const toolFormatter = (cell, row, rowIndex, formatExtraData) => {
-    return (
-      <i className={ `cloudfont-${row.provider }`} style={{ fontSize: '1.5em'}} />
-    )
-  }
-
-  const columns = [{
-    dataField: 'provider',
-    text: 'Trigger',
-    headerStyle: (column, colIndex) => {
-      return { width: '75px' };
-    },
-    align: 'center',
-    formatter: toolFormatter,
-  }, {
-    dataField: 'userId',
-    text: 'Namespace',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '300px' };
-    }
-  }, {
-    dataField: 'name',
-    text: 'Name',
-    sort: true,
-    headerStyle: (column, colIndex) => {
-      return { width: '250px' };
-    }
-  }, {
-    dataField: 'url',
-    text: 'Definition',
-    formatter: urlFormatter
-  }];  
-
   // create an array of providers
   const providers = connections.map(c => c.provider);
   
@@ -122,7 +76,7 @@ const GalleryPage = () => {
     checkedProviders = providers;
   }
 
-  const dataRows = gallery && gallery
+  const snaps = gallery && gallery
     .filter(s => checkedProviders.find(p => p === s.provider))
     .map(s => {
       const [userId, name] = s.snapId.split('/');
@@ -136,14 +90,6 @@ const GalleryPage = () => {
         url: s.url
       }
     });
-
-  /*
-  const rowEvents = {
-    onClick: (e, row, rowIndex) => {
-      navigate(`/snaps/${row.snapId}`);
-    }
-  };
-  */
   
   return (
     <div>
@@ -162,14 +108,8 @@ const GalleryPage = () => {
       </div>
       <CardDeck>
       { 
-        dataRows &&
-        /*<DataTable
-          columns={columns}
-          data={dataRows}
-          keyField="snapId"
-          //rowEvents={rowEvents}
-        /> */
-        dataRows.map(snap => <SnapCard key={snap.snapId} snap={snap} currentUser={user.sub} />)
+        snaps &&
+        snaps.map(snap => <SnapCard key={snap.snapId} snap={snap} currentUser={user.sub} />)
       }
       </CardDeck>
     </div>

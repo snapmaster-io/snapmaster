@@ -93,7 +93,13 @@ const ActiveSnapsPage = () => {
     return (
       <div>
         { row.params && row.params.map(p => 
-            <span key={p.name}><span style={{ fontWeight: 400 }}>{p.name}</span>: &nbsp;{p.value};&nbsp;&nbsp;</span>
+            <div>
+              <span key={p.name}>
+                <span style={{ fontWeight: 400 }}>
+                  {p.name}
+                </span>: &nbsp;{p.value}
+              </span>
+            </div>
           )
         }
       </div>
@@ -181,7 +187,7 @@ const ActiveSnapsPage = () => {
     dataField: 'timestamp',
     text: 'Since',
     headerStyle: (column, colIndex) => {
-      return { width: '220px' };
+      return { width: '200px' };
     },
     formatter: timestampFormatter,
   }, {
@@ -191,9 +197,9 @@ const ActiveSnapsPage = () => {
     formatter: snapIdFormatter,
   }, {
     dataField: 'counter',
-    text: 'Executions',
+    text: 'Runs',
     headerStyle: (column, colIndex) => {
-      return { width: '100px' };
+      return { width: '50px' };
     }
   }, {
     dataField: 'params',

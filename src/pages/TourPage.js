@@ -53,13 +53,15 @@ const TourPage = () => {
   const snaps = useRef(null);
   const tools = useRef(null);
   const dashboard = useRef(null);
-  const installed = useRef(null);
+  const active = useRef(null);
   const gallery = useRef(null);
   const mySnaps = useRef(null);
+  const logs = useRef(null);
   const library = useRef(null);
   const connections = useRef(null);
   const collapsedWidth = 64;
   const topOffset = 50;
+  const numberOfSnapsSteps = 6;
 
   useEffect(() => {
     snaps && setShowModal(true);
@@ -128,7 +130,7 @@ const TourPage = () => {
         </Popover.Content>
       </Popover>
     }, {
-    target: installed,
+    target: active,
     placement: 'right',
     markup:
       <Popover className="tour">
@@ -139,7 +141,7 @@ const TourPage = () => {
                 <h5>The <strong>Active Snaps</strong> page shows you all your active snaps, 
                 allows you to pause and resume them, and lets you check out the logs.</h5>
                 <br/>
-                <center><img src="/summary.png" alt="summary" style={{ maxHeight: 'calc(40vh)' }} /></center>
+                <center><img src="/active.png" alt="summary" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -175,6 +177,23 @@ const TourPage = () => {
                 whether you've forked them from an existing snap or created a new one.</h5>
                 <br/>
                 <center><img src="/mysnaps.png" alt="my snaps" style={{ maxHeight: 'calc(40vh)' }} /></center>
+              </div>
+            }/>
+        </Popover.Content>
+      </Popover>
+    }, {
+    target: logs,
+    placement: 'right',
+    markup:
+      <Popover className="tour">
+        <Popover.Content as="h5">
+          <Step prev={prev} next={next} done={end}
+            text={
+              <div>
+                <h5>The <strong>Logs</strong> page shows you the log entries from all the  
+                activated snaps that have been triggered.</h5>
+                <br/>
+                <center><img src="/logs.png" alt="my snaps" style={{ maxHeight: 'calc(40vh)' }} /></center>
               </div>
             }/>
         </Popover.Content>
@@ -264,7 +283,7 @@ const TourPage = () => {
         </Navbar>
       </div>
 
-      { step < 5 && 
+      { step < numberOfSnapsSteps && 
         <div style={{
           width: collapsedWidth,
           position: 'fixed', 
@@ -281,30 +300,36 @@ const TourPage = () => {
                 </NavIcon>
                 <NavText className="navText">Dashboard</NavText>
               </NavItem>
-              <NavItem eventKey="/snaps/summary">
+              <NavItem eventKey="/snaps/active">
                 <NavIcon>
-                  <i ref={installed} className="fa fa-fw fa-play" style={{ fontSize: '1.75em' }} />
+                  <i ref={active} className="fa fa-fw fa-play" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
-                <NavText className="navText">Installed Snaps</NavText>
+                <NavText className="navText">Active Snaps</NavText>
               </NavItem>
               <NavItem eventKey="/snaps/gallery">
                 <NavIcon>
-                  <i ref={gallery} className="fa fa-fw fa-sitemap" style={{ fontSize: '1.75em' }} />
+                  <i ref={gallery} className="fa fa-fw fa-th" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">Gallery</NavText>
               </NavItem>
               <NavItem eventKey="/snaps/mysnaps">
                 <NavIcon>
-                  <i ref={mySnaps} className="fa fa-fw fa-code" style={{ fontSize: '1.75em' }} />
+                  <i ref={mySnaps} className="fa fa-fw fa-sitemap" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText className="navText">My Snaps</NavText>
               </NavItem>
+              <NavItem eventKey="/snaps/logs">
+                <NavIcon>
+                  <i ref={logs} className="fa fa-fw fa-book" style={{ fontSize: '1.75em' }} />
+                </NavIcon>
+                <NavText className="navText">Logs</NavText>
+              </NavItem>     
             </SideNav.Nav>
           </SideNav>
         </div>
       }
 
-      { step >= 5 && 
+      { step >= numberOfSnapsSteps && 
         <div style={{
           width: collapsedWidth,
           position: 'fixed', 
@@ -329,25 +354,25 @@ const TourPage = () => {
               </NavItem>
               <NavItem eventKey="/tools/aws">
                 <NavIcon>
-                  <i ref={connections} className="cloudfont-aws" style={{ fontSize: '1.75em' }} />
+                  <i className="cloudfont-aws" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>AWS</NavText>
               </NavItem>
               <NavItem eventKey="/tools/docker">
                 <NavIcon>
-                  <i ref={connections} className="cloudfont-docker" style={{ fontSize: '1.75em' }} />
+                  <i className="cloudfont-docker" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>Docker</NavText>
               </NavItem>
               <NavItem eventKey="/tools/github">
                 <NavIcon>
-                  <i ref={connections} className="cloudfont-github" style={{ fontSize: '1.75em' }} />
+                  <i className="cloudfont-github" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>Github</NavText>
               </NavItem>
               <NavItem eventKey="/tools/slack">
                 <NavIcon>
-                  <i ref={connections} className="cloudfont-slack" style={{ fontSize: '1.75em' }} />
+                  <i className="cloudfont-slack" style={{ fontSize: '1.75em' }} />
                 </NavIcon>
                 <NavText>Slack</NavText>
               </NavItem>

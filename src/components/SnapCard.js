@@ -29,8 +29,8 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
             <span className="float-right"><i className="fa fa-remove"></i></span>
           </Button>
         }
-        { account !== currentUser && <Card.Subtitle as="h5">{account} /</Card.Subtitle> }
-        <Card.Subtitle as="h5">{displayName}</Card.Subtitle>
+        { account !== currentUser && <Card.Subtitle as="div">{account} /</Card.Subtitle> }
+        <Card.Subtitle as="div">{displayName}</Card.Subtitle>
       </Card.Header>
       <Card.Body>
         <Card.Img src={triggerIcon} style={{ marginRight: 10, verticalAlign: 'top', width: '3rem', height: '3rem' }}/>

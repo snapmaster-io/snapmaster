@@ -23,6 +23,8 @@
     "hookrouter": "^1.2.3",
     "jquery": "^3.4.1",
     "mdbreact": "^4.23.1",
+    "monaco-editor": "^0.20.0",
+    "monaco-editor-webpack-plugin": "^1.9.0",
     "react": "^16.10.2",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-bootstrap-table-next": "^3.3.1",
@@ -30,16 +32,18 @@
     "react-dom": "^16.10.2",
     "react-frame-component": "^4.1.1",
     "react-minimal-pie-chart": "^6.0.1",
+    "react-monaco-editor": "^0.34.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
     "recharts": "^2.0.0-beta.1",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "yaml": "^1.8.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build:dev": "react-scripts build",
-    "build:prod": "cp src/utils/auth_config_prod.json src/utils/auth_config.json && react-scripts build && cp src/utils/auth_config_dev.json src/utils/auth_config.json",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build:dev": "react-app-rewired build",
+    "build:prod": "cp src/utils/auth_config_prod.json src/utils/auth_config.json && react-app-rewired build && cp src/utils/auth_config_dev.json src/utils/auth_config.json",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -56,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.1.5"
   }
 }

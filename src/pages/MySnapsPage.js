@@ -1,8 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import { navigate } from 'hookrouter'
 import { useApi } from '../utils/api'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
+import { CardDeck, Card } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
+import HighlightCard from '../components/HighlightCard'
 import SnapCard from '../components/SnapCard'
 import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
@@ -89,15 +92,26 @@ const MySnapsPage = () => {
         <PageTitle title={pageTitle} />
       </div>
 
-      { mySnaps && 
-        mySnaps.map(snap => 
-          <SnapCard 
-            key={snap.snapId} 
-            snap={snap} 
-            currentUser={user.sub} 
-            deleteAction={(e) => handleDelete(e, snap.snapId)}
-          />)
-      }
+      <CardDeck>
+        { mySnaps && 
+          mySnaps.map(snap => 
+            <SnapCard 
+              key={snap.snapId} 
+              snap={snap} 
+              currentUser={user.sub} 
+              deleteAction={(e) => handleDelete(e, snap.snapId)}
+            />)
+        }
+
+        <HighlightCard className="text-center" onClick={ () => { navigate('/snaps/add') }}
+          key='add' 
+          style={{ maxWidth: '230px', maxHeight: '230px' }}>
+          <Card.Header style={{ minHeight: 60 }}>Add a new snap</Card.Header>
+          <Card.Body>
+            <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />
+          </Card.Body>
+        </HighlightCard>
+      </CardDeck>        
     </div>
   )
 }

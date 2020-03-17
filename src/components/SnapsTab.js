@@ -13,6 +13,8 @@ import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
 import LogsPage from '../pages/LogsPage'
 import SnapPage from '../pages/SnapPage'
+import AddSnapPage from '../pages/AddSnapPage'
+import EditSnapPage from '../pages/EditSnapPage'
 import ActiveSnapPage from '../pages/ActiveSnapPage'
 import ActiveSnapLogsPage from '../pages/ActiveSnapLogsPage'
 import NotFoundPage from '../pages/NotFoundPage'
@@ -24,9 +26,11 @@ const routes = {
   '/active': () => <ActiveSnapsPage />,
   '/gallery': () => <GalleryPage />,
   '/mysnaps': () => <MySnapsPage />,
+  '/add': () => <AddSnapPage />,
   '/logs': () => <LogsPage />,
   '/logs/:activeSnapId': ({activeSnapId}) => <ActiveSnapLogsPage activeSnapId={activeSnapId} />,
   '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
+  '/editor/:userId/:snapId': ({userId, snapId}) => <EditSnapPage snapId={`${userId}/${snapId}`} />,
   '/:userId/:snapId/:activeSnapId': ({userId, snapId, activeSnapId}) => <ActiveSnapPage snapId={`${userId}/${snapId}`} activeSnapId={activeSnapId} />,
 };
 

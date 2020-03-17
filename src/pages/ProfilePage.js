@@ -1,42 +1,14 @@
 import React, { useState } from 'react'
-import RefreshButton from '../components/RefreshButton'
-import { Form, Col, Row, Image, Card, CardDeck, Button, Alert } from 'react-bootstrap'
-import { useConnections } from '../utils/connections'
 import { useProfile } from '../utils/profile'
+import { Form, Col, Row, Image, Card, Button, Alert } from 'react-bootstrap'
+import RefreshButton from '../components/RefreshButton'
 
 const ProfilePage = () => {
-  const { connections } = useConnections();
   const { profile, loadProfile, storeProfile, loading } = useProfile();
   const [alertText, setAlertText] = useState();
 
-  const name = profile && profile.name;
   const picture = profile && profile.picture;
   const lastLogin = profile && profile.last_login && new Date(profile.last_login).toLocaleString();
-
-  const connectionCards = profile && profile.identities && 
-        connections && connections.map && connections.map(connection => {
-    // set up some variables
-    const connected = connection.connected ? true : false;
-    const color = connected ? 'success' : 'danger';
-    const [providerTitle] = connection.provider.split('-');
-    const label = <i className={`cloudfont-${providerTitle} text-${color}`} style={{ fontSize: '1.2em' }} />;
-    const provider = profile.identities.find(p => p.provider === connection.provider);
-    const userName = (provider && provider.profileData && provider.profileData.name) || name;
-    const userPicture = (provider && provider.profileData && provider.profileData.picture) || picture;
-    const screenName = provider && provider.profileData && provider.profileData.screen_name;
-    const location = provider && provider.profileData && provider.profileData.location;
-
-    return {
-      connected,
-      color,
-      providerTitle,
-      label,
-      userName,
-      userPicture,
-      screenName,
-      location
-    }
-  });
 
   const updateProfile = () => {
     if (!validateEmail(profile.email)) {
@@ -122,41 +94,6 @@ const ProfilePage = () => {
               <Image src={picture} style={{ height: 150, width: 150, margin: 20 }} roundedCircle />
             </Card>
           </div>
-
-          <br/>
-
-          <Card border="secondary">
-            <CardDeck style={{ padding: 20 }}>
-            { 
-              connectionCards && connectionCards.map((connection, key) => {
-                return (
-                  <Card 
-                    key={key} 
-                    className='mx-auto'
-                    border={connection.color}
-                    style={{ 
-                      maxWidth: '200px', 
-                      minWidth: '200px', 
-                      minHeight: '150px', 
-                      marginBottom: '10px',
-                      marginTop: '10px',
-                      textAlign: 'center' 
-                    }}>
-                    <Card.Header>{connection.label}</Card.Header>
-                    <Card.Body>
-                      <Card.Title>{ connection.connected && connection.userName }</Card.Title>
-                      { connection.connected && connection.userPicture && 
-                        <center><Card.Img variant="top" src={connection.userPicture} style={{ width: '6rem', margin: '10px' }}/></center>
-                      }
-                      { connection.connected && connection.screenName && <Card.Subtitle><p>@{connection.screenName}</p></Card.Subtitle> }
-                      { connection.connected && connection.location && <Card.Subtitle>{connection.location}</Card.Subtitle> }
-                    </Card.Body>
-                  </Card>    
-                )
-              })
-            }
-            </CardDeck>     
-          </Card>          
         </div>
       }
     </div>

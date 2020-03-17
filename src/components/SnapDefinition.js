@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useApi } from '../utils/api'
 import { navigate } from 'hookrouter'
 import { useConnections } from '../utils/connections'
-import { Button, Tabs, Tab, Card, Form, Row, Col, InputGroup, FormControl } from 'react-bootstrap'
+import { Button, Tabs, Tab, Card, InputGroup, FormControl } from 'react-bootstrap'
 import Highlight from '../components/Highlight'
 import ProviderCard from '../components/ProviderCard'
 

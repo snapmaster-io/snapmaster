@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
-import { Card, CardDeck, Button, Modal, Form, Row, Col } from 'react-bootstrap'
+import { Card, CardDeck, Button, Modal, InputGroup, FormControl } from 'react-bootstrap'
 import Loading from '../components/Loading'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle';
@@ -114,6 +114,34 @@ const LibraryPage = () => {
     }
   }
 
+  const SimpleProviderInfo = ({providerName}) => {
+    const provider = providerName && connections.find(c => c.provider === providerName);
+    const connection = provider && provider.definition && provider.definition.connection;
+    const infoUrl = connection.infoUrl;
+    const infoText = connection.infoText;
+    return (
+      <div>
+        <p>Enter information to connect to {providerName}:</p>
+        { connection.connectionInfo && connection.connectionInfo.map(p =>
+          <InputGroup className="mb-3" key={p.name}>
+            <InputGroup.Prepend>
+              <InputGroup.Text style={{ minWidth: 120 }} id={p.name}>{p.name}</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              aria-label="account"
+              aria-describedby={p.name}
+              placeholder={p.description} 
+              onChange={(e) => { p.value = e.target.value } }
+            />
+          </InputGroup>          
+        )}
+        { infoUrl && infoText &&
+          <p><a href={infoUrl} target='_'>{infoText}</a></p>
+        }
+      </div>
+    )
+  }
+
   return(
     <div>
       <div className="page-header">
@@ -174,20 +202,7 @@ const LibraryPage = () => {
               <Modal.Title>Connecting to {providerToConnect}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <p>Enter information to connect to {providerToConnect}:</p>
-              {
-                providerToConnect && connections.find(c => c.provider === providerToConnect).definition.connection.connectionInfo.map(p =>
-                  <Form key={p.name}>
-                    <div>
-                      <Form.Group as={Row} style={{ margin: 20 }}>
-                        <Form.Label style={{ fontWeight: 400, marginRight: 10 }} column sm="3">{p.name}: </Form.Label>
-                        <Col sm="8">
-                          <Form.Control placeholder={p.description} onChange={ (e) => { p.value = e.target.value }} />
-                        </Col>
-                      </Form.Group>
-                    </div>
-                  </Form> )
-              }
+              <SimpleProviderInfo providerName={providerToConnect} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={ () => setShowSimpleModal(false) }>

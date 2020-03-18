@@ -11,6 +11,15 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
   const [account, name] = snap.snapId.split('/');
   const displayName = name.length > 22 ? name.slice(0, 21) + '...' : name;
 
+  const CardImage = ({image}) => 
+    <Card.Img src={image} style={{ 
+      verticalAlign: 'top', 
+      width: '3rem', 
+      height: '3rem', 
+      border: '1px solid #aaa', 
+      borderRadius: 4 
+    }} />
+
   return (
     <HighlightCard 
       key={snap.snapId} 
@@ -33,8 +42,8 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
         <Card.Subtitle as="div">{displayName}</Card.Subtitle>
       </Card.Header>
       <Card.Body>
-        <Card.Img src={triggerIcon} style={{ marginRight: 10, verticalAlign: 'top', width: '3rem', height: '3rem' }}/>
-        <i style={{ fontSize: '3em', marginLeft: 10 }} className="fa fa-play text-muted" /> 
+        <CardImage image={triggerIcon} />
+        <i style={{ fontSize: '3em', marginLeft: 20 }} className="fa fa-play text-muted" /> 
         <br />
         <br />
         <center>
@@ -43,7 +52,11 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
             const provider = config && config.provider;
             const actionConn = connections.find(c => c.provider === provider);
             const actionIcon = actionConn.image;
-            return <Card.Img key={key} src={actionIcon} style={{ width: '3rem', height: '3rem', margin: 10 }}/>
+            return (
+              <span style={ key > 0 ? { marginLeft: 10 } : {}}>
+                <CardImage key={key} image={actionIcon} />
+              </span>
+            )
           })
         }
         </center>

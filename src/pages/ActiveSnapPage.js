@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
-import { navigate, A } from 'hookrouter'
+import { navigate } from 'hookrouter'
 import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'

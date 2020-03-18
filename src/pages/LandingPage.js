@@ -112,7 +112,7 @@ const LandingPage = () => {
           left: 0,
           top: 0,
           display: 'flex',
-          padding: 20,
+          padding: 10,
           zIndex: 100,
           width: '100vw',
           backgroundColor: `rgba(0, 0, 0, 1.0)`
@@ -159,17 +159,20 @@ const LandingPage = () => {
                 <div className="tool-icons">
                   <img className="tool-icon" src="/github-logo-small.png" alt="github" height="50px" />
                   <img className="tool-icon" src="/gitlab-logo.png" alt="gitlab" height="50px" />
-                  <img className="tool-icon" src="/circleci-logo.png" alt="circle-ci" height="50px" />
+                  <img className="tool-icon" src="/circleci-logo.png" alt="circleci" height="50px" />
+                  <img className="tool-icon" src="/pagerduty-logo-dark.png" alt="pagerduty" height="50px" />
                 </div>
                 <div className="tool-icons">
                   <img className="tool-icon" src="/aws-logo.png" alt="aws" height="50px" />
                   <img className="tool-icon" src="/azure-logo.png" alt="azure" height="50px" />
                   <img className="tool-icon" src="/gcp-logo-small.png" alt="gcp" height="50px" />
+                  <img className="tool-icon" src="/kubernetes-logo.png" alt="kubernetes" height="50px" />
                 </div>
                 <div className="tool-icons">
-                  <img className="tool-icon" src="/kubernetes-logo.png" alt="kubernetes" height="50px" />
                   <img className="tool-icon" src="/docker-logo.png" alt="docker" height="50px" />
                   <img className="tool-icon" src="/slack-logo.png" alt="slack" height="50px" />
+                  <img className="tool-icon" src="/sendgrid-logo-small.png" alt="sendgrid" height="50px" />
+                  <img className="tool-icon" src="/twilio-logo.png" alt="twilio" height="50px" />
                 </div>
               </Col>
               <Col>
@@ -208,7 +211,7 @@ const LandingPage = () => {
         <Carousel.Item 
           className="bg-carousel" 
           style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/snapdef.png")',
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/gallery.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundSize: 'contain',
@@ -220,7 +223,7 @@ const LandingPage = () => {
         <Carousel.Item 
           className="bg-carousel" 
           style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/alerts.png")',
+            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/snapdef.png")',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
             backgroundSize: 'contain',

@@ -22,19 +22,7 @@
       "type": "image/png"
     },   
     {
-      "src": "summary.png",
-      "type": "image/png"
-    },    
-    {
-      "src": "alerts.png",
-      "type": "image/png"
-    },    
-    {
-      "src": "history.png",
-      "type": "image/png"
-    },    
-    {
-      "src": "library.png",
+      "src": "gallery.png",
       "type": "image/png"
     },    
     {
@@ -42,11 +30,19 @@
       "type": "image/png"
     },    
     {
+      "src": "logs.png",
+      "type": "image/png"
+    },    
+    {
       "src": "snapyaml.png",
       "type": "image/png"
     },    
     {
-      "src": "twitter.png",
+      "src": "library.png",
+      "type": "image/png"
+    },    
+    {
+      "src": "connections.png",
       "type": "image/png"
     },    
     {

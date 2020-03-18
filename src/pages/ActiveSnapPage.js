@@ -3,6 +3,7 @@ import { useApi } from '../utils/api'
 import { navigate, A } from 'hookrouter'
 import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
+import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import SnapDefinition from '../components/SnapDefinition'
 
@@ -59,20 +60,11 @@ const ActiveSnapPage = ({snapId, activeSnapId}) => {
     )
   }
 
-  // construct page title
-  const statusIcon = {
-    active: 'fa fa-play fa-lg text-success',
-    paused: 'fa fa-pause fa-lg text-warning',
-  }
-  const statusFormatter = (state) => <i className={ statusIcon[state]} style={{ fontSize: '1.5em'}} />
-  const snapIdUrl = <A href={`/snaps/active`}>{snapId}</A>
-  const pageTitle = activeSnap ? <span>{statusFormatter(activeSnap.state)} &nbsp;&nbsp;{snapIdUrl}</span> : <span>{snapIdUrl}</span>;
-
   return (
     <div>
       <div className="page-header">
         <RefreshButton load={loadData} loading={loading}/>
-        <h4 className="page-title">{pageTitle}</h4>
+        <PageTitle title={snapId} breadcrumbText='Active Snaps' breadcrumbUrl='/snaps/active' />
         <div style={{ marginLeft: 50 }}>
           <Button onClick={ () => navigate(`/snaps/logs/${activeSnapId}`) }><i className="fa fa-book"></i>&nbsp;&nbsp;Logs</Button>
         </div>

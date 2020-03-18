@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { navigate } from 'hookrouter'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
+import { Button } from 'react-bootstrap'
 import Loading from '../components/Loading'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
-import Button from 'react-bootstrap/Button'
+import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const BaseProvider = ({ 
     pageTitle, 
@@ -66,17 +67,11 @@ const BaseProvider = ({
 
   // if connections not loaded, set an error message
   if (!connections || !connections.find) {
-    return(
-      <div>
-        <div className="page-header">
-          <RefreshButton load={refreshData} loading={refresh}/>
-          <PageTitle title={pageTitle} />
-        </div>
-        <div>
-          <i className="fa fa-frown-o"/>
-          <span>&nbsp;Can't reach service - try refreshing later</span>
-        </div>
-      </div>
+    return (
+      <ServiceDownBanner
+        loadData={loadConnections}
+        loading={refresh}
+        pageTitle={pageTitle}/>
     )
   }
 
@@ -103,7 +98,7 @@ const BaseProvider = ({
     <div>
       <div className="page-header">
         <RefreshButton load={refreshData}  loading={refresh}/>
-        <PageTitle title={pageTitle} />
+        <PageTitle usePathAsBreadcrumb title={pageTitle} />
       </div>
       <div>
       { errorMessage ? <span>{errorMessage}</span> : children }

@@ -5,6 +5,7 @@ import { useApi } from '../utils/api'
 import { navigate } from 'hookrouter'
 import { CardDeck, Card, Button } from 'react-bootstrap'
 import Loading from '../components/Loading'
+import PageTitle from '../components/PageTitle'
 import RefreshButton from '../components/RefreshButton'
 import HighlightCard from '../components/HighlightCard'
 import ServiceDownBanner from '../components/ServiceDownBanner'
@@ -98,7 +99,7 @@ const ConnectionsPage = () => {
     <div>
       <div className="page-header">
         <RefreshButton load={loadConnections} loading={loading}/>
-        <h4 className="page-title">{pageTitle}</h4>
+        <PageTitle usePathAsBreadcrumb title={pageTitle} />
       </div>
       { connections && connections.map &&
         <CardDeck>

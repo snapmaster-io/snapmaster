@@ -89,36 +89,22 @@ const ActiveSnapsPage = () => {
     )
   }
 
-  const paramsFormatter = (cell, row) => {
-    return (
-      <div>
-        { row.params && row.params.map(p => 
-            <div>
-              <span key={p.name}>
-                <span style={{ fontWeight: 400 }}>
-                  {p.name}
-                </span>: &nbsp;{p.value}
-              </span>
-            </div>
-          )
-        }
-      </div>
-    )
-  }
+  const paramsFormatter = (cell) => 
+    <div>
+      { cell.map(p => 
+          <div key={p.name}>
+            <span><span style={{ fontWeight: 400 }}>{p.name}</span>: &nbsp;{p.value}</span>
+          </div>
+        )
+      }
+    </div>
 
-  const statusFormatter = (cell, row, rowIndex, formatExtraData) => {
-    return (
-      <i className={ formatExtraData[cell]} style={{ fontSize: '1.5em'}} />
-    )  
-  }
+  const statusFormatter = (cell, row, rowIndex, formatExtraData) => 
+    <i className={ formatExtraData[cell]} style={{ fontSize: '1.5em'}} />
 
   const timestampFormatter = (cell) => new Date(cell).toLocaleString();
 
-  const toolFormatter = (cell) => {
-    return (
-      <i className={ `cloudfont-${cell}`} style={{ fontSize: '1.5em'}} />
-    )
-  }
+  const toolFormatter = (cell) => <i className={ `cloudfont-${cell}`} style={{ fontSize: '1.5em'}} />
 
   const invokeAction = async (action, activeSnapId) => {
     // post the action request to the activesnaps endpoint
@@ -221,14 +207,12 @@ const ActiveSnapsPage = () => {
         <PageTitle title={pageTitle} />
       </div>
       { 
-        dataRows ? 
+        dataRows && 
         <DataTable
           columns={columns}
           data={dataRows}
           keyField="activeSnapId"
-          //rowEvents={rowEvents}
-        /> :
-        <div/>
+        /> 
       }
 
       <Modal show={showModal} onHide={ () => setShowModal(false) }>

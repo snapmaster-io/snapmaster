@@ -4,6 +4,7 @@ import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { navigate } from 'hookrouter'
 import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
+import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import SnapDefinition from '../components/SnapDefinition'
 
@@ -67,15 +68,20 @@ const SnapPage = ({snapId}) => {
   }
 
   const userId = snap && snap.userId; 
+  const isMySnap = userId && userId === user.sub;
 
   return (
     <div>
       <div className="page-header">
         <RefreshButton load={loadData} loading={loading}/>
-        <h4 className="page-title">{snap && snap.snapId}</h4>
+        <PageTitle 
+          title={snapId} 
+          breadcrumbText={isMySnap ? 'My Snaps' : 'Gallery' }
+          breadcrumbUrl={isMySnap ? '/snaps/mysnaps' : '/snaps/gallery' }
+          />
         <div style={{ marginLeft: 50 }}>
-        { userId && userId !== user.sub && <Button onClick={fork}><i className="fa fa-code-fork"></i>&nbsp;&nbsp;Fork</Button> }
-        { userId && userId === user.sub && <Button onClick={edit}><i className="fa fa-edit"></i>&nbsp;&nbsp;Edit</Button> }
+        { userId && !isMySnap && <Button onClick={fork}><i className="fa fa-code-fork"></i>&nbsp;&nbsp;Fork</Button> }
+        { userId && isMySnap && <Button onClick={edit}><i className="fa fa-edit"></i>&nbsp;&nbsp;Edit</Button> }
         </div>
       </div>
       <SnapDefinition snap={snap} />

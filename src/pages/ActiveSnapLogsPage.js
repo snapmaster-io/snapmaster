@@ -61,6 +61,9 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
     )
   }
 
+  // get the snapId associated with these logs
+  const snapId = logs && logs[0] && logs[0].snapId;
+
   const actionsFormatter = (cell, row) => {
     return (
       <div>
@@ -139,7 +142,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
     <div>
       <div className="page-header">
         <RefreshButton load={loadData} loading={loading}/>
-        <PageTitle title={pageTitle} />
+        <PageTitle title={pageTitle} breadcrumbText={snapId} breadcrumbUrl={`/snaps/${snapId}/${activeSnapId}`} />
       </div>
       { 
         dataRows &&

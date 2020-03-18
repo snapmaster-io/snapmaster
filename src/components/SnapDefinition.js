@@ -38,17 +38,31 @@ const SnapDefinition = ({snap, activeSnap, activeSnapId}) => {
     return actionConfig.provider;
   });
 
+  const actionProviders = actionList && actionList.map(a => { 
+    const actionProvider = connections && connections.find(el => el.provider === a);
+    return actionProvider;
+  });
+
+  // if one of the providers ins't connected, the activate tab should be disabled
+  const disableActivateFlag = actionProviders && actionProviders.filter(p => !p.connected).length > 0;
+
+  // construct state icon
+  const statusIcon = {
+    active: 'fa fa-play text-success',
+    paused: 'fa fa-pause text-warning',
+    none: 'fa fa-play text-muted'
+  }
+  const statusFormatter = (state) => <i className={statusIcon[state]} style={{ fontSize: '6em', margin: 50 }} />
+  const stateIcon = activeSnap ? statusFormatter(activeSnap.state) : statusFormatter('none');
+
   return (
     <Tabs activeKey={key} onSelect={k => setKey(k)}>
       <Tab eventKey="visual" title={<span><i className="fa fa-sitemap" />&nbsp;&nbsp;Visual</span>}>
         <h5 style={{ margin: 10 }}>{snap && snap.description}</h5>
         <div style={{ display: 'flex' }}>
           { provider && <ProviderCard provider={provider} /> }
-          { provider && <i style={{ fontSize: '6em', margin: 50 }} className="fa fa-play text-muted" /> }
-          { actionList && actionList.map(a => { 
-              const actionProvider = connections && connections.find(el => el.provider === a);
-              return actionProvider && <ProviderCard key={a} provider={actionProvider} />
-            })
+          { provider && stateIcon }
+          { actionProviders && actionProviders.map(a => <ProviderCard key={a.provider} provider={a} />)
           }
         </div>
         <h5 style={{ margin: 10 }}>{snap && 'Parameters:'}</h5>
@@ -82,25 +96,29 @@ const SnapDefinition = ({snap, activeSnap, activeSnapId}) => {
       </Tab>
 
       { !activeSnapId && /* "Activate" tab not available for already active snaps */
-      <Tab eventKey="activate" title={<span><i className="fa fa-play" />&nbsp;&nbsp;Activate</span>}>
-        { snap && snap.parameters && snap.parameters.map(p => 
-            <InputGroup className="mb-3">
-              <InputGroup.Prepend>
-                <InputGroup.Text style={{ minWidth: 120 }} id={p.name}>{p.name}</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl
-                aria-label="account"
-                aria-describedby={p.name}
-                placeholder={p.description} 
-                onChange={(e) => { p.value = e.target.value } }
-              />
-            </InputGroup>
-          )
+        <Tab eventKey="activate" title={<span><i className="fa fa-play" />&nbsp;&nbsp;Activate</span>}>
+        { disableActivateFlag ? 
+          <h5>Before activating a snap, please connect all the tools it references</h5> :
+          <div>
+            { snap && snap.parameters && snap.parameters.map(p => 
+              <InputGroup className="mb-3" key={p.name}>
+                <InputGroup.Prepend>
+                  <InputGroup.Text style={{ minWidth: 120 }} id={p.name}>{p.name}</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  aria-label="account"
+                  aria-describedby={p.name}
+                  placeholder={p.description} 
+                  onChange={(e) => { p.value = e.target.value } }
+                />
+              </InputGroup>
+            )}
+            <Button variant="primary" style={{ marginTop: 10 }} onClick={ activate }>
+              <i className="fa fa-play"></i>&nbsp;&nbsp;Activate
+            </Button>
+          </div>
         }
-        <Button variant="primary" style={{ marginTop: 10 }} onClick={ activate }>
-          <i className="fa fa-play"></i>&nbsp;&nbsp;Activate
-        </Button>
-      </Tab>
+        </Tab>
       }
     </Tabs>
   )

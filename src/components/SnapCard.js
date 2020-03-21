@@ -8,16 +8,19 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
   const { connections } = useConnections();
   const triggerConn = connections.find(c => c.provider === snap.provider);
   const triggerIcon = triggerConn.image;
+  const triggerBorder = triggerConn.connected ? '#28a745' : '#dc3545';
   const [account, name] = snap.snapId.split('/');
   const displayName = name.length > 22 ? name.slice(0, 21) + '...' : name;
 
-  const CardImage = ({image}) => 
+  const CardImage = ({image, borderColor}) => 
     <Card.Img src={image} style={{ 
       verticalAlign: 'top', 
       width: '3rem', 
       height: '3rem', 
-      border: '1px solid #aaa', 
-      borderRadius: 4 
+      //border: '1px solid #aaa', 
+      border: `1px solid ${borderColor}`, 
+      borderRadius: 4,
+      padding: '1px'
     }} />
 
   return (
@@ -42,7 +45,7 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
         <Card.Subtitle as="div">{displayName}</Card.Subtitle>
       </Card.Header>
       <Card.Body>
-        <CardImage image={triggerIcon} />
+        <CardImage image={triggerIcon} borderColor={triggerBorder} />
         <i style={{ fontSize: '3em', marginLeft: 20 }} className="fa fa-play text-muted" /> 
         <br />
         <br />
@@ -52,9 +55,10 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
             const provider = config && config.provider;
             const actionConn = connections.find(c => c.provider === provider);
             const actionIcon = actionConn.image;
+            const actionBorder = actionConn.connected ? '#28a745' : '#dc3545';
             return (
-              <span style={ key > 0 ? { marginLeft: 10 } : {}}>
-                <CardImage key={key} image={actionIcon} />
+              <span key={key} style={ key > 0 ? { marginLeft: 10 } : {}}>
+                <CardImage key={key} image={actionIcon} borderColor={actionBorder} />
               </span>
             )
           })

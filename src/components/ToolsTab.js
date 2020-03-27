@@ -14,6 +14,7 @@ import NotFoundPage from '../pages/NotFoundPage'
 
 // import providers
 import Github from '../providers/Github'
+import GooglePage from '../providers/Google'
 
 // define routes
 const routes = {
@@ -21,6 +22,7 @@ const routes = {
   '/library': () => <LibraryPage />,
   '/connections': () => <ConnectionsPage />,
   '/github': () => <Github />,
+  '/gcp': () => <GooglePage />,
 };
 
 const ToolsTab = () => {
@@ -67,7 +69,7 @@ const ToolsTab = () => {
           }}>
           <SideNav.Toggle />
           <SideNav.Nav selected={currentPath}>
-          <NavItem eventKey="/tools/library">
+            <NavItem eventKey="/tools/library">
               <NavIcon>
                 <i className="fa fa-fw fa-university" style={{ fontSize: '1.75em' }} />
               </NavIcon>

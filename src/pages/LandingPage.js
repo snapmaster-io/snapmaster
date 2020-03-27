@@ -23,6 +23,7 @@ const LandingPage = () => {
   const login = () => {
     loginWithRedirect({
       access_type: 'offline', // unverified - asks for offline access
+      connection_scope: 'https://www.googleapis.com/auth/cloud-platform',
       //connection: 'google-oauth2',
       //connection_scope: 'https://www.googleapis.com/auth/contacts.readonly',
       // this is how to combine more than one permission

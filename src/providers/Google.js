@@ -1,44 +1,38 @@
 import React, { useState } from 'react'
 import BaseProvider from './BaseProvider'
-/*
 import CardDeck from 'react-bootstrap/CardDeck'
 import Card from 'react-bootstrap/Card'
-*/
 
 const GooglePage = () => {
   // eslint-disable-next-line no-unused-vars
   const [data, setData] = useState();
   return (
     <BaseProvider 
-      pageTitle='Google business reviews'
-      connectionName='google-oauth2'
-      endpoint='google'
+      pageTitle='GCP Projects'
+      connectionName='gcp'
+      endpoint='gcp'
       setData={ setData }>
-{ /*  <CalendarCards data={data}/> */ }
-      <h5><i>...coming soon!</i></h5>
+      <GoogleCards data={data}/>
     </BaseProvider>
   )
 }
 
-/* do not display calendar anymore 
-const CalendarCards = ({data}) => 
+const GoogleCards = ({data}) => 
   <CardDeck>
   {
-    data && data.map ? data.map((item, key) => {
-      const { summary, backgroundColor } = item
+    data && data.map && data.map((item, key) => {
+      const { name } = item
       return (
         <Card 
           key={key} 
-          style={{ maxWidth: '150px', textAlign: 'center', color: backgroundColor }}>
+          style={{ maxWidth: '150px', textAlign: 'center' }}>
           <Card.Body>
-            <Card.Title className="text-center">{ summary }</Card.Title>
+            <Card.Title className="text-center">{name}</Card.Title>
           </Card.Body>
         </Card>
       )
     }) 
-    : <div/>
   }
   </CardDeck>
-  */
   
 export default GooglePage

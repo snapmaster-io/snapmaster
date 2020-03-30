@@ -8,7 +8,7 @@ import ServiceDownBanner from '../components/ServiceDownBanner'
 import SnapDefinition from '../components/SnapDefinition'
 
 const ActiveSnapPage = ({snapId, activeSnapId}) => {
-  const { get } = useApi();
+  const { get, post } = useApi();
   const [loading, setLoading] = useState(true);
   const [snap, setSnap] = useState();
   const [activeSnap, setActiveSnap] = useState();
@@ -60,6 +60,10 @@ const ActiveSnapPage = ({snapId, activeSnapId}) => {
     )
   }
 
+  const test = () => {
+    post(`activesnaps/${activeSnapId}`);
+  }
+
   return (
     <div>
       <div className="page-header">
@@ -67,6 +71,7 @@ const ActiveSnapPage = ({snapId, activeSnapId}) => {
         <PageTitle title={snapId} breadcrumbText='Active Snaps' breadcrumbUrl='/snaps/active' />
         <div style={{ marginLeft: 50 }}>
           <Button onClick={ () => navigate(`/snaps/logs/${activeSnapId}`) }><i className="fa fa-book"></i>&nbsp;&nbsp;Logs</Button>
+          <Button style={{ marginLeft: 20 }} onClick={test}><i className="fa fa-play"></i>&nbsp;&nbsp;Test</Button>
         </div>
       </div>
       <SnapDefinition snap={snap} activeSnap={activeSnap} activeSnapId={activeSnapId} />

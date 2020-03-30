@@ -107,13 +107,19 @@ const ActiveSnapsPage = () => {
   const toolFormatter = (cell) => <i className={ `cloudfont-${cell}`} style={{ fontSize: '1.5em'}} />
 
   const invokeAction = async (action, activeSnapId) => {
+    // set the spinner
+    setLoading(true);
+
     // post the action request to the activesnaps endpoint
     const request = {
       action,
       snapId: activeSnapId
-    };
-
+    };    
     const [response, error] = await post('activesnaps', JSON.stringify(request));
+
+    // reset the spinner
+    setLoading(false);
+
     if (error || !response.ok) {
       return;
     }

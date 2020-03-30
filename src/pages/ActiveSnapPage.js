@@ -62,6 +62,9 @@ const ActiveSnapPage = ({snapId, activeSnapId}) => {
 
   const test = () => {
     post(`activesnaps/${activeSnapId}`);
+    // TODO: check for errors, display them before navigating to logs
+    
+    navigate(`/snaps/logs/${activeSnapId}`);
   }
 
   return (

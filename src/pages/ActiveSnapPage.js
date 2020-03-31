@@ -1,14 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
-import { navigate } from 'hookrouter'
-import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import ActiveSnapDetail from '../components/SnapDefinition/ActiveSnapDetail'
 
 const ActiveSnapPage = ({snapId, activeSnapId}) => {
-  const { get, post } = useApi();
+  const { get } = useApi();
   const [loading, setLoading] = useState(true);
   const [snap, setSnap] = useState();
   const [activeSnap, setActiveSnap] = useState();

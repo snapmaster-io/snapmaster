@@ -6,7 +6,7 @@ import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
-import SnapDefinition from '../components/SnapDefinition'
+import SnapDefinition from '../components/SnapDefinition/SnapDefinition'
 
 const SnapPage = ({snapId}) => {
   const { get, post } = useApi();

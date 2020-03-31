@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
-import SnapDefinition from '../components/SnapDefinition'
+import ActiveSnapDetail from '../components/SnapDefinition/ActiveSnapDetail'
 
 const ActiveSnapPage = ({snapId, activeSnapId}) => {
   const { get, post } = useApi();
@@ -60,24 +60,13 @@ const ActiveSnapPage = ({snapId, activeSnapId}) => {
     )
   }
 
-  const test = () => {
-    post(`activesnaps/${activeSnapId}`);
-    // TODO: check for errors, display them before navigating to logs
-    
-    navigate(`/snaps/logs/${activeSnapId}`);
-  }
-
   return (
     <div>
       <div className="page-header">
         <RefreshButton load={loadData} loading={loading}/>
         <PageTitle title={snapId} breadcrumbText='Active Snaps' breadcrumbUrl='/snaps/active' />
-        <div style={{ marginLeft: 50 }}>
-          <Button onClick={ () => navigate(`/snaps/logs/${activeSnapId}`) }><i className="fa fa-book"></i>&nbsp;&nbsp;Logs</Button>
-          <Button style={{ marginLeft: 20 }} onClick={test}><i className="fa fa-play"></i>&nbsp;&nbsp;Test</Button>
-        </div>
       </div>
-      <SnapDefinition snap={snap} activeSnap={activeSnap} activeSnapId={activeSnapId} />
+      <ActiveSnapDetail snap={snap} activeSnap={activeSnap} activeSnapId={activeSnapId} setActiveSnap={setActiveSnap} />
     </div>
   )
 }

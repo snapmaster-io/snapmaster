@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { navigate, A } from 'hookrouter'
+import { navigate } from 'hookrouter'
 import { useApi } from '../utils/api'
-import { Button, Modal } from 'react-bootstrap'
 import DataTable from '../components/DataTable'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
@@ -9,11 +8,9 @@ import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const ActiveSnapsPage = () => {
-  const { get, post } = useApi();
+  const { get } = useApi();
   const [activeSnaps, setActiveSnaps] = useState();
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState();
   const pageTitle = 'Active Snaps';
 
   // create a callback function that wraps the loadData effect
@@ -64,30 +61,7 @@ const ActiveSnapsPage = () => {
     )
   }
 
-  const snapIdFormatter = (cell, row) => <A href={`/snaps/${cell}/${row.activeSnapId}`}>{cell}</A>
-
-  const actionButtonsFormatter = (cell, row) => {
-    return (
-      <div style={{ display: 'flex' }}>
-        <Button className="btn" onClick={ () => navigate(`/snaps/logs/${cell}`)}>
-          <i className="fa fa-book" />&nbsp;&nbsp;Logs
-        </Button>
-        { row.state === 'active' &&
-        <Button style={{ marginLeft: 20, width: 101 }} className="btn btn-warning" onClick={ () => invokeAction('pause', cell)}>
-          &nbsp;<i className="fa fa-pause" />&nbsp;&nbsp;Pause&nbsp;
-        </Button>
-        }
-        { row.state === 'paused' &&
-        <Button style={{ marginLeft: 20, width: 101 }} className="btn btn-success" onClick={ () => invokeAction('resume', cell)}>
-          <i className="fa fa-play" />&nbsp;&nbsp;Resume
-        </Button>
-        }        
-        <Button style={{ marginLeft: 20 }} className="btn btn-danger" onClick={ () => invokeAction('deactivate', cell)}>
-          <i className="fa fa-remove" />&nbsp;&nbsp;Deactivate
-        </Button>
-      </div>
-    )
-  }
+  const snapIdFormatter = (cell, row) => <b>{cell}</b>
 
   const paramsFormatter = (cell) => 
     <div>
@@ -105,39 +79,6 @@ const ActiveSnapsPage = () => {
   const timestampFormatter = (cell) => new Date(cell).toLocaleString();
 
   const toolFormatter = (cell) => <i className={ `cloudfont-${cell}`} style={{ fontSize: '1.5em'}} />
-
-  const invokeAction = async (action, activeSnapId) => {
-    // set the spinner
-    setLoading(true);
-
-    // post the action request to the activesnaps endpoint
-    const request = {
-      action,
-      snapId: activeSnapId
-    };    
-    const [response, error] = await post('activesnaps', JSON.stringify(request));
-
-    // reset the spinner
-    setLoading(false);
-
-    if (error || !response.ok) {
-      return;
-    }
-
-    const responseData = await response.json();
-    const status = responseData && responseData.message;
-  
-    if (status !== 'success') {
-      setError(status);
-      setShowModal(true);
-      return;
-    }
-
-    // a successful invocation will send a refreshed set of activesnaps
-    if (responseData.data) {
-      setActiveSnaps(responseData.data);
-    }
-  }
 
   const dataRows = activeSnaps && activeSnaps.map(s => {
     const userId = s.snapId.split('/')[0];
@@ -176,6 +117,12 @@ const ActiveSnapsPage = () => {
     align: 'center',
     formatter: toolFormatter,
   }, {
+    dataField: 'counter',
+    text: 'Runs',
+    headerStyle: (column, colIndex) => {
+      return { width: '50px' };
+    }
+  }, {
     dataField: 'timestamp',
     text: 'Since',
     headerStyle: (column, colIndex) => {
@@ -186,25 +133,18 @@ const ActiveSnapsPage = () => {
     dataField: 'snapId',
     text: 'Name',
     sort: true,
-    formatter: snapIdFormatter,
-  }, {
-    dataField: 'counter',
-    text: 'Runs',
-    headerStyle: (column, colIndex) => {
-      return { width: '50px' };
-    }
+    formatter: snapIdFormatter
   }, {
     dataField: 'params',
     text: 'Parameters',
     formatter: paramsFormatter
-  }, {
-    dataField: 'activeSnapId',
-    text: 'Actions',
-    formatter: actionButtonsFormatter,
-    headerStyle: (column, colIndex) => {
-      return { width: '355px' };
+  }];
+
+  const rowEvents = {
+    onClick: (e, row) => {
+      navigate(`/snaps/${row.snapId}/${row.activeSnapId}`);
     }
-  }];  
+  };
   
   return (
     <div>
@@ -218,22 +158,9 @@ const ActiveSnapsPage = () => {
           columns={columns}
           data={dataRows}
           keyField="activeSnapId"
+          rowEvents={rowEvents}
         /> 
       }
-
-      <Modal show={showModal} onHide={ () => setShowModal(false) }>
-        <Modal.Header closeButton>
-          <Modal.Title>Error</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        { error }
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={ () => setShowModal(false) }>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   )
 }  

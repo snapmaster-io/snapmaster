@@ -82,7 +82,7 @@ const Dashboard = () => {
 
   // get snaps for top 3 executions
   const topSnaps = activeSnaps && activeSnaps
-    .map(a => { return { snapId: a.snapId, executionCounter: a.executionCounter || 0 } })
+    .map(a => { return { activeSnapId: a.activeSnapId, snapId: a.snapId, executionCounter: a.executionCounter || 0 } })
     .slice()
     .sort((a, b) => {
       if (a.executionCounter > b.executionCounter) return -1;
@@ -135,7 +135,7 @@ const Dashboard = () => {
     color: '#dc3545'
   }, {
     title: createTitle('', '', 'Top Snap'),
-    url: topSnaps && `/snaps/${topSnaps[0].snapId}`,
+    url: topSnaps && `/snaps/${topSnaps[0].snapId}/${topSnaps[0].activeSnapId}`,
     label: topSnaps && <h5 style={{ color: 'gray' }}>{topSnaps[0].snapId}</h5>,
     value: topSnaps && topSnaps[0].executionCounter,
   }];

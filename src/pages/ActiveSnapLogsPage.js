@@ -149,7 +149,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
         <DataTable
           columns={columns}
           data={dataRows}
-          keyField="activeSnapId"
+          keyField="timestamp"
           rowEvents={rowEvents}
         /> 
       }

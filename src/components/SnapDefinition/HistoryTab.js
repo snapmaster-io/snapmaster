@@ -52,7 +52,7 @@ const HistoryTab = ({activeSnap}) => {
   });
 
   // get the set of all days represented in the log data
-  const logDays = logData && [...new Set(logData.map(l => l.date))] || [];
+  const logDays = (logData && [...new Set(logData.map(l => l.date))]) || [];
 
   // construct data array
   const dataArray = [];
@@ -66,8 +66,6 @@ const HistoryTab = ({activeSnap}) => {
       errors
     });
   }
-
-  console.log(dataArray);
 
   const areas = [{
     dataKey: 'completed',

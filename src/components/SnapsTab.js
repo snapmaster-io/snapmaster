@@ -12,6 +12,7 @@ import ActiveSnapsPage from '../pages/ActiveSnapsPage'
 import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
 import LogsPage from '../pages/LogsPage'
+import HistoryPage from '../pages/HistoryPage'
 import SnapPage from '../pages/SnapPage'
 import AddSnapPage from '../pages/AddSnapPage'
 import EditSnapPage from '../pages/EditSnapPage'
@@ -28,6 +29,7 @@ const routes = {
   '/mysnaps': () => <MySnapsPage />,
   '/add': () => <AddSnapPage />,
   '/logs': () => <LogsPage />,
+  '/history': () => <HistoryPage />,
   '/logs/:activeSnapId': ({activeSnapId}) => <ActiveSnapLogsPage activeSnapId={activeSnapId} />,
   '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
   '/editor/:userId/:snapId': ({userId, snapId}) => <EditSnapPage snapId={`${userId}/${snapId}`} />,
@@ -103,6 +105,12 @@ const SnapsTab = () => {
                 <i className="fa fa-fw fa-book" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>Logs</NavText>
+            </NavItem>          
+            <NavItem eventKey="/snaps/history">
+              <NavIcon>
+                <i className="fa fa-fw fa-bar-chart" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>History</NavText>
             </NavItem>          
           </SideNav.Nav>
         </SideNav>

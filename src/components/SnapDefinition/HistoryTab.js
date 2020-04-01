@@ -67,7 +67,7 @@ const HistoryTab = ({activeSnap}) => {
     });
   }
 
-  const areas = [{
+  const bars = [{
     dataKey: 'completed',
     stackId: "a",
     fill: '#28a745'
@@ -81,7 +81,7 @@ const HistoryTab = ({activeSnap}) => {
     <StackedBarChart 
       data={dataArray}
       dataKey="date"
-      bars={areas}
+      bars={bars}
       width='60%'
       height={400}
       margin={{ top: 20 }}  

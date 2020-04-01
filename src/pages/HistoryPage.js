@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useApi } from '../utils/api'
+import { navigate } from 'hookrouter'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import RedirectBanner from '../components/RedirectBanner'
@@ -96,13 +97,51 @@ const HistoryPage = () => {
     errorArray.push(dayEntry);
   }
 
-  const barColors = ['#8884d8', "#82ca9d", '#dc3545', '#dc3545', '#ffc107', '#28a745'];
+  // this event handler works hard to find the active snap that was 
+  // clicked on, and navigate to its page
+  const onBarClick = (e) => {
+    console.log(e);
+    const payload = e.payload;
+    const [startVal, endVal] = e.value;
+    // construct snap array in order of keys
+    const snapArray = [];
+    for (const key of Object.keys(payload)) {
+      if (key !== 'date') {
+        snapArray.push({ key, value: payload[key] });
+      }
+    }
+
+    // figure out the snap that was clicked on
+    let counter = 0;
+    let snapId;
+    for (const snap of snapArray) {
+      if (startVal > counter) {
+        counter += snap.value;
+      } else {
+        snapId = snap.key;
+        break;
+      }
+    }
+
+    const activeSnap = logData.find(l => l.snapId === snapId && l.date === payload.date);
+    if (activeSnap && activeSnap.activeSnapId) {
+      navigate(`/snaps/${snapId}/${activeSnap.activeSnapId}`);
+    }
+  }
+
+  const barColors = [
+    '#ff4444', '#ffbb33', '#00C851', '#33b5e5', '#aa66cc', '#2BBBAD', '#4285F4', 
+    '#CC0000', '#FF8800', '#007E33', '#0099CC', '#9933CC', '#00695C', '#0d47a1', 
+  ];
+  
+  //const barColors = ['#8884d8', "#82ca9d", '#dc3545', '#ffc107', '#28a745'];
   const bars = snaps.map((s, index) => {
     return {
       key: s,
       dataKey: s,
       stackId: "a",
-      fill: barColors[index]
+      fill: barColors[index],
+      onClick: onBarClick
     }
   });
 
@@ -136,9 +175,9 @@ const HistoryPage = () => {
         />
       }
       </div>
-      <div style={{ display: 'flex', width: 'calc(100vw)' }}>
+      <div style={{ display: 'flex', width: 'calc(100%)' }}>
         <center style={{ marginTop: 10, marginBottom: 10, width: '45%' }}><h2>Completed</h2></center>
-        <center style={{ marginTop: 10, marginBottom: 10, width: '40%' }}><h2>Errors</h2></center>
+        <center style={{ marginTop: 10, marginBottom: 10, width: '45%' }}><h2>Errors</h2></center>
       </div>
     </div>
   )

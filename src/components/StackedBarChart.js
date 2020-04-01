@@ -25,7 +25,13 @@ const StackedBarChart = ({
           <Legend />
           {
             bars.map(b => 
-              <Bar key={b.dataKey} dataKey={b.dataKey} stackId={b.stackId} fill={b.fill} />
+              <Bar
+                key={b.dataKey} 
+                dataKey={b.dataKey} 
+                stackId={b.stackId} 
+                fill={b.fill} 
+                onClick={b.onClick} 
+              />
             )
           }
         </BarChart>

@@ -135,6 +135,10 @@ const ConnectionsPage = () => {
                   connected !== 'base' && connection.type === 'simple' &&
                     <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
                 }
+                { 
+                  connected !== 'base' && connection.type === 'hybrid' &&
+                    <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
+                }
                 </Card.Footer>
               </HighlightCard>
             )

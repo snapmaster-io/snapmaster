@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
-import { Card, CardDeck, Button, Modal, InputGroup, FormControl } from 'react-bootstrap'
+import { Card, CardDeck, Button, Modal } from 'react-bootstrap'
 import Loading from '../components/Loading'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle';
 import ServiceDownBanner from '../components/ServiceDownBanner'
+import SimpleProviderInfo from '../components/SimpleProviderInfo'
 
 const LibraryPage = () => {
   const { loading, loadConnections, connections } = useConnections();
@@ -14,6 +15,7 @@ const LibraryPage = () => {
   const { post } = useApi();
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [showSimpleModal, setShowSimpleModal] = useState(false);
+  const [showHybridModal, setShowHybridModal] = useState(false);
   const [providerToConnect, setProviderToConnect] = useState();
   const pageTitle = 'Tool Library';
 
@@ -114,34 +116,6 @@ const LibraryPage = () => {
     }
   }
 
-  const SimpleProviderInfo = ({providerName}) => {
-    const provider = providerName && connections.find(c => c.provider === providerName);
-    const connection = provider && provider.definition && provider.definition.connection;
-    const infoUrl = connection.infoUrl;
-    const infoText = connection.infoText;
-    return (
-      <div>
-        <p>Enter information to connect to {providerName}:</p>
-        { connection.connectionInfo && connection.connectionInfo.map(p =>
-          <InputGroup className="mb-3" key={p.name}>
-            <InputGroup.Prepend>
-              <InputGroup.Text style={{ minWidth: 120 }} id={p.name}>{p.name}</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              aria-label="account"
-              aria-describedby={p.name}
-              placeholder={p.description} 
-              onChange={(e) => { p.value = e.target.value } }
-            />
-          </InputGroup>          
-        )}
-        { infoUrl && infoText &&
-          <p><a href={infoUrl} target='_'>{infoText}</a></p>
-        }
-      </div>
-    )
-  }
-
   return(
     <div>
       <div className="page-header">
@@ -166,6 +140,12 @@ const LibraryPage = () => {
                 setShowSimpleModal(true);
               };
 
+              // set up the connect action
+              const hybridAction = () => { 
+                setProviderToConnect(tool.provider); 
+                setShowHybridModal(true);
+              };
+
               return (
                 <Card 
                   key={key} 
@@ -186,6 +166,10 @@ const LibraryPage = () => {
                     { 
                       !tool.connected && tool.type === 'simple' &&
                         <Button variant='primary' onClick={connectAction}>Connect</Button>
+                    }
+                    { 
+                      !tool.connected && tool.type === 'hybrid' &&
+                        <Button variant='primary' onClick={hybridAction}>Connect</Button>
                     }
                     { 
                       tool.connected && <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Connected</center>
@@ -238,6 +222,39 @@ const LibraryPage = () => {
               </Button>
               <Button variant="primary" onClick={ () => link(providerToConnect) }>
                 Link
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={showHybridModal} onHide={ () => setShowHybridModal(false) }>
+            <Modal.Header closeButton>
+              <Modal.Title>Connecting a new source</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>
+              To connect to {providerToConnect}, you have two choices.  You can 
+              either login to {providerToConnect} and allow SnapMaster access to your cloud project,
+              or you can create service accounts for each cloud project you'd like to connect, 
+              and provide SnapMaster with the key information for that service account.  
+              </p>
+              <p>
+              NOTE: If you choose to login to {providerToConnect}, once your approve these permissions,  
+              you will be asked to log in again with your primary login.
+              </p>
+              <p>
+              At the end of the process, you will see {providerToConnect} connected as one of your   
+              tools!
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={ () => setShowLinkModal(false) }>
+                Cancel
+              </Button>
+              <Button variant="secondary" onClick={ () => link(providerToConnect) }>
+                Connect without logging in
+              </Button>
+              <Button variant="primary" onClick={ () => processConnection('add', providerToConnect) }>
+                Connect by logging in
               </Button>
             </Modal.Footer>
           </Modal>

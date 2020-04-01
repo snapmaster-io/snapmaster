@@ -8,7 +8,7 @@
 }
 
 .bg-carousel {
-  min-height: 50vh;
+  min-height: 75vh;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -25,13 +25,13 @@
 }
 
 .tagline-desktop {
-  height: 50vh;
+  height: 75vh;
   top: 50%;
   transform: translateY(30%);
 }
 
 .benefits-desktop {
-  height: 50vh;
+  height: 75vh;
 }
 
 .tagline-mobile {

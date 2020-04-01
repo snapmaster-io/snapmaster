@@ -106,7 +106,24 @@ const LandingPage = () => {
             right: 20, 
             top: 20,
             zIndex: 200 
-          }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
+          }} size="lg" disabled={loading} onClick={() => login()}>
+            <i className="fa fa-user" />&nbsp;&nbsp;Log In
+          </Button>
+        }
+        { isDesktopDevice && 
+          <Button style={{ 
+            position: 'fixed', 
+            right: 150, 
+            top: 20,
+            zIndex: 200 
+          }} 
+            size="lg" 
+            variant="light"
+            disabled={loading} 
+            onClick={() => window.open('https://github.com/snapmaster-io', 'github')}
+          >
+            <i className="fa fa-github" />&nbsp;&nbsp;GitHub
+          </Button>
         }
         <div style={{ 
           position: 'fixed',
@@ -134,7 +151,9 @@ const LandingPage = () => {
           </h5>
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 
-            <Button size="lg" variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>Get started</Button>          
+            <Button size="lg" style={{ paddingTop: 20, paddingBottom: 20}} variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>
+              <i className="fa fa-flash" />&nbsp;&nbsp;Get started
+            </Button>          
           }
           { isMobileDevice &&
             <div style={{ display: 'flex', alignItestims: 'center', justifyContent: 'center' }}>
@@ -182,14 +201,15 @@ const LandingPage = () => {
                   Automate
                 </h3>
                 <p>Create workflows called 'snaps' that get triggered by events, and fire off actions</p>
-                <img src="/snapyaml.png" alt="snap" height="225px" />
+                <img src="/snaps.png" alt="snap" height="225px" style={{ backgroundColor: "#111111"}} />
               </Col>
               <Col>
                 <h3>
                   <i className="soc-icon fa fa-xl fa-share-alt"></i>
                   Share
                 </h3>
-                <p>Share workflows across your entire team, so no one has to reinvent the wheel</p>
+                <p>Share snaps across your entire team, so no one has to reinvent the wheel</p>
+                <img src="/snapyaml.png" alt="snap" height="200px" />
               </Col>
             </Row>
           </Container>

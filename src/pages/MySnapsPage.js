@@ -51,21 +51,6 @@ const MySnapsPage = () => {
     )
   }
 
-  // if no tools connected, return a banner to connect tools
-  if (mySnaps && mySnaps.length === 0) {
-    return (
-      <RedirectBanner
-        loadData={loadData}
-        loading={loading}
-        pageTitle={pageTitle}
-        messageText="You don't have any snaps yet..."
-        redirectUrl="/snaps/gallery"
-        anchorText="Gallery"
-        redirectText="to fork your own snaps!" />
-    )
-  }
-  /* You don't have any snaps yet.  Create a new snap or fork one from the Gallery :) */
-
   const handleDelete = async (e, snapId) => {
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
@@ -87,10 +72,20 @@ const MySnapsPage = () => {
   
   return(
     <div>
-      <div className="page-header">
-        <RefreshButton load={loadData} loading={loading}/>
-        <PageTitle title={pageTitle} />
-      </div>
+      { mySnaps && mySnaps.length === 0 ?
+          <RedirectBanner
+            loadData={loadData}
+            loading={loading}
+            pageTitle={pageTitle}
+            messageText="You don't have any snaps yet... click the plus to create your first snap, or "
+            redirectUrl="/snaps/gallery"
+            anchorText="Gallery"
+            redirectText="to fork your own snaps! " /> :
+          <div className="page-header">
+            <RefreshButton load={loadData} loading={loading}/>
+            <PageTitle title={pageTitle} />
+          </div>    
+      }
 
       <CardDeck>
         { mySnaps && 

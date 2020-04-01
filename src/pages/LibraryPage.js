@@ -8,6 +8,7 @@ import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle';
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import SimpleProviderInfo from '../components/SimpleProviderInfo'
+import './LibraryPage.css'
 
 const LibraryPage = () => {
   const { loading, loadConnections, connections } = useConnections();
@@ -181,7 +182,7 @@ const LibraryPage = () => {
           }
           </CardDeck>
 
-          <Modal show={showSimpleModal} onHide={ () => setShowSimpleModal(false) }>
+          <Modal show={showSimpleModal} dialogClassName="modal-50w" onHide={ () => setShowSimpleModal(false) }>
             <Modal.Header closeButton>
               <Modal.Title>Connecting to {providerToConnect}</Modal.Title>
             </Modal.Header>
@@ -198,7 +199,7 @@ const LibraryPage = () => {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={showLinkModal} onHide={ () => setShowLinkModal(false) }>
+          <Modal show={showLinkModal} dialogClassName="modal-50w" onHide={ () => setShowLinkModal(false) }>
             <Modal.Header closeButton>
               <Modal.Title>Linking a new source</Modal.Title>
             </Modal.Header>
@@ -226,7 +227,7 @@ const LibraryPage = () => {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={showHybridModal} onHide={ () => setShowHybridModal(false) }>
+          <Modal show={showHybridModal} dialogClassName="modal-50w" onHide={ () => setShowHybridModal(false) }>
             <Modal.Header closeButton>
               <Modal.Title>Connecting a new source</Modal.Title>
             </Modal.Header>
@@ -250,10 +251,10 @@ const LibraryPage = () => {
               <Button variant="secondary" onClick={ () => setShowLinkModal(false) }>
                 Cancel
               </Button>
-              <Button variant="secondary" onClick={ () => link(providerToConnect) }>
+              <Button variant="secondary" onClick={ () => processConnection('add', providerToConnect) }>
                 Connect without logging in
               </Button>
-              <Button variant="primary" onClick={ () => processConnection('add', providerToConnect) }>
+              <Button variant="primary" onClick={ () => link(providerToConnect) }>
                 Connect by logging in
               </Button>
             </Modal.Footer>

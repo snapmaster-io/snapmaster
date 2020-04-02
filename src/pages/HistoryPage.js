@@ -102,7 +102,7 @@ const HistoryPage = () => {
   const onBarClick = (e) => {
     console.log(e);
     const payload = e.payload;
-    const [startVal, endVal] = e.value;
+    const [startVal] = e.value;
     // construct snap array in order of keys
     const snapArray = [];
     for (const key of Object.keys(payload)) {

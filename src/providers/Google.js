@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useApi } from '../utils/api'
 import { useConnections } from '../utils/connections'
 import BaseProvider from './BaseProvider'
-import { CardDeck, Card, FormControl, InputGroup, Modal, Button, Alert } from 'react-bootstrap'
+import { CardDeck, Card, Modal, Button, Alert } from 'react-bootstrap'
 import HighlightCard from '../components/HighlightCard'
 import SimpleProviderInfo from '../components/SimpleProviderInfo'
 

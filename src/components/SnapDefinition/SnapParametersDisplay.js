@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 
-const SnapParameters = ({snap}) =>
+const SnapParametersDisplay = ({snap}) =>
   <div>
     <h5 style={{ margin: 10 }}>{snap && 'Parameters:'}</h5>
     <div style={{ marginLeft: 20 }}>
@@ -22,4 +22,4 @@ const SnapParameters = ({snap}) =>
     </div>
   </div>
 
-export default SnapParameters
+export default SnapParametersDisplay

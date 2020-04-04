@@ -1,15 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useApi } from '../../utils/api'
-import { navigate } from 'hookrouter'
-import { Button, Card, InputGroup, FormControl } from 'react-bootstrap'
-import EntitySelect from './EntitySelect'
+import { Button, Card } from 'react-bootstrap'
+import SnapParametersEditor from './SnapParametersEditor'
 
 const ActiveSnapParameters = ({activeSnap}) => {
   const { post } = useApi();
+  const [refresh, setRefresh] = useState(false);
 
   const activeSnapId = activeSnap && activeSnap.activeSnapId;
 
   const editSnap = async () => {
+    // set the spinner
+    setRefresh(true);
+
     // post a request to the activesnaps endpoint
     const request = {
       action: 'edit',
@@ -19,10 +22,10 @@ const ActiveSnapParameters = ({activeSnap}) => {
 
     const [response, error] = await post('activesnaps', JSON.stringify(request));
     if (error || !response.ok) {
-      return;
     }
 
-    navigate('/snaps/active');
+    // turn off the spinner
+    setRefresh(false);
   }
 
   return (
@@ -30,25 +33,9 @@ const ActiveSnapParameters = ({activeSnap}) => {
       <h5 style={{ margin: 10 }}>{activeSnap && 'Parameters:'}</h5>
       <Card>
         <Card.Body>
-          { activeSnap && activeSnap.params && activeSnap.params.map(p =>
-            <InputGroup className="mb-3" key={p.name}>
-              <InputGroup.Prepend>
-                <InputGroup.Text style={{ minWidth: 120 }} id={p.name}>{p.name}</InputGroup.Text>
-              </InputGroup.Prepend>
-              { p.entity ? 
-                <EntitySelect parameter={p} 
-                /> :
-                <FormControl
-                  aria-label="value"
-                  aria-describedby={p.name}
-                  placeholder={p.value} 
-                  onChange={(e) => { p.value = e.target.value } }
-                />
-              }
-            </InputGroup>
-          )}
+          <SnapParametersEditor params={activeSnap && activeSnap.params} />
           <Button variant="primary" style={{ marginTop: 10 }} onClick={ editSnap }>
-            <i className="fa fa-save"></i>&nbsp;&nbsp;Change Values
+            <i className={`fa fa-${refresh ? 'spinner' : 'save'}`} />&nbsp;&nbsp;Change Values
           </Button>
         </Card.Body>
       </Card>

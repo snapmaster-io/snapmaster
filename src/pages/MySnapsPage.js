@@ -100,7 +100,7 @@ const MySnapsPage = () => {
 
         <HighlightCard className="text-center" onClick={ () => { navigate('/snaps/add') }}
           key='add' 
-          style={{ maxWidth: '230px', maxHeight: '230px' }}>
+          style={{ minWidth: '230px', maxWidth: '230px', minHeight: '230px', maxHeight: '230px' }}>
           <Card.Header style={{ minHeight: 60 }}>Add a new snap</Card.Header>
           <Card.Body>
             <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />

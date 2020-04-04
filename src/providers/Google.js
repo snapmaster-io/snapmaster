@@ -122,7 +122,7 @@ const ProjectCards = ({data, setData}) => {
             return (
               <HighlightCard className="text-center" onClick={loadProject} 
                 key={key} border={border}
-                style={{ maxWidth: '200px' }}>
+                style={{ minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200, marginBottom: 30 }}>
                 <Card.Header>
                   <Card.Link href={url} target="_blank">{displayName}</Card.Link>
                   <Button type="button" className="close" onClick={removeProject}>
@@ -140,7 +140,7 @@ const ProjectCards = ({data, setData}) => {
         }
           <HighlightCard className="text-center" onClick={addProject}
             key='add' 
-            style={{ maxWidth: '200px' }}>
+            style={{ minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200, marginBottom: 30 }}>
             <Card.Header>Add a new project</Card.Header>
             <Card.Body>
               <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />

@@ -109,7 +109,7 @@ const RepositoryCards = ({data, setData}) => {
             return (
               <HighlightCard className="text-center" onClick={() => { selectRepo(item) }}
                 key={key} border={ border ? border : null }
-                style={{ maxWidth: '180px' }}>
+                style={{ minWidth: 180, maxWidth: 180, minHeight: 180, maxHeight: 180, marginBottom: 30 }}>
                 <Card.Header>
                   <Card.Link href={html_url} target="_blank">{displayName}</Card.Link>
                   <Button type="button" className="close" onClick={deactivateRepo}>
@@ -128,7 +128,7 @@ const RepositoryCards = ({data, setData}) => {
         }
           <HighlightCard className="text-center" onClick={ () => { setShowModal(true) }}
             key='add' 
-            style={{ maxWidth: '180px' }}>
+            style={{ minWidth: 180, maxWidth: 180, minHeight: 180, maxHeight: 180, marginBottom: 30 }}>
             <Card.Header>Add repositories</Card.Header>
             <Card.Body>
               <i className="fa fa-fw fa-plus" style={{ fontSize: '5em' }} />

@@ -2,6 +2,7 @@ import React from 'react'
 import { useApi } from '../../utils/api'
 import { navigate } from 'hookrouter'
 import { Button, Card, InputGroup, FormControl } from 'react-bootstrap'
+import EntitySelect from './EntitySelect'
 
 const ActiveSnapParameters = ({activeSnap}) => {
   const { post } = useApi();
@@ -29,17 +30,21 @@ const ActiveSnapParameters = ({activeSnap}) => {
       <h5 style={{ margin: 10 }}>{activeSnap && 'Parameters:'}</h5>
       <Card>
         <Card.Body>
-          { activeSnap && activeSnap.params && activeSnap.params.map(p => 
+          { activeSnap && activeSnap.params && activeSnap.params.map(p =>
             <InputGroup className="mb-3" key={p.name}>
               <InputGroup.Prepend>
                 <InputGroup.Text style={{ minWidth: 120 }} id={p.name}>{p.name}</InputGroup.Text>
               </InputGroup.Prepend>
-              <FormControl
-                aria-label="account"
-                aria-describedby={p.name}
-                placeholder={p.value} 
-                onChange={(e) => { p.value = e.target.value } }
-              />
+              { p.entity ? 
+                <EntitySelect parameter={p} 
+                /> :
+                <FormControl
+                  aria-label="value"
+                  aria-describedby={p.name}
+                  placeholder={p.value} 
+                  onChange={(e) => { p.value = e.target.value } }
+                />
+              }
             </InputGroup>
           )}
           <Button variant="primary" style={{ marginTop: 10 }} onClick={ editSnap }>

@@ -1,0 +1,7 @@
+.paramSelect {
+  width: calc(100% - 120px);
+}
+
+input.form-control {
+  font-weight: 300
+}

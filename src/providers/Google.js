@@ -7,13 +7,12 @@ import HighlightCard from '../components/HighlightCard'
 import SimpleProviderInfo from '../components/SimpleProviderInfo'
 
 const GooglePage = () => {
-  // eslint-disable-next-line no-unused-vars
   const [data, setData] = useState();
   return (
     <BaseProvider 
       pageTitle='GCP Projects'
       connectionName='gcp'
-      endpoint='gcp'
+      endpoint='entities/gcp:projects'
       setData={setData}>
       <ProjectCards data={data} setData={setData} />
     </BaseProvider>
@@ -58,7 +57,7 @@ const ProjectCards = ({data, setData}) => {
       data.project = project;
     }
 
-    const [response, error] = await post('gcp', JSON.stringify(data));
+    const [response, error] = await post('entities/gcp:projects', JSON.stringify(data));
     if (error || !response.ok) {
       setNotFound(true);
       return;

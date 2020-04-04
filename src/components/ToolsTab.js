@@ -13,16 +13,18 @@ import LibraryPage from '../pages/LibraryPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // import providers
-import Github from '../providers/Github'
-import GooglePage from '../providers/Google'
+import DockerPage from '../providers/DockerPage'
+import GithubPage from '../providers/GithubPage'
+import GooglePage from '../providers/GooglePage'
 
 // define routes
 const routes = {
   '/': () => <LibraryPage />,
   '/library': () => <LibraryPage />,
   '/connections': () => <ConnectionsPage />,
-  '/github': () => <Github />,
+  '/docker': () => <DockerPage />,
   '/gcp': () => <GooglePage />,
+  '/github': () => <GithubPage />,
 };
 
 const ToolsTab = () => {

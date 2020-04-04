@@ -1,63 +1,75 @@
 import React, { useState } from 'react'
 import { useApi } from '../utils/api'
 import { useConnections } from '../utils/connections'
-import BaseProvider from './BaseProvider'
 import { CardDeck, Card, Modal, Button, Alert } from 'react-bootstrap'
+import BaseProvider from './BaseProvider'
 import HighlightCard from '../components/HighlightCard'
 import SimpleProviderInfo from '../components/SimpleProviderInfo'
 
-const GooglePage = () => {
+const GenericProviderPage = ({
+  pageTitle,
+  connectionName,
+  endpoint,
+  entityName,
+}) => {
   const [data, setData] = useState();
   return (
     <BaseProvider 
-      pageTitle='GCP Projects'
-      connectionName='gcp'
-      endpoint='entities/gcp:projects'
+      pageTitle={pageTitle}
+      connectionName={connectionName}
+      endpoint={endpoint}
+      entityName={entityName}
       setData={setData}>
-      <ProjectCards data={data} setData={setData} />
+      <GenericProviderCards 
+        data={data} 
+        setData={setData} 
+        connectionName={connectionName} 
+        entityName={entityName}
+        endpoint={endpoint} />
     </BaseProvider>
   )
 }
 
-const ProjectCards = ({data, setData}) => {
+const GenericProviderCards = ({data, setData, connectionName, entityName, endpoint}) => {
   const { post } = useApi();
   const { connections } = useConnections();
-  const [project, setProject] = useState();
+  const [entity, setEntity] = useState();
   const [selected, setSelected] = useState();
   const [showModal, setShowModal] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
-  const getProject = async (id) => {
+  const provider = connections.find(c => c.provider === connectionName);
+
+  const getEntity = async (id) => {
     // dismiss the Alert
     setNotFound(false);
 
     // store the state associated with the selected project
     setSelected(id);
 
-    setProject(projectData.find(p => p.id === id));
+    setEntity(entityData.find(p => p.id === id));
   }
 
-  const processProject = async (action, project) => {
+  const processEntity = async (action, project) => {
     setShowModal(false);
     setNotFound(false);
 
     const data = { action: action };
     if (action === 'add') {
       setSelected(null);
-      setProject(null);
+      setEntity(null);
 
       // add a simple connection
-      const provider = connections.find(c => c.provider === 'gcp');
       const connectionInfo = provider.definition.connection.connectionInfo;
       data.connectionInfo = connectionInfo;
     }
     if (action === 'remove') {
       setSelected(null);
-      setProject(null);
+      setEntity(null);
       data.project = project;
     }
 
-    const [response, error] = await post('entities/gcp:projects', JSON.stringify(data));
+    const [response, error] = await post(endpoint, JSON.stringify(data));
     if (error || !response.ok) {
       setNotFound(true);
       return;
@@ -73,26 +85,26 @@ const ProjectCards = ({data, setData}) => {
     }
   }
 
-  const addProject = () => {
+  const addEntity = () => {
     setNotFound(false);
     setSelected(null);
-    setProject(null);
+    setEntity(null);
     setShowModal(true);
   }
 
-  const projectData = data && data.map(item => {
+  const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+
+  const entityData = data && data.map(item => {
     return { 
-      id: item.project,
-      name: item.project,
-      project: item.project,
-      //date: new Date(item.createTime).toLocaleString(),
-      url: `https://console.cloud.google.com/home/dashboard?project=${item.project}`
+      id: item.__id,
+      name: item.__name,
+      url: item.__url
     } 
   });
 
   return (
     <div>
-      <Alert variant="danger" show={notFound} onClose={() => setNotFound(false)} dismissible>Project not found</Alert>
+      <Alert variant="danger" show={notFound} onClose={() => setNotFound(false)} dismissible>{capitalize(entityName)} not found</Alert>
 
       <div style={{ 
         position: "fixed",
@@ -104,44 +116,43 @@ const ProjectCards = ({data, setData}) => {
       }}>
         <CardDeck>
         {
-          projectData && projectData.map ? projectData.map((item, key) => {
-            const { name, id, url } = item;
+          entityData && entityData.map ? entityData.map((item, key) => {
+            const { name, id, url, imageUrl } = item;
             const border = (id === selected) ? 'primary' : null;
             const displayName = name.length > 12 ? name.slice(0, 11) + '...' : name;
           
-            const loadProject = () => {
-              getProject(id);
+            const loadEntity = () => {
+              getEntity(id);
             }
 
-            const removeProject = (e) => {
+            const removeEntity = (e) => {
               e.stopPropagation();
               e.nativeEvent.stopImmediatePropagation();
-              processProject('remove', id);
+              processEntity('remove', id);
             }
 
             return (
-              <HighlightCard className="text-center" onClick={loadProject} 
+              <HighlightCard className="text-center" onClick={loadEntity} 
                 key={key} border={border}
                 style={{ minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200, marginBottom: 30 }}>
                 <Card.Header>
                   <Card.Link href={url} target="_blank">{displayName}</Card.Link>
-                  <Button type="button" className="close" onClick={removeProject}>
+                  <Button type="button" className="close" onClick={removeEntity}>
                     <span className="float-right"><i className="fa fa-remove"></i></span>
                   </Button>
                 </Card.Header>
                 <Card.Body>
-                  <Card.Subtitle>{name}</Card.Subtitle>
-                  { /*<Card.Img src={image_url} alt={displayName} style={{ maxHeight: 100, maxWidth: 100 }} />*/}
+                  <Card.Img src={imageUrl || provider.image} alt={displayName} style={{ maxHeight: 100, maxWidth: 100 }} />
                 </Card.Body>
               </HighlightCard>
             )
           })
           : <div/>
         }
-          <HighlightCard className="text-center" onClick={addProject}
+          <HighlightCard className="text-center" onClick={addEntity}
             key='add' 
             style={{ minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200, marginBottom: 30 }}>
-            <Card.Header>Add a new project</Card.Header>
+            <Card.Header>Add a new {entityName}</Card.Header>
             <Card.Body>
               <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />
             </Card.Body>
@@ -150,7 +161,7 @@ const ProjectCards = ({data, setData}) => {
         </CardDeck>
       </div>
       { 
-        projectData ? 
+        entityData ? 
         <div style={{
           position: "fixed", 
           top: 350
@@ -159,25 +170,25 @@ const ProjectCards = ({data, setData}) => {
             position: "sticky",
             top: 0
           }}>
-            <h4>Project info</h4>
+            <h4>{capitalize(entityName)} information</h4>
           </div>
-          <h4>{project && project.name}</h4>
+          <h4>{entity && entity.name}</h4>
         </div> :
         <div/>
       }
 
       <Modal show={showModal} onHide={ () => setShowModal(false) }>
         <Modal.Header closeButton>
-          <Modal.Title>Add a project</Modal.Title>
+          <Modal.Title>Add a {entityName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <SimpleProviderInfo providerName='gcp' />
+          <SimpleProviderInfo providerName={connectionName} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={ () => setShowModal(false) }>
             Cancel
           </Button>
-          <Button variant="primary" onClick={ () => processProject('add') }>
+          <Button variant="primary" onClick={ () => processEntity('add') }>
             Add
           </Button>
         </Modal.Footer>
@@ -320,4 +331,4 @@ const ProjectCards = ({data}) => {
   </CardDeck>
   */
   
-export default GooglePage
+export default GenericProviderPage

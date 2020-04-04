@@ -20,6 +20,7 @@ const SimpleProviderInfo = ({providerName}) => {
           <FormControl
             aria-label="account"
             aria-describedby={p.name}
+            type={p.password ? 'password' : null}
             placeholder={p.description} 
             onChange={(e) => { p.value = e.target.value } }
           />

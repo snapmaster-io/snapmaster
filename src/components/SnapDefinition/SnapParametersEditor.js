@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, InputGroup, FormControl } from 'react-bootstrap'
+import { InputGroup, FormControl } from 'react-bootstrap'
 import EntitySelect from './EntitySelect'
 
 const SnapParametersEditor = ({params}) =>

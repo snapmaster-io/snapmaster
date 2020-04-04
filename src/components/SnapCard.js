@@ -1,7 +1,7 @@
 import React from 'react'
 import { navigate } from 'hookrouter'
 import { useConnections } from '../utils/connections'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import HighlightCard from './HighlightCard'
 
 const SnapCard = ({snap, currentUser, deleteAction}) => {
@@ -23,7 +23,19 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
       padding: '1px'
     }} />
 
+  const renderTooltip = (props) => 
+    <Tooltip id="tooltip" {...props} show={props.show.toString()}>
+      <div>
+        {snap.description}
+      </div>
+    </Tooltip>
+    
   return (
+    <OverlayTrigger
+      placement="right"
+      delay={{ show: 50, hide: 0 }}
+      overlay={renderTooltip}
+    >
     <HighlightCard 
       key={snap.snapId} 
       onClick={ () => navigate(`/snaps/${snap.snapId}`)}
@@ -66,6 +78,7 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
         </center>
       </Card.Body>
     </HighlightCard>
+    </OverlayTrigger>
   )
 }
 

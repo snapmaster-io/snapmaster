@@ -82,6 +82,7 @@ const GalleryPage = () => {
         snapId: s.snapId,
         userId: userId,
         name: name,
+        description: s.description,
         provider: s.provider,
         actions: s.actions,
         config: s.config,

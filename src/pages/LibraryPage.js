@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
 import { useApi } from '../utils/api'
+import { navigate } from 'hookrouter'
 import { Card, CardDeck, Button, Modal } from 'react-bootstrap'
 import Loading from '../components/Loading'
 import RefreshButton from '../components/RefreshButton'
@@ -120,6 +121,7 @@ const LibraryPage = () => {
     const success = responseData && responseData.message !== 'error';
     if (success) {
       loadConnections();
+      navigate(`/tools/${providerName}`);
     }
   }
 

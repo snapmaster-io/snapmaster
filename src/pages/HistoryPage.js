@@ -54,7 +54,7 @@ const HistoryPage = () => {
         loadData={loadData}
         loading={loading}
         pageTitle={pageTitle}
-        messageText="No logs yet..." />
+        messageText="No history yet..." />
     )
   }
 

@@ -78,8 +78,16 @@ const ConnectionsPage = () => {
   }
 
   // add or remove a simple connection
-  const processConnection = async (action, provider) => {
-    const body = JSON.stringify({ action: action, provider: provider });
+  const processConnection = async (action, providerName) => {
+    const provider = connections.find(c => c.provider === providerName);
+    const entity = provider.definition.connection.entity;
+
+    const body = JSON.stringify({ 
+      action: action, 
+      provider: providerName, 
+      entityName: entity
+    });
+
     const [response, error] = await post('connections', body);
     if (error || !response.ok) {
       return;

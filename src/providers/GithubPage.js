@@ -126,6 +126,7 @@ const RepositoryCards = ({data, setData}) => {
             )
           })
         }
+        { activeRepos && activeRepos.map && 
           <HighlightCard className="text-center" onClick={ () => { setShowModal(true) }}
             key='add' 
             style={{ minWidth: 180, maxWidth: 180, minHeight: 180, maxHeight: 180, marginBottom: 30 }}>
@@ -134,7 +135,7 @@ const RepositoryCards = ({data, setData}) => {
               <i className="fa fa-fw fa-plus" style={{ fontSize: '5em' }} />
             </Card.Body>
           </HighlightCard>
-
+        }
         </CardDeck>
       </div>
       { 

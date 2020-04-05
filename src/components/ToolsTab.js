@@ -13,17 +13,14 @@ import LibraryPage from '../pages/LibraryPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // import providers
-import DockerPage from '../providers/DockerPage'
 import GithubPage from '../providers/GithubPage'
-import GooglePage from '../providers/GooglePage'
+import GenericProviderPage from '../providers/GenericProvider'
 
 // define routes
 const routes = {
   '/': () => <LibraryPage />,
   '/library': () => <LibraryPage />,
   '/connections': () => <ConnectionsPage />,
-  '/docker': () => <DockerPage />,
-  '/gcp': () => <GooglePage />,
   '/github': () => <GithubPage />,
 };
 
@@ -44,11 +41,36 @@ const ToolsTab = () => {
     navigate(`${selected}`)
   }
 
-  useRedirect('/', '/tools/library');
-  const routeResult = useRoutes(routes);
+  const capitalize = (word) => word.length > 3 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toUpperCase();
+
+  // get the connected providers
+  const connectedProviders = connections.filter(c => c.connected !== null);
 
   // create an array containing the names of all the tools tabs that are connected and should be displayed
-  const sideNavTabs = connections.filter(c => c.connected !== null).map(c => c.provider.split('-')[0]);
+  const sideNavTabs = connectedProviders.map(c => c.provider.split('-')[0]);
+
+  // add routes for all connected providers
+  for (const p of connectedProviders) {
+    const providerName = p.provider.split('-')[0];
+    const fullEntityName = p.definition && p.definition.connection && p.definition.connection.entity;
+    const entity = fullEntityName && fullEntityName.split(':')[1];
+    const pageTitle = `${capitalize(providerName)} ${entity}`;
+    const singularEntity = entity && entity.slice(0, entity.length - 1);
+
+    routes[`/${providerName}`] = () =>
+      <GenericProviderPage 
+        pageTitle={pageTitle}
+        connectionName={providerName}
+        endpoint={`entities/${fullEntityName}`}
+        entityName={singularEntity} />
+  }
+
+  // hardcode the github page for now
+  routes['/github'] = () => <GithubPage />;
+
+  // compute the route result
+  useRedirect('/', '/tools/library');
+  const routeResult = useRoutes(routes);  
 
   return (
     <div>  
@@ -89,7 +111,7 @@ const ToolsTab = () => {
                   <NavIcon>
                     <i className={`cloudfont-${c}`} style={{ fontSize: '1.75em' }} />
                   </NavIcon>
-                  <NavText style={{ fontSize: '1.2em' }}>{c.charAt(0).toUpperCase() + c.slice(1)}</NavText>
+                  <NavText style={{ fontSize: '1.2em' }}>{capitalize(c)}</NavText>
                 </NavItem>
               )
             }

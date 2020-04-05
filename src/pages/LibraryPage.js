@@ -102,15 +102,22 @@ const LibraryPage = () => {
   const processConnection = async (action, providerName) => {
     const provider = connections.find(c => c.provider === providerName);
     const connectionInfo = provider.definition.connection.connectionInfo;
+    const entity = provider.definition.connection.entity;
 
-    const body = JSON.stringify({ action: action, provider: providerName, connectionInfo: connectionInfo });
+    const body = JSON.stringify({ 
+      action: action, 
+      provider: providerName, 
+      connectionInfo: connectionInfo,
+      entityName: entity
+    });
+
     const [response, error] = await post('connections', body);
     if (error || !response.ok) {
       return;
     }
 
     const responseData = await response.json();
-    const success = responseData && responseData.message === 'success';
+    const success = responseData && responseData.message !== 'error';
     if (success) {
       loadConnections();
     }

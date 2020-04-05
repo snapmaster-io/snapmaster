@@ -93,7 +93,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
     setShowModal(true);
   }
 
-  const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+  const capitalize = (word) => word && word.length > 3 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toUpperCase();
 
   const entityData = data && data.map(item => {
     return { 
@@ -120,7 +120,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
       }}>
         <CardDeck>
         {
-          entityData && entityData.map && entityData.map && entityData.map((item, key) => {
+          entityData && entityData.map && entityData.map((item, key) => {
             const { name, id, url, imageUrl } = item;
             const border = (id === selected) ? 'primary' : null;
             const displayName = name.length > 12 ? name.slice(0, 11) + '...' : name;
@@ -152,6 +152,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
             )
           })
         }
+        { entityData && entityData.map && 
           <HighlightCard className="text-center" onClick={addEntity}
             key='add' 
             style={{ minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200, marginBottom: 30 }}>
@@ -160,7 +161,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
               <i className="fa fa-fw fa-plus" style={{ fontSize: '6em' }} />
             </Card.Body>
           </HighlightCard>
-
+        }
         </CardDeck>
       </div>
       { /*

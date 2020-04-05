@@ -34,3 +34,8 @@ div.tab-content {
   position: relative;
   top: 50px;
 }
+
+/* define a modal dialog of half of the viewport width */
+.modal-dialog.modal-50w {
+  max-width: 50vw;
+}

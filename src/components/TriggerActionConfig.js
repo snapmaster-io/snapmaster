@@ -7,28 +7,39 @@ const TriggerActionConfig = ({
   entity, 
   setData,
   path,
+  metadata
 }) => {
   const { post } = useApi();
-  const [key, setKey] = useState('__triggers');
+  const [key, setKey] = useState('triggers');
   const [selectedTriggers, setSelectedTriggers] = useState();
   const [selectedActions, setSelectedActions] = useState();
 
   const arrayEquals = (array1, array2) => 
     array1 && array2 && array1.length === array2.length && array1.every((value, index) => { return value === array2[index]})
   
-  const triggers = entity.__triggers.filter(r => r.enabled).map(r => r.name);
+  const triggers = (entity.triggers && entity.triggers.filter(r => r.enabled).map(r => r.name)) || [];
   if (!arrayEquals(selectedTriggers, triggers)) {
     setSelectedTriggers(triggers);
   }
 
-  const actions = entity.__actions.filter(r => r.enabled).map(r => r.name);
+  const actions = (entity.actions && entity.actions.filter(r => r.enabled).map(r => r.name)) || [];
   if (!arrayEquals(selectedActions, actions)) {
     setSelectedActions(actions);
   }
 
   const storeMetadata = async () => {
-    const data = { __id: entity.__id, __actions: entity.__actions, __triggers: entity.__triggers };
-    const [response, error] = await post(path, JSON.stringify([data]));
+    const data = { __id: entity.id, __actions: entity.actions, __triggers: entity.triggers };
+    console.log(entity);
+    let payload;
+    if (metadata) {
+      // the caller wants to use the metadata endpoint to handle the payload - this means an array of inputs
+      payload = [data]
+    } else {
+      // the caller wants to send a single entity with an 'edit' action
+      payload = { ...data, action: 'edit' };
+    }
+
+    const [response, error] = await post(path, JSON.stringify(payload));
     if (error || !response.ok) {
       return;
     }
@@ -47,6 +58,10 @@ const TriggerActionConfig = ({
     headerStyle: (column, colIndex) => {
       return { width: '220px' };
     }
+  }, {
+    dataField: 'description',
+    text: 'Description',
+    sort: false,
   }];
 
   const selectRow = (selected, setSelected) => { 
@@ -83,18 +98,18 @@ const TriggerActionConfig = ({
   return (
     <div>
       <Tabs activeKey={key} onSelect={k => setKey(k)}>
-        <Tab eventKey="__triggers" title={<span><i className="fa fa-sitemap" />&nbsp;&nbsp;Triggers</span>}>
+        <Tab eventKey="triggers" title={<span><i className="fa fa-sitemap" />&nbsp;&nbsp;Triggers</span>}>
           <DataTable 
             columns={columns} 
-            data={entity.__triggers} 
+            data={entity.triggers || []} 
             keyField='name'
             selectRow={selectRow(selectedTriggers, setSelectedTriggers)}
             />
         </Tab>
-        <Tab eventKey="__actions" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Actions</span>}>
+        <Tab eventKey="actions" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Actions</span>}>
           <DataTable 
             columns={columns} 
-            data={entity.__actions} 
+            data={entity.actions || []} 
             keyField='name'
             selectRow={selectRow(selectedActions, setSelectedActions)}
             />
@@ -102,8 +117,8 @@ const TriggerActionConfig = ({
       </Tabs>
       <br />
       <br />
-      <Button onClick={ storeMetadata }>
-        Save
+      <Button onClick={storeMetadata}>
+        <i className="fa fa-save"></i>&nbsp;&nbsp;Save
       </Button>
     </div>
   )

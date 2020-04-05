@@ -5,6 +5,7 @@ import { CardDeck, Card, Modal, Button, Alert } from 'react-bootstrap'
 import BaseProvider from './BaseProvider'
 import HighlightCard from '../components/HighlightCard'
 import SimpleProviderInfo from '../components/SimpleProviderInfo'
+import TriggerActionConfig from '../components/TriggerActionConfig'
 
 const GenericProviderPage = ({
   pageTitle,
@@ -50,7 +51,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
     setEntity(entityData.find(p => p.id === id));
   }
 
-  const processEntity = async (action, project) => {
+  const processEntity = async (action, id) => {
     setShowModal(false);
     setNotFound(false);
 
@@ -66,7 +67,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
     if (action === 'remove') {
       setSelected(null);
       setEntity(null);
-      data.project = project;
+      data.id = id;
     }
 
     const [response, error] = await post(endpoint, JSON.stringify(data));
@@ -98,7 +99,10 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
     return { 
       id: item.__id,
       name: item.__name,
-      url: item.__url
+      url: item.__url,
+      imageUrl: item.__imageUrl,
+      triggers: item.__triggers,
+      actions: item.__actions,
     } 
   });
 
@@ -116,7 +120,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
       }}>
         <CardDeck>
         {
-          entityData && entityData.map ? entityData.map((item, key) => {
+          entityData && entityData.map && entityData.map && entityData.map((item, key) => {
             const { name, id, url, imageUrl } = item;
             const border = (id === selected) ? 'primary' : null;
             const displayName = name.length > 12 ? name.slice(0, 11) + '...' : name;
@@ -147,7 +151,6 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
               </HighlightCard>
             )
           })
-          : <div/>
         }
           <HighlightCard className="text-center" onClick={addEntity}
             key='add' 
@@ -160,7 +163,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
 
         </CardDeck>
       </div>
-      { 
+      { /*
         entityData ? 
         <div style={{
           position: "fixed", 
@@ -175,9 +178,22 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
           <h4>{entity && entity.name}</h4>
         </div> :
         <div/>
+        */}
+      { 
+        selected && 
+        <div style={{
+          position: "fixed", 
+          top: 370
+        }}>
+          <TriggerActionConfig 
+            entity={entity}
+            setData={setData}
+            path={endpoint}
+            />
+        </div> 
       }
 
-      <Modal show={showModal} onHide={ () => setShowModal(false) }>
+      <Modal show={showModal} dialogClassName="modal-50w" onHide={ () => setShowModal(false) }>
         <Modal.Header closeButton>
           <Modal.Title>Add a {entityName}</Modal.Title>
         </Modal.Header>

@@ -8,7 +8,6 @@ import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle';
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import SimpleProviderInfo from '../components/SimpleProviderInfo'
-import './LibraryPage.css'
 
 const LibraryPage = () => {
   const { loading, loadConnections, connections } = useConnections();

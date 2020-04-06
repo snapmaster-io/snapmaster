@@ -8,9 +8,9 @@ SnapMaster is a [React](https://reactjs.org) app, and this project was bootstrap
 
 ## Implementation notes
 
-SnapMaster is a single-page app that works against [SnapMaster-API](https://github.com/ogazitt/snapmaster-api) as a back-end.  
+SnapMaster is a single-page app that works against [SnapMaster-API](https://github.com/snapmaster-io/snapmaster-api) as a back-end.  
 
-SnapMaster uses [Auth0](https://auth0.com) for its authentication and authorization.
+SnapMaster currently uses [Auth0](https://auth0.com) for its authentication and authorization.
 
 ## Source directory structure
 
@@ -20,8 +20,19 @@ Contains `index.html` and public assets
 ### `src`
 ####   `components`: Reusable react components
 ####   `pages`: Pages constructed using components
-####   `providers`: Pages for each social media provider, using BaseProvider as a common base
+####   `providers`: Pages for each provider, using BaseProvider as a common base
 ####   `utils`: Common utilities
+
+Note that `src/utils/auth_config.json` is expected for proper auth0 login, but is not checked into source control.
+This file must be in the following format:
+
+```
+{
+  "domain": "YOURDOMAIN.auth0.com",
+  "clientId": "THE CLIENT ID FOR YOUR DOMAIN",
+  "audience": "https://api.snapmaster.io"
+}
+```
 
 ## Available Scripts
 
@@ -35,7 +46,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-You need to run the [SnapMaster-API](https://github.com/ogazitt/snapmaster-api) back-end to have the SPA function correctly.
+You need to run the [SnapMaster-API](https://github.com/snapmaster-io/snapmaster-api) back-end to have the SPA function correctly.
 
 ### `npm test`
 

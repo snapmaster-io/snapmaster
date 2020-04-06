@@ -33,13 +33,8 @@ const LandingPage = () => {
       access_type: 'offline', // unverified - asks for offline access
       //connection_scope: 'https://www.googleapis.com/auth/cloud-platform',
       //connection: 'google-oauth2',
-      //connection_scope: 'https://www.googleapis.com/auth/contacts.readonly',
       // this is how to combine more than one permission
       //connection_scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts.readonly', 
-      //connection_scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/business.manage',
-      //connection_scope: 'https://www.googleapis.com/auth/calendar',
-      // this is the Google business scope, but can't actually use it!
-      //connection_scope: 'https://www.googleapis.com/auth/business.manage', 
       //prompt: 'consent',  // this re-prompts consent and returns refresh token
       redirect_uri: `${window.location.origin}`,
     });
@@ -54,8 +49,7 @@ const LandingPage = () => {
 
     // put up Sign Up screen
     loginWithRedirect({
-      access_type: 'offline', // unverified - asks for offline access
-      //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
+      access_type: 'offline', 
       redirect_uri: `${window.location.origin}`,
       snapmaster_mode: 'signUp',
     });
@@ -89,8 +83,7 @@ const LandingPage = () => {
       if (data.email === email) {
         // put up Sign Up screen
         loginWithRedirect({
-          access_type: 'offline', // unverified - asks for offline access
-          //connection_scope: 'https://www.googleapis.com/auth/calendar.events.readonly', // unverified BUT THIS MAY BE IT
+          access_type: 'offline', 
           redirect_uri: `${window.location.origin}`,
           snapmaster_mode: 'signUp',
         });
@@ -358,7 +351,7 @@ const LandingPage = () => {
           <Button variant="secondary" onClick={ () => { setInvalidCode(false); setShowValidateModal(false); setShowBetaModal(true); } }>
             Request access
           </Button>
-          <Button variant="primary" onClick={ () => { setInvalidCode(false); validateCode(); }}>
+          <Button variant="primary" disabled={ !validateEmail(email) } onClick={ () => { setInvalidCode(false); validateCode(); }}>
             Validate my code!
           </Button>
         </Modal.Footer>

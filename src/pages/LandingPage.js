@@ -9,9 +9,11 @@ import './LandingPage.css'
 
 const LandingPage = () => {
   const { loading, loginWithRedirect } = useAuth0();
-  const [showModal, setShowModal] = useState(false);
+  const [showBetaModal, setShowBetaModal] = useState(false);
+  const [showValidateModal, setShowValidateModal] = useState(false);
   const [invalidCode, setInvalidCode] = useState(false);
   const [email, setEmail] = useState();
+  const [code, setCode] = useState();
   const betaFlag = true;
 
   if (loading) {
@@ -21,9 +23,15 @@ const LandingPage = () => {
   }
 
   const login = () => {
+    // private beta - put up beta code validation UI
+    if (betaFlag) {
+      setShowValidateModal(true);
+      return;
+    }
+
     loginWithRedirect({
       access_type: 'offline', // unverified - asks for offline access
-      connection_scope: 'https://www.googleapis.com/auth/cloud-platform',
+      //connection_scope: 'https://www.googleapis.com/auth/cloud-platform',
       //connection: 'google-oauth2',
       //connection_scope: 'https://www.googleapis.com/auth/contacts.readonly',
       // this is how to combine more than one permission
@@ -40,7 +48,7 @@ const LandingPage = () => {
   const signUp = (beta) => {
     // private beta - put up email collection UI
     if (beta) {
-      setShowModal(true);
+      setShowBetaModal(true);
       return;
     }
 
@@ -55,7 +63,7 @@ const LandingPage = () => {
 
   const requestAccess = async () => {
     try {
-      setShowModal(false);
+      setShowBetaModal(false);
       await post(createToken(email), 'requestaccess', JSON.stringify({ email: email }));
     } catch (error) {
     }
@@ -68,7 +76,11 @@ const LandingPage = () => {
 
   const validateCode = async () => {
     try {
-      const [response, error] = await post(createToken(email), 'validatecode', JSON.stringify({ email: email }));
+      const payload = { 
+        email: email,
+        code: code
+      }
+      const [response, error] = await post(createToken(email), 'validatecode', JSON.stringify(payload));
       if (error || !response.ok) {
         setInvalidCode(true);
       }
@@ -281,7 +293,7 @@ const LandingPage = () => {
 
       { isDesktopDevice && <WebsiteFooter className="landingFooter" /> }
 
-      <Modal show={showModal} onHide={ () => { setShowModal(false) } }>
+      <Modal show={showBetaModal} onHide={ () => { setShowBetaModal(false) } }>
         <Modal.Header closeButton>
           <Modal.Title>SnapMaster is in private beta.</Modal.Title>
         </Modal.Header>
@@ -300,10 +312,9 @@ const LandingPage = () => {
             />
           </InputGroup>
           <p>As a token of our appreciation, private beta participants get one <b>free year of SnapMaster Premium</b> once it launches!</p>
-          { invalidCode && <p className="text-danger">Invalid code - please request access to obtain a valid code</p>}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={ () => { setInvalidCode(false); validateCode(); }}>
+          <Button variant="secondary" onClick={ () => { { setShowBetaModal(false); setShowValidateModal(true); } }}>
             I have a code!
           </Button>
           <Button variant="primary" disabled={ !validateEmail(email) } onClick={ requestAccess }>
@@ -312,6 +323,46 @@ const LandingPage = () => {
         </Modal.Footer>
       </Modal>
 
+      <Modal show={showValidateModal} onHide={ () => { setShowValidateModal(false) } }>
+        <Modal.Header closeButton>
+          <Modal.Title>SnapMaster is in private beta.</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Enter your email address and the access code you obtained below to login.  If you haven't 
+            requested access yet, now's the time!</p>
+          <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <InputGroup.Text id="inputGroup-sizing-default" style={{ width: 120 }}>Email</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              aria-label="email"
+              aria-describedby="inputGroup-sizing-default"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </InputGroup>
+          <InputGroup className="mb-3">
+            <InputGroup.Prepend>
+              <InputGroup.Text id="inputGroup-sizing-default" style={{ width: 120 }}>Access code</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              aria-label="code"
+              aria-describedby="inputGroup-sizing-default"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
+          </InputGroup>
+          { invalidCode && <p className="text-danger">Invalid code - please request access to obtain a valid code</p>}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={ () => { setInvalidCode(false); setShowValidateModal(false); setShowBetaModal(true); } }>
+            Request access
+          </Button>
+          <Button variant="primary" onClick={ () => { setInvalidCode(false); validateCode(); }}>
+            Validate my code!
+          </Button>
+        </Modal.Footer>
+      </Modal>      
     </div>
   )
 }

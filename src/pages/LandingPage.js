@@ -149,20 +149,21 @@ const LandingPage = () => {
         <div className={ isDesktopDevice ? "tagline-desktop" : "tagline-mobile" }>
           <h1>The Definitive DevOps Integration Platform</h1>
           <br/>
-          <h5>
+          <h4>
             Effortlessly automate your manual, error-prone, 
             soul-crushing integration busywork.
-          </h5>
-          <h5>
+          </h4>
+          <br />
+          <h4>
             <strong>Focus on what matters.</strong>
-          </h5>
+          </h4>
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 
             <Button size="lg" style={{ paddingTop: 20, paddingBottom: 20}} variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>
               <i className="fa fa-flash" />&nbsp;&nbsp;Get started
             </Button>          
           }
-          { isMobileDevice &&
+          { false &&
             <div style={{ display: 'flex', alignItestims: 'center', justifyContent: 'center' }}>
               <Button style={{ margin: 20 }} size="lg" disabled={loading} onClick={() => login()}>Log In</Button>
               <Button style={{ margin: 20 }} size="lg" variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>Get started</Button>          
@@ -170,11 +171,11 @@ const LandingPage = () => {
           }
         </div>
 
-        <div className={ isDesktopDevice ? "benefits-desktop" : "tagline-mobile" }>
+        { isDesktopDevice && 
+        <div className="benefits-desktop">
           <h1>Master your DevOps Toolchain</h1>
-          { isDesktopDevice && <br/> }
-
-          <Container>
+          <br/>
+          <Container style={{ maxWidth: 1200 }}>
             <Row>
               <Col>
                 <h3>
@@ -208,7 +209,7 @@ const LandingPage = () => {
                   Automate
                 </h3>
                 <p>Create workflows called 'snaps' that get triggered by events, and fire off actions</p>
-                <img src="/snaps.png" alt="snap" height="225px" style={{ backgroundColor: "#111111"}} />
+                <img src="/snaps.png" alt="snap" width="326px" style={{ backgroundColor: "#111111"}} />
               </Col>
               <Col>
                 <h3>
@@ -221,136 +222,141 @@ const LandingPage = () => {
             </Row>
           </Container>
         </div>
+        }
       </div>
 
-      <ValueProp 
-        text="Choose from a set of common snaps in the gallery, or create your own"
-        background='white'
-      />
+      { isDesktopDevice && 
+      <div>
+        <ValueProp 
+          text="Choose from a set of common snaps in the gallery, or create your own"
+          background='white'
+        />
 
-      <div className='carousel-container'>
-        <Carousel>
-          <Carousel.Item 
-            className="bg-carousel" 
-            style={{ 
-              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap1.png")',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center center',
-              backgroundSize: 'contain',
-            }}>
-            <Carousel.Caption>
-              <h3><strong>Incident management:</strong></h3>
-              <br/>
-              <h4>
-                Azure new-file 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Github create-issue 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Pagerduty create-incident 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Slack send 
-              </h4>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item 
-            className="bg-carousel" 
-            style={{ 
-              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap2.png")',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center center',
-              backgroundSize: 'contain',
-            }}>
-            <Carousel.Caption>
-              <h3><strong>Container deployment:</strong></h3>
-              <br/>
-              <h4>
-                Github push 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Docker build 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                AWS ecs-update 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Twilio send 
-              </h4>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item 
-            className="bg-carousel" 
-            style={{ 
-              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap3.png")',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center center',
-              backgroundSize: 'contain',
-            }}>
-            <Carousel.Caption>
-              <h3><strong>Continuous integration / continuous deployment:</strong></h3>
-              <br/>
-              <h4>
-                Gitlab push 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Circle-CI build 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                GCP build 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Slack send 
-              </h4>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item 
-            className="bg-carousel" 
-            style={{ 
-              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap4.png")',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center center',
-              backgroundSize: 'contain',
-            }}>
-            <Carousel.Caption>
-              <h3><strong>ChatOps:</strong></h3>
-              <br/>
-              <h4>
-                Slack message 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Gitlab build
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                Docker build 
-                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
-                GCP deploy 
-              </h4>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
+        <div className='carousel-container'>
+          <Carousel>
+            <Carousel.Item 
+              className="bg-carousel" 
+              style={{ 
+                background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap1.png")',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 'contain',
+              }}>
+              <Carousel.Caption>
+                <h3><strong>Incident management:</strong></h3>
+                <br/>
+                <h4>
+                  Azure new-file 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Github create-issue 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Pagerduty create-incident 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Slack send 
+                </h4>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item 
+              className="bg-carousel" 
+              style={{ 
+                background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap2.png")',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 'contain',
+              }}>
+              <Carousel.Caption>
+                <h3><strong>Container deployment:</strong></h3>
+                <br/>
+                <h4>
+                  Github push 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Docker build 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  AWS ecs-update 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Twilio send 
+                </h4>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item 
+              className="bg-carousel" 
+              style={{ 
+                background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap3.png")',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 'contain',
+              }}>
+              <Carousel.Caption>
+                <h3><strong>Continuous integration / continuous deployment:</strong></h3>
+                <br/>
+                <h4>
+                  Gitlab push 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Circle-CI build 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  GCP build 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Slack send 
+                </h4>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item 
+              className="bg-carousel" 
+              style={{ 
+                background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap4.png")',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 'contain',
+              }}>
+              <Carousel.Caption>
+                <h3><strong>ChatOps:</strong></h3>
+                <br/>
+                <h4>
+                  Slack message 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Gitlab build
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  Docker build 
+                  &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                  GCP deploy 
+                </h4>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
+        </div>
+
+        <ValueProp 
+          text="Connect all of the tools you use to build, deploy, and monitor cloud applications"
+          background='black'
+        />
+
+        <LandingPageToolCardDeck />
+
+        <ValueProp 
+          text="Tailor the snaps your team uses to the policies and constraints of your organization"
+          image='policy.png'
+          background='white'
+        />
+
+        <ValueProp 
+          text="Review a complete audit trail of all the invoked actions"
+          image='logs.png'
+          background='black'
+        />
+
+        <ValueProp 
+          text="Visualize time-series data on all executed snaps"
+          image='history.png'
+          background='white'
+        />
+
+        <ValueProp 
+          text="Extend the system with your own integrations - it's all open source!"
+          image='snapyaml.png'
+          background='black'
+        />
       </div>
-
-      <ValueProp 
-        text="Connect all of the tools you use to build, deploy, and monitor cloud applications"
-        background='black'
-      />
-
-      <LandingPageToolCardDeck />
-
-      <ValueProp 
-        text="Tailor the snaps your team uses to the policies and constraints of your organization"
-        image='policy.png'
-        background='white'
-      />
-
-      <ValueProp 
-        text="Review a complete audit trail of all the invoked actions"
-        image='logs.png'
-        background='black'
-      />
-
-      <ValueProp 
-        text="Visualize time-series data on all executed snaps"
-        image='history.png'
-        background='white'
-      />
-
-      <ValueProp 
-        text="Extend the system with your own integrations - it's all open source!"
-        image='snapyaml.png'
-        background='black'
-      />
+      }
 
       { isDesktopDevice && <WebsiteFooter className="landingFooter" /> }
 

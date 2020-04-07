@@ -41,7 +41,7 @@
 }
 
 .tagline-desktop {
-  height: 75vh;
+  height: calc(100vh);
   top: 50%;
   transform: translateY(30%);
 }

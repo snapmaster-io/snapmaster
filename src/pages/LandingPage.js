@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { post } from '../utils/api'
-import Loading from '../components/Loading'
-import WebsiteFooter from '../components/WebsiteFooter'
 import { Button, Carousel, Modal, InputGroup, FormControl, Container, Row, Col } from 'react-bootstrap'
 import { isBrowser, isMobile } from 'react-device-detect'
+import Loading from '../components/Loading'
+import LandingPageToolCardDeck from '../components/LandingPageToolCardDeck'
+import ValueProp from '../components/ValueProp'
+import WebsiteFooter from '../components/WebsiteFooter'
 import './LandingPage.css'
 
 const LandingPage = () => {
@@ -221,68 +223,134 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <Carousel>
-        <Carousel.Item 
-          className="bg-carousel" 
-          style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/library.png")',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundSize: 'contain',
-          }}>
-          <Carousel.Caption>
-            <h3><strong>Connect all of the tools you use to build cloud applications</strong></h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item 
-          className="bg-carousel" 
-          style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/gallery.png")',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundSize: 'contain',
-          }}>
-          <Carousel.Caption>
-            <h3><strong>Choose from a set of common snaps in the gallery, or create your own</strong></h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item 
-          className="bg-carousel" 
-          style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/snapdef.png")',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundSize: 'contain',
-          }}>
-          <Carousel.Caption>
-            <h3><strong>Tailor the snaps your team uses to the policies and constraints of your organization</strong></h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item 
-          className="bg-carousel" 
-          style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/logs.png")',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundSize: 'contain',
-          }}>
-          <Carousel.Caption>
-            <h3><strong>Review a complete audit trail of all the invoked actions</strong></h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item 
-          className="bg-carousel" 
-          style={{ 
-            background: 'linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)), url("/snapyaml.png")',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center center',
-            backgroundSize: 'contain',
-          }}>
-          <Carousel.Caption>
-            <h3><strong>Extend the system with your own integrations - it's all open source!</strong></h3>
-          </Carousel.Caption>
-        </Carousel.Item>        
-      </Carousel>
+      <ValueProp 
+        text="Choose from a set of common snaps in the gallery, or create your own"
+        background='white'
+      />
+
+      <div className='carousel-container'>
+        <Carousel>
+          <Carousel.Item 
+            className="bg-carousel" 
+            style={{ 
+              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap1.png")',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center center',
+              backgroundSize: 'contain',
+            }}>
+            <Carousel.Caption>
+              <h3><strong>Incident management:</strong></h3>
+              <br/>
+              <h4>
+                Azure new-file 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Github create-issue 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Pagerduty create-incident 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Slack send 
+              </h4>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item 
+            className="bg-carousel" 
+            style={{ 
+              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap2.png")',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center center',
+              backgroundSize: 'contain',
+            }}>
+            <Carousel.Caption>
+              <h3><strong>Container deployment:</strong></h3>
+              <br/>
+              <h4>
+                Github push 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Docker build 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                AWS ecs-update 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Twilio send 
+              </h4>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item 
+            className="bg-carousel" 
+            style={{ 
+              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap3.png")',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center center',
+              backgroundSize: 'contain',
+            }}>
+            <Carousel.Caption>
+              <h3><strong>Continuous integration / continuous deployment:</strong></h3>
+              <br/>
+              <h4>
+                Gitlab push 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Circle-CI build 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                GCP build 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Slack send 
+              </h4>
+            </Carousel.Caption>
+          </Carousel.Item>
+          <Carousel.Item 
+            className="bg-carousel" 
+            style={{ 
+              background: 'linear-gradient(rgba(1,1,1,0), rgba(1,1,1,0)), url("/snap4.png")',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center center',
+              backgroundSize: 'contain',
+            }}>
+            <Carousel.Caption>
+              <h3><strong>ChatOps:</strong></h3>
+              <br/>
+              <h4>
+                Slack message 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Gitlab build
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                Docker build 
+                &nbsp;<i className="fa fa-arrow-right" />&nbsp;
+                GCP deploy 
+              </h4>
+            </Carousel.Caption>
+          </Carousel.Item>
+        </Carousel>
+      </div>
+
+      <ValueProp 
+        text="Connect all of the tools you use to build, deploy, and monitor cloud applications"
+        background='black'
+      />
+
+      <LandingPageToolCardDeck />
+
+      <ValueProp 
+        text="Tailor the snaps your team uses to the policies and constraints of your organization"
+        image='policy.png'
+        background='white'
+      />
+
+      <ValueProp 
+        text="Review a complete audit trail of all the invoked actions"
+        image='logs.png'
+        background='black'
+      />
+
+      <ValueProp 
+        text="Visualize time-series data on all executed snaps"
+        image='history.png'
+        background='white'
+      />
+
+      <ValueProp 
+        text="Extend the system with your own integrations - it's all open source!"
+        image='snapyaml.png'
+        background='black'
+      />
 
       { isDesktopDevice && <WebsiteFooter className="landingFooter" /> }
 

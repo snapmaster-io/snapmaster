@@ -93,7 +93,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
     setShowModal(true);
   }
 
-  const capitalize = (word) => word && word.length > 3 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toUpperCase();
+  const capitalize = (word) => word && (word.length > 3 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toUpperCase());
 
   const entityData = data && data.map(item => {
     return { 

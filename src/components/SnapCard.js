@@ -66,8 +66,11 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
             const config = snap.config && snap.config.find(c => c.name === action);
             const provider = config && config.provider;
             const actionConn = connections.find(c => c.provider === provider);
-            const actionIcon = actionConn.image;
-            const actionBorder = actionConn.connected ? '#28a745' : '#dc3545';
+            if (!actionConn) {
+              console.log(`connection not found: ${provider}`);
+            }
+            const actionIcon = actionConn && actionConn.image;
+            const actionBorder = actionConn && actionConn.connected ? '#28a745' : '#dc3545';
             return (
               <span key={key} style={ key > 0 ? { marginLeft: 10 } : {}}>
                 <CardImage key={key} image={actionIcon} borderColor={actionBorder} />

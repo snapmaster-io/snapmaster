@@ -7,21 +7,37 @@
   margin-right: 20px;
 }
 
+.carousel-container {
+  width: 90%;
+  padding-left: 10%;
+  margin-bottom: 30px;
+}
+
 .bg-carousel {
-  min-height: 75vh;
+  min-height: 400px;
+  max-height: 400px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
   background-position-y: 50p;
-  color: #fff;
+  color: #000;
   align-items: center;
   justify-content: center;
   padding-top: 50px;
+  width: 80% !important;
+  margin-left: 10% !important;
 }
 
 .carousel-caption {
-  top: 0;
-  bottom: auto;
+  top: -20px;
+  color: #000 !important;
+  width: 100% !important;
+  margin-left: -15%;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  filter: invert(1);
 }
 
 .tagline-desktop {

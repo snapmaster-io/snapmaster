@@ -169,6 +169,12 @@ const LandingPage = () => {
               <Button style={{ margin: 20 }} size="lg" variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>Get started</Button>          
             </div>
           }
+          { isMobileDevice && 
+            <div>
+              <br />
+              <span>Currently only supporting desktop browsers <i className="fa fa-smile-o" /></span>
+            </div>
+          }
         </div>
 
         { isDesktopDevice && 

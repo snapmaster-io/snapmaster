@@ -51,9 +51,8 @@
 }
 
 .tagline-mobile {
-  height: 40vh;
-  top: 50%;
-  transform: translateY(40%);
+  height: 100vh;
+  padding-top: calc(40%);
 }
 
 .bg-overlay {

@@ -7,10 +7,16 @@ import HighlightCard from './HighlightCard'
 const SnapCard = ({snap, currentUser, deleteAction}) => {
   const { connections } = useConnections();
   const triggerConn = connections.find(c => c.provider === snap.provider);
-  const triggerIcon = triggerConn.image;
-  const triggerBorder = triggerConn.connected ? '#28a745' : '#dc3545';
+  const triggerIcon = triggerConn && triggerConn.image;
+  const triggerBorder = triggerConn && triggerConn.connected ? '#28a745' : '#dc3545';
   const [account, name] = snap.snapId.split('/');
   const displayName = name.length > 22 ? name.slice(0, 21) + '...' : name;
+
+  const DisplayAccount = ({accountName}) =>
+    <span>
+      { snap && snap.private && <span><i className="fa fa-lock" />&nbsp;&nbsp;</span> }
+      {accountName}
+    </span>
 
   const CardImage = ({image, borderColor}) => 
     <Card.Img src={image} style={{ 
@@ -53,7 +59,7 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
             <span className="float-right"><i className="fa fa-remove"></i></span>
           </Button>
         }
-        { account !== currentUser && <Card.Subtitle as="div">{account} /</Card.Subtitle> }
+        { account !== currentUser && <Card.Subtitle as="div"><DisplayAccount accountName={account}/> /</Card.Subtitle> }
         <Card.Subtitle as="div">{displayName}</Card.Subtitle>
       </Card.Header>
       <Card.Body>

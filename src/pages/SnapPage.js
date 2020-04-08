@@ -13,6 +13,7 @@ const SnapPage = ({snapId}) => {
   const { user } = useAuth0();
   const [loading, setLoading] = useState();
   const [snap, setSnap] = useState();
+  const [editingPrivacy, setEditingPrivacy] = useState(false);
 
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
@@ -70,6 +71,42 @@ const SnapPage = ({snapId}) => {
   const userId = snap && snap.userId; 
   const isMySnap = userId && userId === user.sub;
 
+  const flipPrivacyStatus = async () => {
+    setEditingPrivacy(true);
+
+    const request = {
+      action: 'edit',
+      snapId: snapId,
+      private: !snap.private
+    };
+
+    const [response, error] = await post('snaps', JSON.stringify(request));
+    if (error || !response.ok) {
+      setEditingPrivacy(false);
+      return;
+    }
+
+    const data = await response.json();   
+    if (data && data.message === 'success') {
+      setSnap(data.snap);
+    }
+
+    setEditingPrivacy(false);
+
+    // TODO: show error if the call was unsuccessful
+  }
+
+  const privacyIcon = (privateStatus) => editingPrivacy ? 'spinner' : (privateStatus ? 'unlock' : 'lock' );
+
+
+  const PrivacyButton = ({privateStatus}) => 
+    <Button style={{ marginLeft: 20}} onClick={flipPrivacyStatus}>
+      <span>
+        <i className={`fa fa-${privacyIcon(privateStatus)}`} />&nbsp;&nbsp;
+        {privateStatus ? 'Publish' : 'Make private'}
+      </span>
+    </Button>
+
   return (
     <div>
       <div className="page-header">
@@ -82,6 +119,7 @@ const SnapPage = ({snapId}) => {
         <div style={{ marginLeft: 50 }}>
         { userId && !isMySnap && <Button onClick={fork}><i className="fa fa-code-fork"></i>&nbsp;&nbsp;Fork</Button> }
         { userId && isMySnap && <Button onClick={edit}><i className="fa fa-edit"></i>&nbsp;&nbsp;Edit</Button> }
+        { userId && isMySnap && <PrivacyButton privateStatus={isMySnap && snap.private} /> }
         </div>
       </div>
       <SnapDefinition snap={snap} />

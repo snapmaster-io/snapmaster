@@ -421,6 +421,7 @@ const LandingPage = () => {
             <FormControl
               aria-label="code"
               aria-describedby="inputGroup-sizing-default"
+              type="password"
               value={code}
               onChange={(e) => setCode(e.target.value)}
             />

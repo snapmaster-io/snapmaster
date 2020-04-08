@@ -215,7 +215,7 @@ const LandingPage = () => {
                   Automate
                 </h3>
                 <p>Create workflows called 'snaps' that get triggered by events, and fire off actions</p>
-                <img src="/snaps.png" alt="snap" width="326px" style={{ backgroundColor: "#111111"}} />
+                <img src="/snaps.png" alt="snap" width="326px"  />
               </Col>
               <Col>
                 <h3>
@@ -358,7 +358,7 @@ const LandingPage = () => {
 
         <ValueProp 
           text="Extend the system with your own integrations - it's all open source!"
-          image='snapyaml.png'
+          image='yaml.png'
           background='black'
         />
       </div>

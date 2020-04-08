@@ -387,7 +387,7 @@ const LandingPage = () => {
           <p>As a token of our appreciation, private beta participants get one <b>free year of SnapMaster Premium</b> once it launches!</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={ () => { { setShowBetaModal(false); setShowValidateModal(true); } }}>
+          <Button variant="secondary" onClick={ () => { setShowBetaModal(false); setShowValidateModal(true); }}>
             I have a code!
           </Button>
           <Button variant="primary" disabled={ !validateEmail(email) } onClick={ requestAccess }>

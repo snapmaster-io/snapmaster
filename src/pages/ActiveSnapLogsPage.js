@@ -154,7 +154,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
         /> 
       }
 
-      <Modal show={showModal} onHide={ () => setShowModal(false) }>
+      <Modal show={showModal} dialogClassName="modal-50w" onHide={ () => setShowModal(false) }>
         <Modal.Header closeButton>
           <Modal.Title>Log Detail</Modal.Title>
         </Modal.Header>

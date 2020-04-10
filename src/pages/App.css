@@ -39,3 +39,11 @@ div.tab-content {
 .modal-dialog.modal-50w {
   max-width: 50vw;
 }
+
+/* define a style that truncates text and shows ellipses */
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}

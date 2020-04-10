@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
+import { navigate } from 'hookrouter'
 import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import ServiceDownBanner from '../components/ServiceDownBanner'
@@ -48,7 +49,7 @@ const EditSnapPage = ({snapId}) => {
   }
 
   const save = async () => {
-    // post the fork request to the snaps endpoint
+    // post the edit request to the snaps endpoint
     const request = {
       action: 'edit',
       snapId: snapId,
@@ -60,9 +61,11 @@ const EditSnapPage = ({snapId}) => {
       return;
     } 
 
-    const item = response.json();
-    if (item.status === 'success') {
-      setSnap(item.snap);
+    const item = await response.json();
+    console.log(`item: ${item.message}`);
+    if (item.message === 'success') {
+      //setSnap(item.snap);
+      navigate(`/snaps/${item.snap && item.snap.snapId}`);
     } else {
       // TODO: error
     }

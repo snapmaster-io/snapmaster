@@ -2,13 +2,15 @@ import React, { useState } from 'react'
 import { useApi } from '../../utils/api'
 import { navigate } from 'hookrouter'
 import { useConnections } from '../../utils/connections'
-import { Button, Card } from 'react-bootstrap'
+import { Button, Card, Modal } from 'react-bootstrap'
 import SnapParametersEditor from './SnapParametersEditor'
 
 const ActivateTab = ({snap}) => {
   const { post } = useApi();
   const { connections } = useConnections();
   const [refresh, setRefresh] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState();
 
   const snapId = snap && snap.snapId;
 
@@ -24,12 +26,22 @@ const ActivateTab = ({snap}) => {
     };
 
     const [response, error] = await post('activesnaps', JSON.stringify(request));
+
+    // turn off the spinner
+    setRefresh(false);
+
     if (error || !response.ok) {
       return;
     }
 
-    // turn off the spinner
-    setRefresh(false);
+    const responseData = await response.json();
+    const status = responseData && responseData.message;
+  
+    if (status !== 'success') {
+      setError(status);
+      setShowModal(true);
+      return;
+    }    
 
     // navigate back to active snaps
     navigate('/snaps/active');
@@ -52,14 +64,30 @@ const ActivateTab = ({snap}) => {
   return (
     disableActivateFlag ? 
       <h5>Before activating a snap, please connect all the tools it references</h5> :
-      <Card>
-        <Card.Body>
-          <SnapParametersEditor params={snap && snap.parameters} />
-          <Button variant="primary" style={{ marginTop: 10 }} onClick={ activate }>
-            <i className={`fa fa-${refresh ? 'spinner' : 'play'}`} />&nbsp;&nbsp;Activate
-          </Button>
-        </Card.Body>
-      </Card>
+      <div>
+        <Card>
+          <Card.Body>
+            <SnapParametersEditor params={snap && snap.parameters} />
+            <Button variant="primary" style={{ marginTop: 10 }} onClick={ activate }>
+              <i className={`fa fa-${refresh ? 'spinner' : 'play'}`} />&nbsp;&nbsp;Activate
+            </Button>
+          </Card.Body>
+        </Card>
+
+        <Modal show={showModal} onHide={ () => setShowModal(false) }>
+          <Modal.Header closeButton>
+            <Modal.Title>Error</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+          { error }
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={ () => setShowModal(false) }>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
   )
 }
 

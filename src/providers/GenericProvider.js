@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useApi } from '../utils/api'
 import { useConnections } from '../utils/connections'
+import { calculateStringLength } from '../utils/strings'
 import { CardDeck, Card, Modal, Button, Alert } from 'react-bootstrap'
 import BaseProvider from './BaseProvider'
 import HighlightCard from '../components/HighlightCard'
@@ -123,7 +124,8 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
           entityData && entityData.map && entityData.map((item, key) => {
             const { name, id, url, imageUrl } = item;
             const border = (id === selected) ? 'primary' : null;
-            const displayName = name.length > 12 ? name.slice(0, 11) + '...' : name;
+            const stringLen = calculateStringLength(name, 170);
+            const displayName = stringLen < name.length ? name.slice(0, stringLen) + '...' : name;
           
             const loadEntity = () => {
               getEntity(id);
@@ -164,22 +166,7 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
         }
         </CardDeck>
       </div>
-      { /*
-        entityData ? 
-        <div style={{
-          position: "fixed", 
-          top: 350
-        }}>
-          <div style={{
-            position: "sticky",
-            top: 0
-          }}>
-            <h4>{capitalize(entityName)} information</h4>
-          </div>
-          <h4>{entity && entity.name}</h4>
-        </div> :
-        <div/>
-        */}
+
       { 
         selected && 
         <div style={{
@@ -214,138 +201,4 @@ const GenericProviderCards = ({data, setData, connectionName, entityName, endpoi
   )
 }
 
-/*
-const ProjectCards = ({data}) => {
-  const { post } = useApi();
-  const [selected, setSelected] = useState();
-  const [repo, setRepo] = useState();
-  const [showModal, setShowModal] = useState(false);
-
-  const refreshData = async (method, data) => {
-    const [response, error] = await method('github', JSON.stringify(data));
-    if (error || !response.ok) {
-      return;
-    }
-
-    // refresh the data
-    const items = await response.json();
-    if (items && items.map) {
-      setData(items);
-    }
-  }
-
-  const processProject = async (action, param) => {
-    const data = { __id: param };
-    if (action === 'remove') {
-      setSelected(null);
-      data.__active = false;
-    }
-
-    await refreshData(post, [data]);
-  }
-
-  // get the active projects
-  const projects = data;
-
-  return (
-    <div>
-      <div style={{ 
-        position: "fixed",
-        background: "white",
-        width: "100%",
-        marginTop: "-1px",
-        height: "151px",
-        zIndex: 5
-      }}>
-        <CardDeck>
-        {
-          projects && projects.map && projects.map((item, key) => {
-            const { name } = item;
-            const id = name;
-            const border = (id === selected) ? 'primary' : null;
-            const displayName = name.length > 12 ? name.slice(0, 11) + '...' : name;
-            const url = `https://console.cloud.google.com/home/dashboard?project=${name}`;
-          
-            const selectRepo = (repo) => {
-              // initialize triggers and actions if they don't yet exist with a deep-copy array based on the template
-              if (!repo.__triggers) {
-                repo.__triggers = JSON.parse(JSON.stringify(githubTriggers));
-              }              
-              if (!repo.__actions) {
-                repo.__actions = JSON.parse(JSON.stringify(githubActions));
-              }
-              
-              setRepo(repo);
-              setSelected(repo.name);
-            }
-
-            const deactivateProject = (e) => {
-              e.stopPropagation();
-              e.nativeEvent.stopImmediatePropagation();
-              processProject('remove', id);
-            }
-
-            return (
-              <HighlightCard className="text-center" onClick={() => { selectRepo(item) }}
-                key={key} border={ border ? border : null }
-                style={{ maxWidth: '180px' }}>
-                <Card.Header>
-                  <Card.Link href={url} target="_blank">{displayName}</Card.Link>
-                  <Button type="button" className="close" onClick={deactivateProject}>
-                    <span className="float-right"><i className="fa fa-remove"></i></span>
-                  </Button>
-                </Card.Header>
-                <Card.Body>
-                { 
-                  fork ? <i className='fa fa-code-fork' style={{ fontSize: '4em'}} />
-                       : <i className='cloudfont-repo' style={{ fontSize: '4em'}} /> 
-                }
-                </Card.Body>
-              </HighlightCard>
-            )
-          })
-        }
-          <HighlightCard className="text-center" onClick={ () => { setShowModal(true) }}
-            key='add' 
-            style={{ maxWidth: '180px' }}>
-            <Card.Header>Add repositories</Card.Header>
-            <Card.Body>
-              <i className="fa fa-fw fa-plus" style={{ fontSize: '5em' }} />
-            </Card.Body>
-          </HighlightCard>
-
-        </CardDeck>
-      </div>
-      { 
-        selected && 
-        <div style={{
-          position: "fixed", 
-          top: 350
-        }}>
-          <TriggerActionConfig 
-            entity={ repo }
-            setData= { setData }
-            path='github'
-            />
-        </div> 
-      }
-
-  <CardDeck>
-  {
-    data && data.map && data.map((item, key) => {
-      const { name } = item
-      return (
-        <Card 
-          key={key} 
-          style={{ maxWidth: '150px', textAlign: 'center' }}>
-          <Card.Body>
-            <Card.Title className="text-center">{name}</Card.Title>
-          </Card.Body>
-        </Card>
-      )
-    }) 
-  }
-  </CardDeck>
-  */
-  
 export default GenericProviderPage

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useApi } from '../utils/api'
-import BaseProvider from './BaseProvider'
+import { calculateStringLength } from '../utils/strings'
 import { CardDeck, Card, Modal, Button } from 'react-bootstrap'
+import BaseProvider from './BaseProvider'
 import HighlightCard from '../components/HighlightCard'
 import FilterTable from '../components/FilterTable'
 import TriggerActionConfig from '../components/TriggerActionConfig'
@@ -85,7 +86,8 @@ const RepositoryCards = ({data, setData}) => {
             const { html_url, fork, name } = item;
             const id = name;
             const border = (id === selected) ? 'primary' : null;
-            const displayName = name.length > 12 ? name.slice(0, 11) + '...' : name;
+            const stringLen = calculateStringLength(name, 170);
+            const displayName = stringLen < name.length ? name.slice(0, stringLen) + '...' : name;
           
             const selectRepo = (repo) => {
               // initialize triggers and actions if they don't yet exist with a deep-copy array based on the template

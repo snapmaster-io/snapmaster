@@ -7,11 +7,10 @@ const SnapParametersEditor = ({params}) =>
     { params && params.map(p =>
       <InputGroup className="mb-3" key={p.name}>
         <InputGroup.Prepend>
-          <InputGroup.Text style={{ minWidth: 120 }} id={p.name}>{p.name}</InputGroup.Text>
+          <InputGroup.Text style={{ minWidth: 200 }} id={p.name}>{p.name}</InputGroup.Text>
         </InputGroup.Prepend>
         { p.entity ? 
-          <EntitySelect parameter={p} 
-          /> :
+          <EntitySelect parameter={p} /> :
           <FormControl
             aria-label="value"
             aria-describedby={p.name}

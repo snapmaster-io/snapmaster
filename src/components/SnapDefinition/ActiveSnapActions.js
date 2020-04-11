@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { useApi } from '../../utils/api'
 import { navigate } from 'hookrouter'
 import { Button, Card, Modal } from 'react-bootstrap'
+import Highlight from '../Highlight'
 
 const ActiveSnapActions = ({activeSnap, setActiveSnap}) => {
   const { post } = useApi();
   const [showModal, setShowModal] = useState(false);
+  const [showTriggerDataModal, setShowTriggerDataModal] = useState(false);
   const [showDanger, setShowDanger] = useState();
   const [error, setError] = useState();
   const [refresh, setRefresh] = useState();
@@ -81,6 +83,9 @@ const ActiveSnapActions = ({activeSnap, setActiveSnap}) => {
             <Button style={{ marginLeft: 20 }} onClick={test}>
               <i className="fa fa-flash"></i>&nbsp;&nbsp;Test&nbsp;
             </Button>
+            <Button style={{ marginLeft: 20 }} onClick={() => setShowTriggerDataModal(true)}>
+              <i className="fa fa-info-circle"></i>&nbsp;&nbsp;Trigger Info&nbsp;
+            </Button>
             <Button style={{ marginLeft: 20 }} className="btn btn-danger" onClick={ () => setShowDanger(true) }>
               <i className={`fa fa-${displayIcon('remove')}`} />&nbsp;&nbsp;Deactivate
             </Button>
@@ -97,6 +102,20 @@ const ActiveSnapActions = ({activeSnap, setActiveSnap}) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={ () => setShowModal(false) }>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showTriggerDataModal} onHide={ () => setShowTriggerDataModal(false) }>
+        <Modal.Header closeButton>
+          <Modal.Title>Trigger Information</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        { activeSnap && <Highlight>{JSON.stringify(activeSnap.triggerData, null, 2)}</Highlight> }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={ () => setShowTriggerDataModal(false) }>
             Close
           </Button>
         </Modal.Footer>

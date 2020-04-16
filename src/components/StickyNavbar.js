@@ -43,10 +43,10 @@ const StickyNavbar = ({ state, actions }) => {
             <img src="/SnapMaster-logo-220.png" height="40px" alt="logo"/>
           </NavItem>
           <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/snaps" onSelect={actions.selectTab}>
-            Snaps
+            <i className="fa fa-sitemap" />&nbsp;&nbsp;&nbsp;&nbsp;Snaps&nbsp;
           </NavItem>
           <NavItem className="navBarItem" style={{ fontSize: '1.2em' }} eventKey="/tools" onSelect={actions.selectTab}>
-            Tools
+            <i className="fa fa-usb" />&nbsp;&nbsp;&nbsp;&nbsp;Tools&nbsp;
           </NavItem>
           <NavDropdown className="navBarItem" 
             autoOpen

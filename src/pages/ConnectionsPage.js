@@ -8,6 +8,7 @@ import Loading from '../components/Loading'
 import PageTitle from '../components/PageTitle'
 import RefreshButton from '../components/RefreshButton'
 import HighlightCard from '../components/HighlightCard'
+import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 
 const ConnectionsPage = () => {
@@ -27,6 +28,21 @@ const ConnectionsPage = () => {
         loadData={loadConnections}
         loading={loading}
         pageTitle={pageTitle}/>
+    )
+  }
+
+  // if no tools connected, return a banner to connect tools
+  const connectedToolsCount = connections && connections.filter(c => c.connected).length;
+  if (connectedToolsCount === 0) {
+    return (
+      <RedirectBanner
+        loadData={loadConnections}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText="No tools connected yet..."
+        redirectUrl="/tools/library"
+        anchorText="Library"
+        redirectText="to find and connect tools!" />
     )
   }
 

@@ -160,8 +160,8 @@ const ConnectionsPage = () => {
                     <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
                 }
                 { 
-                  connected !== 'base' && connection.type === 'hybrid' &&
-                    <Button variant='danger' onClick={ () => { processConnection('remove', connection.provider) } }>Disconnect</Button>
+                  connected !== 'base' && connection.type === 'oauth' &&
+                    <Button variant='danger' onClick={ () => { processConnection('removeoauth', connection.provider) } }>Disconnect</Button>
                 }
                 </Card.Footer>
               </HighlightCard>

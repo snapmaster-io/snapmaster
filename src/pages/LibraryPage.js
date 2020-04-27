@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
+import { csrfToken, connectedOAuth2Provider } from '../utils/auth'
 import { useApi } from '../utils/api'
 import { navigate } from 'hookrouter'
 import { Card, CardDeck, Button, Modal } from 'react-bootstrap'
@@ -16,7 +17,7 @@ const LibraryPage = () => {
   const { post } = useApi();
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [showSimpleModal, setShowSimpleModal] = useState(false);
-  const [showHybridModal, setShowHybridModal] = useState(false);
+  const [showOAuthModal, setShowOAuthModal] = useState(false);
   const [providerToConnect, setProviderToConnect] = useState();
   const pageTitle = 'Tool Library';
 
@@ -99,7 +100,15 @@ const LibraryPage = () => {
     call('link', primaryUserId, user.sub);
   }
 
-  // add or remove a simple connection
+  // check if an OAuth2 provider was connected
+  const providerName = connectedOAuth2Provider();
+  if (providerName) {
+    // reload connections and navigate to the newly added provider
+    loadConnections();
+    navigate(`/tools/${providerName}`);
+  }
+
+  // add a simple connection
   const processConnection = async (action, providerName) => {
     const provider = connections.find(c => c.provider === providerName);
     const connectionInfo = provider.definition.connection.connectionInfo;
@@ -124,6 +133,28 @@ const LibraryPage = () => {
       navigate(`/tools/${providerName}`);
     }
   }
+
+  // add an OAuth connection
+  const processOAuth = async (action, providerName) => {
+    const state = csrfToken()
+    const { location, localStorage } = window
+    /* Set csrf token */
+    localStorage.setItem(state, 'true')
+
+    // initiate a redirect to the OAuth start endpoint
+    const redirectTo = `${location.origin}${location.pathname}`;
+
+    // construct API service URL
+    const baseUrl = window.location.origin;
+    const urlObject = new URL(baseUrl);
+
+    // replace port for local development from 3000 to 8080
+    if (urlObject.port && urlObject.port > 80) {
+      urlObject.port = 8080;
+    }
+
+    window.location = `${urlObject}oauth/start/${providerName}?url=${redirectTo}&csrf=${state}&providerName=${providerName}`;
+  }  
 
   return(
     <div>
@@ -150,9 +181,9 @@ const LibraryPage = () => {
               };
 
               // set up the connect action
-              const hybridAction = () => { 
+              const oauthAction = () => { 
                 setProviderToConnect(tool.provider); 
-                setShowHybridModal(true);
+                setShowOAuthModal(true);
               };
 
               return (
@@ -177,8 +208,8 @@ const LibraryPage = () => {
                         <Button variant='primary' onClick={connectAction}>Connect</Button>
                     }
                     { 
-                      !tool.connected && tool.type === 'hybrid' &&
-                        <Button variant='primary' onClick={hybridAction}>Connect</Button>
+                      !tool.connected && tool.type === 'oauth' &&
+                        <Button variant='primary' onClick={oauthAction}>Connect</Button>
                     }
                     { 
                       tool.connected && <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Connected</center>
@@ -235,20 +266,14 @@ const LibraryPage = () => {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={showHybridModal} dialogClassName="modal-50w" onHide={ () => setShowHybridModal(false) }>
+          <Modal show={showOAuthModal} dialogClassName="modal-50w" onHide={ () => setShowOAuthModal(false) }>
             <Modal.Header closeButton>
               <Modal.Title>Connecting a new source</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <p>
-              To connect to {providerToConnect}, you have two choices.  You can 
-              either login to {providerToConnect} and allow SnapMaster access to your cloud project,
-              or you can create service accounts for each cloud project you'd like to connect, 
-              and provide SnapMaster with the key information for that service account.  
-              </p>
-              <p>
-              NOTE: If you choose to login to {providerToConnect}, once your approve these permissions,  
-              you will be asked to log in again with your primary login.
+              To connect to {providerToConnect}, you will need to login  
+              to {providerToConnect} and allow SnapMaster access to your data.  
               </p>
               <p>
               At the end of the process, you will see {providerToConnect} connected as one of your   
@@ -256,14 +281,11 @@ const LibraryPage = () => {
               </p>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={ () => setShowLinkModal(false) }>
+              <Button variant="secondary" onClick={ () => setShowOAuthModal(false) }>
                 Cancel
               </Button>
-              <Button variant="secondary" onClick={ () => processConnection('add', providerToConnect) }>
-                Connect without logging in
-              </Button>
-              <Button variant="primary" onClick={ () => link(providerToConnect) }>
-                Connect by logging in
+              <Button variant="primary" onClick={ () => processOAuth('add', providerToConnect) }>
+                Connect 
               </Button>
             </Modal.Footer>
           </Modal>

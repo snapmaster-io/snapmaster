@@ -153,7 +153,8 @@ const LibraryPage = () => {
       urlObject.port = 8080;
     }
 
-    window.location = `${urlObject}oauth/start/${providerName}?url=${redirectTo}&csrf=${state}&providerName=${providerName}`;
+    // create oauth URL and set the browser address
+    window.location = `${urlObject}oauth/start/${providerName}?url=${redirectTo}&csrf=${state}&providerName=${providerName}&userId=${user.sub}`;
   }  
 
   return(

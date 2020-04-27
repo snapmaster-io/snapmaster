@@ -18,6 +18,7 @@ const LibraryPage = () => {
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [showSimpleModal, setShowSimpleModal] = useState(false);
   const [showOAuthModal, setShowOAuthModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [providerToConnect, setProviderToConnect] = useState();
   const pageTitle = 'Tool Library';
 
@@ -103,19 +104,24 @@ const LibraryPage = () => {
   // check if an OAuth2 provider was connected
   const providerName = connectedOAuth2Provider();
   if (providerName) {
-    // reload connections and navigate to the newly added provider
-    loadConnections();
-    navigate(`/tools/${providerName}`);
+    if (providerName === "error") {
+      // show error dialog
+      setShowErrorModal(true);
+    } else {
+      // reload connections and navigate to the newly added provider
+      loadConnections();
+      navigate(`/tools/${providerName}`);
+    }
   }
 
   // add a simple connection
-  const processConnection = async (action, providerName) => {
+  const processConnection = async (providerName) => {
     const provider = connections.find(c => c.provider === providerName);
     const connectionInfo = provider.definition.connection.connectionInfo;
     const entity = provider.definition.connection.entity;
 
     const body = JSON.stringify({ 
-      action: action, 
+      action: 'add', 
       provider: providerName, 
       connectionInfo: connectionInfo,
       entityName: entity
@@ -135,7 +141,7 @@ const LibraryPage = () => {
   }
 
   // add an OAuth connection
-  const processOAuth = async (action, providerName) => {
+  const processOAuth = async (providerName) => {
     const state = csrfToken()
     const { location, localStorage } = window
     /* Set csrf token */
@@ -233,7 +239,7 @@ const LibraryPage = () => {
               <Button variant="secondary" onClick={ () => setShowSimpleModal(false) }>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={ () => processConnection('add', providerToConnect) }>
+              <Button variant="primary" onClick={ () => processConnection(providerToConnect) }>
                 Connect
               </Button>
             </Modal.Footer>
@@ -285,8 +291,22 @@ const LibraryPage = () => {
               <Button variant="secondary" onClick={ () => setShowOAuthModal(false) }>
                 Cancel
               </Button>
-              <Button variant="primary" onClick={ () => processOAuth('add', providerToConnect) }>
+              <Button variant="primary" onClick={ () => processOAuth(providerToConnect) }>
                 Connect 
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={showErrorModal} onHide={ () => setShowErrorModal(false) }>
+            <Modal.Header closeButton>
+              <Modal.Title>Error</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Error encountered in OAuth2 connection</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={ () => setShowErrorModal(false) }>
+                OK
               </Button>
             </Modal.Footer>
           </Modal>

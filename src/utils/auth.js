@@ -6,7 +6,7 @@
 export function connectedOAuth2Provider() {
   // if we are getting called back from an OAuth provider flow, do some cleanup
   const response = parseHash(window.location.hash)
-  if (!response.providerName) {
+  if (!response.message) {
     return null;
   }
 
@@ -17,11 +17,16 @@ export function connectedOAuth2Provider() {
   if (response.token && !localStorage.getItem(response.csrf)) {
     // TODO: put up a proper error message
     alert('Token invalid. Please try to login again');
-    return null;
+    return "error";
   } else {
     // clean up csrfToken 
     localStorage.removeItem(response.csrf);
 
+    // return an error response if one was found
+    if (response.message === "error") {
+      return response.message;
+    }
+  
     // retrieve and return the provider name out of the response
     const providerName = response.providerName;
     return providerName;

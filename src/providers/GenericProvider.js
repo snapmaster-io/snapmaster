@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { useApi } from '../utils/api'
 import { useConnections } from '../utils/connections'
 import { calculateStringLength } from '../utils/strings'
-import { CardDeck, Card, Modal, Button, Alert } from 'react-bootstrap'
+import { CardDeck, Card, Modal, Button, Alert, Jumbotron } from 'react-bootstrap'
 import BaseProvider from './BaseProvider'
 import HighlightCard from '../components/HighlightCard'
 import SimpleProviderInfo from '../components/SimpleProviderInfo'
 import TriggerActionConfig from '../components/TriggerActionConfig'
+import PageTitle from '../components/PageTitle'
+import RefreshButton from '../components/RefreshButton'
 
 const GenericProviderPage = ({
   pageTitle,
@@ -15,6 +17,22 @@ const GenericProviderPage = ({
   entityName,
 }) => {
   const [data, setData] = useState();
+
+  // if there's no entity, simply display a "connected" banner
+  if (!entityName) {
+    return (
+      <div>
+        <div className="page-header">
+          <RefreshButton loading={false} load={() => {}} />
+          <PageTitle usePathAsBreadcrumb title={pageTitle} />
+        </div>
+        <Jumbotron>
+          <h1 className="text-center">Connected to {connectionName}</h1> 
+        </Jumbotron>
+      </div>
+    )
+  }
+
   return (
     <BaseProvider 
       pageTitle={pageTitle}

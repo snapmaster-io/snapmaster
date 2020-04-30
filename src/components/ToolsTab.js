@@ -13,7 +13,6 @@ import LibraryPage from '../pages/LibraryPage'
 import NotFoundPage from '../pages/NotFoundPage'
 
 // import providers
-import GithubPage from '../providers/GithubPage'
 import GenericProviderPage from '../providers/GenericProvider'
 
 // define routes
@@ -21,7 +20,7 @@ const routes = {
   '/': () => <LibraryPage />,
   '/library': () => <LibraryPage />,
   '/connections': () => <ConnectionsPage />,
-  '/github': () => <GithubPage />,
+//  '/github': () => <GithubPage />,
 };
 
 const ToolsTab = () => {
@@ -52,7 +51,7 @@ const ToolsTab = () => {
   // add routes for all connected providers
   for (const p of connectedProviders) {
     const providerName = p.provider.split('-')[0];
-    const fullEntityName = p.definition && p.definition.connection && p.definition.connection.entity;
+    const fullEntityName = (p.definition && p.definition.connection && p.definition.connection.entity) || '';
     const entity = fullEntityName && fullEntityName.split(':')[1];
     const pageTitle = `${capitalize(providerName)} ${entity}`;
     const singularEntity = entity && entity.slice(0, entity.length - 1);
@@ -66,7 +65,7 @@ const ToolsTab = () => {
   }
 
   // hardcode the github page for now
-  routes['/github'] = () => <GithubPage />;
+  //routes['/github'] = () => <GithubPage />;
 
   // compute the route result
   useRedirect('/', '/tools/library');

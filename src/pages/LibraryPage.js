@@ -219,6 +219,10 @@ const LibraryPage = () => {
                         <Button variant='primary' onClick={oauthAction}>Connect</Button>
                     }
                     { 
+                      !tool.connected && tool.type === 'disabled' &&
+                        <center style={{marginTop: 7, marginBottom: 7}}>Coming soon!</center>
+                    }
+                    { 
                       tool.connected && <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Connected</center>
                     }
                   </Card.Footer>

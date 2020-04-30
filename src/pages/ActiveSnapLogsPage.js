@@ -68,7 +68,7 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
     return (
       <div>
         { cell && cell.map && cell.map(a => 
-            <span key={a.provider}><span style={{ fontWeight: 400 }}>{a.provider}</span>: &nbsp;{a.state};&nbsp;&nbsp;</span>
+            <span key={a.name}><span style={{ fontWeight: 400 }}>{a.provider}</span>: &nbsp;{a.state};&nbsp;&nbsp;</span>
           )
         }
       </div>
@@ -82,18 +82,6 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
   }
 
   const timestampFormatter = (cell) => new Date(cell).toLocaleString();
-
-  const dataRows = logs && logs.map(s => {
-    return {
-      activeSnapId: s.activeSnapId,
-      timestamp: s.timestamp,
-      snapId: s.snapId,
-      state: s.state,
-      trigger: s.trigger,
-      actions: s.actions,
-      params: s.params
-    }
-  });
 
   const columns = [{
     dataField: 'timestamp',
@@ -145,10 +133,10 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
         <PageTitle title={pageTitle} breadcrumbText={snapId} breadcrumbUrl={`/snaps/${snapId}/${activeSnapId}`} />
       </div>
       { 
-        dataRows &&
+        logs && logs.length > 0 &&
         <DataTable
           columns={columns}
-          data={dataRows}
+          data={logs}
           keyField="timestamp"
           rowEvents={rowEvents}
         /> 

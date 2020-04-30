@@ -125,6 +125,7 @@ const ActiveSnapsPage = () => {
   }, {
     dataField: 'timestamp',
     text: 'Since',
+    sort: true,
     headerStyle: (column, colIndex) => {
       return { width: '200px' };
     },

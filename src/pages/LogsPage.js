@@ -65,7 +65,7 @@ const LogsPage = () => {
     return (
       <div>
         { cell && cell.map && cell.map(a => 
-            <span key={a.provider}><span style={{ fontWeight: 400 }}>{a.provider}</span>: &nbsp;{a.state};&nbsp;&nbsp;</span>
+            <span key={a.name}><span style={{ fontWeight: 400 }}>{a.provider}</span>: &nbsp;{a.state};&nbsp;&nbsp;</span>
           )
         }
       </div>
@@ -80,6 +80,7 @@ const LogsPage = () => {
 
   const timestampFormatter = (cell) => new Date(cell).toLocaleString();
 
+  /*
   const dataRows = logs && logs.map && logs.map(s => {
     return {
       activeSnapId: s.activeSnapId,
@@ -91,6 +92,7 @@ const LogsPage = () => {
       params: s.params
     }
   });
+  */
 
   const columns = [{
     dataField: 'timestamp',
@@ -117,8 +119,9 @@ const LogsPage = () => {
   }, {
     dataField: 'trigger',
     text: 'Trigger',
+    sort: true,
     headerStyle: (column, colIndex) => {
-      return { width: '75px' };
+      return { width: '90px' };
     },
     align: 'center',
     formatter: toolFormatter,
@@ -142,11 +145,11 @@ const LogsPage = () => {
         <PageTitle title={pageTitle} />
       </div>
       { 
-        dataRows &&
+        logs && logs.length > 0 &&
         <DataTable
           columns={columns}
-          data={dataRows}
-          keyField="activeSnapId"
+          data={logs}
+          keyField="timestamp"
           rowEvents={rowEvents}
         /> 
       }

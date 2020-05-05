@@ -29,7 +29,6 @@ const TriggerActionConfig = ({
 
   const storeMetadata = async () => {
     const data = { __id: entity.id, __actions: entity.actions, __triggers: entity.triggers };
-    console.log(entity);
     let payload;
     if (metadata) {
       // the caller wants to use the metadata endpoint to handle the payload - this means an array of inputs

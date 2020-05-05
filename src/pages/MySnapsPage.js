@@ -94,7 +94,6 @@ const MySnapsPage = () => {
     showPublic = true;
     showPrivate = true;
   }
-  console.log(`showPrivate: ${showPrivate}; showPublic: ${showPublic}`);
 
   const snaps = mySnaps && mySnaps
     .filter(s => checkedProviders.find(p => p === s.provider))

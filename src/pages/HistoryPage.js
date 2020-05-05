@@ -100,7 +100,6 @@ const HistoryPage = () => {
   // this event handler works hard to find the active snap that was 
   // clicked on, and navigate to its page
   const onBarClick = (e) => {
-    console.log(e);
     const payload = e.payload;
     const [startVal] = e.value;
     // construct snap array in order of keys

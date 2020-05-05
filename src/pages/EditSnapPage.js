@@ -62,7 +62,6 @@ const EditSnapPage = ({snapId}) => {
     } 
 
     const item = await response.json();
-    console.log(`item: ${item.message}`);
     if (item.message === 'success') {
       //setSnap(item.snap);
       navigate(`/snaps/${item.snap && item.snap.snapId}`);

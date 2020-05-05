@@ -14,7 +14,6 @@ const ProviderFilter = ({providers, checkboxState, setCheckboxState, initialStat
         icon: p.icon,
         state: initialState
       }
-      console.log(`icon: ${items[p.title].icon}`)
     }
     setCheckboxState(items);
   }

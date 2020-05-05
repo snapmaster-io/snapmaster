@@ -1,20 +1,25 @@
 import React from 'react'
-import CheckboxDropdown from '../components/CheckboxDropdown'
+import CheckboxGroup from '../components/CheckboxGroup'
 
-const ProviderFilter = ({providers, checkboxState, setCheckboxState, initialState = true}) => {
+const PublishedFilter = ({checkboxState, setCheckboxState, initialState = true}) => {
+  // create an array of publised states
+  const publishedStates = [
+    { name: 'public', icon: 'fa fa-users' },
+    { name: 'private', icon: 'fa fa-lock' },
+  ];
 
   // if haven't initialized the state yet, set it now
-  if (!checkboxState && providers && providers.length > 0) {
+  if (!checkboxState) {
     // create item list - one for each connection
     const items = {};
-    for (const p of providers) {
-      items[p.title] = { 
-        name: `dashboardCB-${p.title}`,
-        title: p.title,
-        icon: p.icon,
+    for (const state of publishedStates) {
+      items[state.name] = { 
+        name: `publishedCB-${state.name}`,
+        icon: state.icon,
+        title: state.name,
+        text: state.name,
         state: initialState
       }
-      console.log(`icon: ${items[p.title].icon}`)
     }
     setCheckboxState(items);
   }
@@ -25,7 +30,7 @@ const ProviderFilter = ({providers, checkboxState, setCheckboxState, initialStat
     const items = { ...checkboxState };
 
     // checkbox name is in the form `dashboardCB-${name}`
-    const name = event.target.name && event.target.name.split('dashboardCB-')[1];
+    const name = event.target.name && event.target.name.split('publishedCB-')[1];
     if (name && items[name]) {
       items[name].state = !items[name].state;
       setCheckboxState(items);
@@ -34,7 +39,7 @@ const ProviderFilter = ({providers, checkboxState, setCheckboxState, initialStat
 
   return (
     checkboxState ? 
-      <CheckboxDropdown 
+      <CheckboxGroup 
         state={checkboxState}
         onSelect={onSelect}
         columns={4}
@@ -43,4 +48,4 @@ const ProviderFilter = ({providers, checkboxState, setCheckboxState, initialStat
   )
 }
 
-export default ProviderFilter
+export default PublishedFilter

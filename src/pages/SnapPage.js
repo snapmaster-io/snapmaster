@@ -96,8 +96,7 @@ const SnapPage = ({snapId}) => {
     // TODO: show error if the call was unsuccessful
   }
 
-  const privacyIcon = (privateStatus) => editingPrivacy ? 'spinner' : (privateStatus ? 'unlock' : 'lock' );
-
+  const privacyIcon = (privateStatus) => editingPrivacy ? 'spinner' : (privateStatus ? 'users' : 'lock' );
 
   const PrivacyButton = ({privateStatus}) => 
     <Button style={{ marginLeft: 20}} onClick={flipPrivacyStatus}>

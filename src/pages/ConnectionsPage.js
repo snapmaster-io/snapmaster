@@ -132,7 +132,7 @@ const ConnectionsPage = () => {
             // set up some variables
             const connected = connection.connected;
             const uid = `${connection.provider}|${connection.userId}`;
-            const connectionTitle = connection.provider.split('-')[0];
+            const connectionTitle = connection.title;
             return (
               <HighlightCard 
                 key={key} 

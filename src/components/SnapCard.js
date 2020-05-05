@@ -17,6 +17,7 @@ const SnapCard = ({snap, currentUser, deleteAction}) => {
   const DisplayAccount = ({accountName}) =>
     <span>
       { snap && snap.private && <span><i className="fa fa-lock" />&nbsp;&nbsp;</span> }
+      { snap && !snap.private && deleteAction && <span><i className="fa fa-users" />&nbsp;&nbsp;</span> }
       {accountName}
     </span>
 

@@ -46,11 +46,11 @@ const ToolsTab = () => {
   const connectedProviders = connections.filter(c => c.connected !== null);
 
   // create an array containing the names of all the tools tabs that are connected and should be displayed
-  const sideNavTabs = connectedProviders.map(c => c.provider.split('-')[0]);
+  const sideNavTabs = connectedProviders.map(c => c.title);
 
   // add routes for all connected providers
   for (const p of connectedProviders) {
-    const providerName = p.provider.split('-')[0];
+    const providerName = p.title;
     const fullEntityName = (p.definition && p.definition.connection && p.definition.connection.entity) || '';
     const entity = fullEntityName && fullEntityName.split(':')[1];
     const pageTitle = `${capitalize(providerName)} ${entity}`;

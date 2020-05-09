@@ -41,8 +41,10 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build:dev": "react-app-rewired build",
-    "build:prod": "cp src/utils/auth_config_prod.json src/utils/auth_config.json && react-app-rewired build && cp src/utils/auth_config_dev.json src/utils/auth_config.json",
+    "rm": "rm -r build/*",
+    "build": "react-app-rewired build",
+    "build:dev": "npm run rm && npm run build",
+    "build:prod": "cp src/utils/auth_config_prod.json src/utils/auth_config.json && npm run build && cp src/utils/auth_config_dev.json src/utils/auth_config.json",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },

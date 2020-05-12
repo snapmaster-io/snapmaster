@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useRoutes, navigate, useRedirect } from 'hookrouter'
 import { useProfile } from '../utils/profile'
 import { useConnections } from '../utils/connections'
+import { providerTitle } from '../utils/strings'
 
 // side nav control and styles
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
@@ -10,17 +11,15 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css'
 // import pages
 import ConnectionsPage from '../pages/ConnectionsPage'
 import LibraryPage from '../pages/LibraryPage'
+import ProviderDefinitionPage from '../pages/ProviderDefinitionPage'
+import ProviderPage from '../pages/ProviderPage'
 import NotFoundPage from '../pages/NotFoundPage'
-
-// import providers
-import GenericProviderPage from '../providers/GenericProvider'
 
 // define routes
 const routes = {
   '/': () => <LibraryPage />,
   '/library': () => <LibraryPage />,
   '/connections': () => <ConnectionsPage />,
-//  '/github': () => <GithubPage />,
 };
 
 const ToolsTab = () => {
@@ -40,8 +39,6 @@ const ToolsTab = () => {
     navigate(`${selected}`)
   }
 
-  const capitalize = (word) => word.length > 3 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toUpperCase();
-
   // get the connected providers
   const connectedProviders = connections.filter(c => c.connected !== null);
 
@@ -50,22 +47,15 @@ const ToolsTab = () => {
 
   // add routes for all connected providers
   for (const p of connectedProviders) {
-    const providerName = p.title;
-    const fullEntityName = (p.definition && p.definition.connection && p.definition.connection.entity) || '';
-    const entity = fullEntityName && fullEntityName.split(':')[1];
-    const pageTitle = `${capitalize(providerName)} ${entity}`;
-    const singularEntity = entity && entity.slice(0, entity.length - 1);
-
-    routes[`/${providerName}`] = () =>
-      <GenericProviderPage 
-        pageTitle={pageTitle}
-        connectionName={providerName}
-        endpoint={`entities/${fullEntityName}`}
-        entityName={singularEntity} />
+    routes[`/${p.title}`] = () =>
+      <ProviderPage provider={p} />
   }
 
-  // hardcode the github page for now
-  //routes['/github'] = () => <GithubPage />;
+  // add routes for all provider details pages
+  for (const p of connections) {
+    routes[`/${p.title}/definition`] = () =>
+      <ProviderDefinitionPage provider={p} />
+  }
 
   // compute the route result
   useRedirect('/', '/tools/library');
@@ -110,7 +100,7 @@ const ToolsTab = () => {
                   <NavIcon>
                     <i className={`cloudfont-${c}`} style={{ fontSize: '1.75em' }} />
                   </NavIcon>
-                  <NavText style={{ fontSize: '1.2em' }}>{capitalize(c)}</NavText>
+                  <NavText style={{ fontSize: '1.2em' }}>{providerTitle(c)}</NavText>
                 </NavItem>
               )
             }

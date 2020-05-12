@@ -1,25 +1,22 @@
 import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { useConnections } from '../utils/connections'
-import { csrfToken, connectedOAuth2Provider } from '../utils/auth'
+import { connectedOAuth2Provider } from '../utils/auth'
 import { useApi } from '../utils/api'
 import { navigate } from 'hookrouter'
-import { Card, CardDeck, Button, Modal } from 'react-bootstrap'
+import { Card, CardDeck, Modal, Button } from 'react-bootstrap'
+import HighlightCard from '../components/HighlightCard'
 import Loading from '../components/Loading'
 import RefreshButton from '../components/RefreshButton'
-import PageTitle from '../components/PageTitle';
+import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
-import SimpleProviderInfo from '../components/SimpleProviderInfo'
+import ConnectButton from '../components/ConnectButton'
 
 const LibraryPage = () => {
   const { loading, loadConnections, connections } = useConnections();
   const { user, loginWithRedirect } = useAuth0();
   const { post } = useApi();
-  const [showLinkModal, setShowLinkModal] = useState(false);
-  const [showSimpleModal, setShowSimpleModal] = useState(false);
-  const [showOAuthModal, setShowOAuthModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [providerToConnect, setProviderToConnect] = useState();
   const pageTitle = 'Tool Library';
 
   // if in the middle of a loading loop, put up loading banner and bail
@@ -72,24 +69,6 @@ const LibraryPage = () => {
     }
   };  
 
-  // start the account linking process
-  // linking state machine: null => linking => login => null
-  const link = (provider) => { 
-    // move the state machine from null to 'linking'
-    localStorage.setItem('linking', 'linking');
-    // store the currently logged in userid (will be used as primary)
-    localStorage.setItem('primary', user.sub);
-    // store the provider being connected to
-    localStorage.setItem('provider', provider);
-
-    // need to sign in with new IdP
-    loginWithRedirect({
-      access_type: 'offline', 
-      connection: provider,
-      redirect_uri: `${window.location.origin}`
-    });
-  }
-
   // get the state of the linking state machine
   const linking = localStorage.getItem('linking');
   if (linking === 'linking') {
@@ -114,55 +93,6 @@ const LibraryPage = () => {
     }
   }
 
-  // add a simple connection
-  const processConnection = async (providerName) => {
-    const provider = connections.find(c => c.provider === providerName);
-    const connectionInfo = provider.definition.connection.connectionInfo;
-    const entity = provider.definition.connection.entity;
-
-    const body = JSON.stringify({ 
-      action: 'add', 
-      provider: providerName, 
-      connectionInfo: connectionInfo,
-      entityName: entity
-    });
-
-    const [response, error] = await post('connections', body);
-    if (error || !response.ok) {
-      return;
-    }
-
-    const responseData = await response.json();
-    const success = responseData && responseData.message !== 'error';
-    if (success) {
-      loadConnections();
-      navigate(`/tools/${providerName}`);
-    }
-  }
-
-  // add an OAuth connection
-  const processOAuth = async (providerName) => {
-    const state = csrfToken()
-    const { location, localStorage } = window
-    /* Set csrf token */
-    localStorage.setItem(state, 'true')
-
-    // initiate a redirect to the OAuth start endpoint
-    const redirectTo = `${location.origin}${location.pathname}`;
-
-    // construct API service URL
-    const baseUrl = window.location.origin;
-    const urlObject = new URL(baseUrl);
-
-    // replace port for local development from 3000 to 8080
-    if (urlObject.port && urlObject.port > 80) {
-      urlObject.port = 8080;
-    }
-
-    // create oauth URL and set the browser address
-    window.location = `${urlObject}oauth/start/${providerName}?url=${redirectTo}&csrf=${state}&providerName=${providerName}&userId=${user.sub}`;
-  }  
-
   return(
     <div>
       <div className="page-header">
@@ -175,26 +105,14 @@ const LibraryPage = () => {
           <CardDeck>
           {
             connections.map((tool, key) => {
-              // set up the link action
-              const linkAction = () => { 
-                setProviderToConnect(tool.provider); 
-                setShowLinkModal(true);
-              };
 
-              // set up the connect action
-              const connectAction = () => { 
-                setProviderToConnect(tool.provider); 
-                setShowSimpleModal(true);
-              };
-
-              // set up the connect action
-              const oauthAction = () => { 
-                setProviderToConnect(tool.provider); 
-                setShowOAuthModal(true);
-              };
+              const onClickHandler = () => {
+                const url = tool.connected ? `/tools/${tool.title}` : `/tools/${tool.title}/definition`;
+                navigate(url);
+              }
 
               return (
-                <Card 
+                <HighlightCard 
                   key={key} 
                   style={{ 
                     maxWidth: '150px', 
@@ -202,21 +120,13 @@ const LibraryPage = () => {
                     marginBottom: '30px',
                     textAlign: 'center' 
                   }}>
-                  <Card.Body> 
+                  <Card.Body
+                    onClick={onClickHandler}>
                     <Card.Img variant="top" src={tool.image} style={{ width: '6rem' }}/>
                   </Card.Body>
                   <Card.Footer>
-                    { 
-                      !tool.connected && tool.type === 'link' &&
-                        <Button variant='primary' onClick={linkAction}>Connect</Button>
-                    }
-                    { 
-                      !tool.connected && tool.type === 'simple' &&
-                        <Button variant='primary' onClick={connectAction}>Connect</Button>
-                    }
-                    { 
-                      !tool.connected && tool.type === 'oauth' &&
-                        <Button variant='primary' onClick={oauthAction}>Connect</Button>
+                    {
+                      !tool.connected && tool.type !== 'disabled' && <ConnectButton tool={tool} />
                     }
                     { 
                       !tool.connected && tool.type === 'disabled' &&
@@ -226,80 +136,11 @@ const LibraryPage = () => {
                       tool.connected && <center className='text-success' style={{marginTop: 7, marginBottom: 7}}>Connected</center>
                     }
                   </Card.Footer>
-                </Card>
+                </HighlightCard>
               )
             })
           }
           </CardDeck>
-
-          <Modal show={showSimpleModal} dialogClassName="modal-50w" onHide={ () => setShowSimpleModal(false) }>
-            <Modal.Header closeButton>
-              <Modal.Title>Connecting to {providerToConnect}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <SimpleProviderInfo providerName={providerToConnect} />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={ () => setShowSimpleModal(false) }>
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={ () => processConnection(providerToConnect) }>
-                Connect
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          <Modal show={showLinkModal} dialogClassName="modal-50w" onHide={ () => setShowLinkModal(false) }>
-            <Modal.Header closeButton>
-              <Modal.Title>Linking a new source</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p>
-              To connect to {providerToConnect}, you will need to login  
-              to {providerToConnect} and allow SnapMaster access to your data.  
-              </p>
-              <p>
-              Note that once your approve these permissions, you will be 
-              asked to log in again with your primary login.
-              </p>
-              <p>
-              At the end of the process, you will see {providerToConnect} connected as one of your   
-              tools!
-              </p>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={ () => setShowLinkModal(false) }>
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={ () => link(providerToConnect) }>
-                Link
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          <Modal show={showOAuthModal} dialogClassName="modal-50w" onHide={ () => setShowOAuthModal(false) }>
-            <Modal.Header closeButton>
-              <Modal.Title>Connecting a new source</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p>
-              To connect to {providerToConnect}, you will need to login  
-              to {providerToConnect} and allow SnapMaster access to your data.  
-              </p>
-              <p>
-              At the end of the process, you will see {providerToConnect} connected as one of your   
-              tools!
-              </p>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={ () => setShowOAuthModal(false) }>
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={ () => processOAuth(providerToConnect) }>
-                Connect 
-              </Button>
-            </Modal.Footer>
-          </Modal>
 
           <Modal show={showErrorModal} onHide={ () => setShowErrorModal(false) }>
             <Modal.Header closeButton>

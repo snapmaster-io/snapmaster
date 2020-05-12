@@ -8,6 +8,9 @@ exports.calculateStringLength = (text, width) => {
   return len;
 }
 
+exports.providerTitle = (word) => word.length > 3 ? word.charAt(0).toUpperCase() + word.slice(1) : word.toUpperCase();
+
+
 //export default calculateStringLength;
 
 /**

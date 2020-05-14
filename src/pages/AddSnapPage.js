@@ -3,7 +3,7 @@ import { navigate } from 'hookrouter'
 import { useApi } from '../utils/api'
 import { useProfile } from '../utils/profile'
 import { Button } from 'react-bootstrap'
-import SnapEditor from '../components/SnapEditor'
+import SnapCodeEditor from '../components/SnapCodeEditor'
 import YAML from 'yaml'
 
 const AddSnapPage = () => {
@@ -53,7 +53,7 @@ const AddSnapPage = () => {
           <Button disabled={!name} onClick={save}><i className="fa fa-save"></i>&nbsp;&nbsp;Save</Button>
         </div>
       </div>
-      <SnapEditor definition={definition} setDefinition={setDefinition}/>
+      <SnapCodeEditor definition={definition} setDefinition={setDefinition}/>
     </div>
   )
 }

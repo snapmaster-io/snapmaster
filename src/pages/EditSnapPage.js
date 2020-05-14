@@ -4,7 +4,7 @@ import { navigate } from 'hookrouter'
 import { Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import ServiceDownBanner from '../components/ServiceDownBanner'
-import SnapEditor from '../components/SnapEditor'
+import SnapCodeEditor from '../components/SnapCodeEditor'
 
 const EditSnapPage = ({snapId}) => {
   const { get, post } = useApi();
@@ -79,7 +79,7 @@ const EditSnapPage = ({snapId}) => {
           <Button onClick={save}><i className="fa fa-save"></i>&nbsp;&nbsp;Save</Button>
         </div>
       </div>
-      <SnapEditor definition={definition} setDefinition={setDefinition}/>
+      <SnapCodeEditor definition={definition} setDefinition={setDefinition}/>
     </div>
   )
 }

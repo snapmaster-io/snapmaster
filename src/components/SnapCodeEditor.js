@@ -1,7 +1,7 @@
 import React from 'react'
 import MonacoEditor from 'react-monaco-editor'
 
-const SnapEditor = ({definition, setDefinition}) =>
+const SnapCodeEditor = ({definition, setDefinition}) =>
   <MonacoEditor
     language="yaml"
     width="80vw"
@@ -13,4 +13,4 @@ const SnapEditor = ({definition, setDefinition}) =>
     }}
   />
 
-export default SnapEditor
+export default SnapCodeEditor

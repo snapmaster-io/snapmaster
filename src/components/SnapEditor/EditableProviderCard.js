@@ -67,7 +67,7 @@ const EditableProviderCard = ({config, setConfig, role, opname}) => {
         </Card.Body>
         <Card.Footer style={{ minHeight: 56 }}>
           { 
-            provider && configState ? configState[opname] : "Select tool"
+            provider && configState ? configState[opname] : "add an action"
           }
         </Card.Footer>
       </HighlightCard>

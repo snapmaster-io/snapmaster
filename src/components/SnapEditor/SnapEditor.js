@@ -13,6 +13,11 @@ const SnapEditor = ({snap, setSnap}) => {
     return actionConfig;
   }).filter(a => a !== undefined);
 
+  // initialize parameters
+  if (snap && !snap.parameters) {
+    snap.parameters = [];
+  }
+
   const setConfig = (config) => {
     // find the index of the config entry being mutated
     const index = snap.config.findIndex(c => c.name === config.name);
@@ -92,12 +97,10 @@ const SnapEditor = ({snap, setSnap}) => {
         { actionList && actionList.map(a => <EditableProviderCard key={`${a.provider}:${a.action}`} config={a} setConfig={setConfig} role="actions" opname="action" />) }
         <EditableProviderCard role="actions" opname="action" setConfig={setConfig} />
       </CardDeck>
-      { snap && snap.parameters && 
-        <div>
-          <hr />
-          <ParamsEditor params={snap.parameters} setParams={changeParams} />
-        </div>
-      }
+      <div>
+        <hr />
+        <ParamsEditor params={snap && snap.parameters} setParams={changeParams} />
+      </div>
     </div>
   )
 }

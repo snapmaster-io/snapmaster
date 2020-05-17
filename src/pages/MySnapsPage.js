@@ -95,7 +95,7 @@ const MySnapsPage = () => {
     showPrivate = true;
   }
 
-  const snaps = mySnaps && mySnaps
+  const snaps = mySnaps && checkedProviders && mySnaps
     .filter(s => checkedProviders.find(p => p === s.provider))
     .filter(s => (showPrivate && s.private) || (showPublic && !s.private))
     .map(s => {
@@ -115,35 +115,29 @@ const MySnapsPage = () => {
 
   return(
     <div>
-      { mySnaps && mySnaps.length === 0 ?
-          <RedirectBanner
-            loadData={loadData}
-            loading={loading}
-            pageTitle={pageTitle}
-            messageText="You don't have any snaps yet... click the plus to create your first snap, or "
-            redirectUrl="/snaps/gallery"
-            anchorText="Gallery"
-            redirectText="to fork your own snaps! " /> :
-          <div className="page-header">
-            <RefreshButton load={loadData} loading={loading}/>
-            <PageTitle title={pageTitle} />
-            <div style={{ marginLeft: 106 }}>
-              <ProviderFilter 
-                providers={connections}
-                checkboxState={checkboxState}
-                setCheckboxState={setCheckboxState}
-                initialState={false}
-                />
-            </div>
-            <div style={{ marginLeft: 20 }}>
-              <PublishedFilter 
-                checkboxState={publishedCheckboxState}
-                setCheckboxState={setPublishedCheckboxState}
-                initialState={true}
-                />
-            </div>
-          </div>    
-      }
+      <div className="page-header">
+        <RefreshButton load={loadData} loading={loading}/>
+        <PageTitle title={pageTitle} />
+        { mySnaps && mySnaps.length > 0 && 
+          <div style={{ marginLeft: 106 }}>
+            <ProviderFilter 
+              providers={connections}
+              checkboxState={checkboxState}
+              setCheckboxState={setCheckboxState}
+              initialState={false}
+              />
+          </div>
+        }
+        { mySnaps && mySnaps.length > 0 && 
+          <div style={{ marginLeft: 20 }}>
+            <PublishedFilter 
+              checkboxState={publishedCheckboxState}
+              setCheckboxState={setPublishedCheckboxState}
+              initialState={true}
+              />
+          </div>
+        }
+      </div>    
 
       <CardDeck>
         { snaps && 
@@ -155,7 +149,7 @@ const MySnapsPage = () => {
               deleteAction={(e) => handleDelete(e, snap.snapId)}
             />)
         }
-        { snaps && snaps.map && 
+        { mySnaps && 
           <HighlightCard className="text-center" onClick={ () => { navigate('/snaps/add') }}
             key='add' 
             style={{ minWidth: '230px', maxWidth: '230px', minHeight: '230px', maxHeight: '230px' }}>

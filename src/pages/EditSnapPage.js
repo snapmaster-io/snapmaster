@@ -73,6 +73,14 @@ const EditSnapPage = ({snapId}) => {
     }
   }
 
+  const exit = () => {
+    if (snap && snap.snapId) {
+      navigate(`/snaps/${snap.snapId}`);
+    } else {
+      navigate('/snaps/mysnaps');
+    }
+  }
+
   // snap and definition are isomorphic object / textual formats
   const changeSnap = (snap) => {
     setSnap(snap);
@@ -94,6 +102,9 @@ const EditSnapPage = ({snapId}) => {
         <h4 className="page-title">{snapId}</h4>
         <div style={{ marginLeft: 50 }}>
           <Button onClick={save}><i className="fa fa-save"></i>&nbsp;&nbsp;Save</Button>
+        </div>
+        <div style={{ marginLeft: 20 }}>
+          <Button onClick={exit}><i className="fa fa-times"></i>&nbsp;&nbsp;Exit</Button>
         </div>
       </div>
       <Tabs activeKey={key} onSelect={k => setKey(k)}>

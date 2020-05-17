@@ -11,16 +11,24 @@ const ParamsEditor = ({params, setParams}) => {
   }
 
   // add empty string values to remove "uncontrolled to controlled" react errors
-  if (paramValues) {
+  if (paramValues && paramValues.length) {
     let changed = false;
     for (const p of paramValues) {
-      if (p.description === undefined) {
-        p.description = '';
-        changed = true;
+      // bail if we are in some kind of intermediate state where code editor 
+      // has created a string instead of a hash for the parameter
+      if (p && !p.name) {
+        return <div />
       }
-      if (p.entity === undefined) {
-        p.entity = ''
-        changed = true;
+
+      if (p) {
+        if (p.description === undefined) {
+          p.description = '';
+          changed = true;
+        }
+        if (p.entity === undefined) {
+          p.entity = ''
+          changed = true;
+        }
       }
     }
 
@@ -34,6 +42,7 @@ const ParamsEditor = ({params, setParams}) => {
     params.push({ name: `p-${counter}`});
     setCounter(counter + 1);
     setParamValues(params);
+    setParams(params);
   }
 
   const deleteParam = (index) => {
@@ -70,7 +79,7 @@ const ParamsEditor = ({params, setParams}) => {
               <FormControl
                 aria-label="value"
                 aria-describedby="Name"
-                value={p.name} 
+                value={p && p.name} 
                 onChange={(e) => { store("name", e.target.value) }} />
               <InputGroup.Prepend>
                 <InputGroup.Text style={{ minWidth: 100 }}>Description</InputGroup.Text>
@@ -78,7 +87,7 @@ const ParamsEditor = ({params, setParams}) => {
               <FormControl
                 aria-label="value"
                 aria-describedby="Description"
-                value={p.description} 
+                value={p && p.description} 
                 onChange={(e) => { store("description", e.target.value) }} />
               <InputGroup.Prepend>
                 <InputGroup.Text style={{ minWidth: 80 }}>Entity</InputGroup.Text>
@@ -86,7 +95,7 @@ const ParamsEditor = ({params, setParams}) => {
               <FormControl
                 aria-label="value"
                 aria-describedby="Entity"
-                value={p.entity} 
+                value={p && p.entity} 
                 onChange={(e) => { store("entity", e.target.value) }} />
             </InputGroup>
           )        

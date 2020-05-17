@@ -65,7 +65,7 @@ const ActiveSnapsPage = () => {
 
   const paramsFormatter = (cell) => 
     <div>
-      { cell.map(p => 
+      { cell && cell.length && cell.map(p => 
           <div key={p.name}>
             <span><span style={{ fontWeight: 400 }}>{p.name}</span>: &nbsp;{p.value}</span>
           </div>

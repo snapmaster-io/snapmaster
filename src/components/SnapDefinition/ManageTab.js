@@ -9,7 +9,7 @@ const ManageTab = ({snap, activeSnap, setActiveSnap}) =>
     <SnapDescription snap={snap} />
     { activeSnap && <TriggerActionCards snap={snap} state={activeSnap.state}/> }
     { activeSnap && <ActiveSnapActions activeSnap={activeSnap} setActiveSnap={setActiveSnap} /> }
-    { activeSnap && <ActiveSnapParameters activeSnap={activeSnap} /> }
+    { activeSnap && activeSnap.params && <ActiveSnapParameters activeSnap={activeSnap} /> }
   </div>
 
 export default ManageTab

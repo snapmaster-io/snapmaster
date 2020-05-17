@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
 import { useConnections } from '../utils/connections'
+import { calculateStringLength } from '../utils/strings'
 import { CardDeck } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import RedirectBanner from '../components/RedirectBanner'
@@ -91,6 +92,10 @@ const Dashboard = () => {
     })
     .slice(0, 3);
 
+  const topSnap = topSnaps && topSnaps[0].snapId;
+  const stringLen = topSnap && calculateStringLength(topSnap, 350);
+  const topSnapName = topSnap && (stringLen < topSnap.length ? topSnap.slice(0, stringLen) + '...' : topSnap);
+
   const createTitle = (icon, style, text) => 
     <span>
       <i className={`fa fa-${icon} fa-2x text-${style}`} style={{ fontSize: '1.2em' }} />
@@ -136,7 +141,7 @@ const Dashboard = () => {
   }, {
     title: createTitle('', '', 'Top Snap'),
     url: topSnaps && `/snaps/${topSnaps[0].snapId}/${topSnaps[0].activeSnapId}`,
-    label: topSnaps && <h5 style={{ color: 'gray' }}>{topSnaps[0].snapId}</h5>,
+    label: topSnaps && <h5 style={{ color: 'gray' }}>{topSnapName}</h5>,
     value: topSnaps && topSnaps[0].executionCounter,
   }];
 

@@ -6,7 +6,7 @@ import HighlightCard from './HighlightCard'
 const DashboardCard = ({title, url, border, color, label, value}) => 
   <HighlightCard
     onClick={ () => { navigate(url)} }
-    className='mx-auto'
+    //className='mx-auto'
     border={border}
     style={{ 
       maxWidth: '220px', 

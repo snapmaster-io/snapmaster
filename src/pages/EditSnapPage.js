@@ -1,16 +1,19 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { useApi } from '../utils/api'
 import { navigate } from 'hookrouter'
-import { Button } from 'react-bootstrap'
+import { useApi } from '../utils/api'
+import { serializeSnap, parseDefinition } from '../utils/snapdef'
+import { Tabs, Tab, Button } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import SnapCodeEditor from '../components/SnapCodeEditor'
+import SnapEditor from '../components/SnapEditor/SnapEditor'
 
 const EditSnapPage = ({snapId}) => {
   const { get, post } = useApi();
   const [loading, setLoading] = useState();
   const [snap, setSnap] = useState();
   const [definition, setDefinition] = useState();
+  const [key, setKey] = useState('code');
 
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
@@ -27,8 +30,8 @@ const EditSnapPage = ({snapId}) => {
   
       const item = await response.json();
       setLoading(false);
-      setSnap(item);
       setDefinition(item.text);
+      setSnap(parseDefinition(item.text));
     }
     call();
   }, [get, snapId]);
@@ -70,16 +73,37 @@ const EditSnapPage = ({snapId}) => {
     }
   }
 
+  // snap and definition are isomorphic object / textual formats
+  const changeSnap = (snap) => {
+    setSnap(snap);
+    setDefinition(serializeSnap(snap));
+  }
+
+  const changeDefinition = (definition) => {
+    setDefinition(definition);
+    const parsedSnap = parseDefinition(definition);
+    if (parsedSnap) {
+      setSnap(parsedSnap);
+    }
+  }
+
   return (
     <div>
       <div className="page-header">
         <RefreshButton load={loadData} loading={loading}/>
-        <h4 className="page-title">{snap && snap.snapId}</h4>
+        <h4 className="page-title">{snapId}</h4>
         <div style={{ marginLeft: 50 }}>
           <Button onClick={save}><i className="fa fa-save"></i>&nbsp;&nbsp;Save</Button>
         </div>
       </div>
-      <SnapCodeEditor definition={definition} setDefinition={setDefinition}/>
+      <Tabs activeKey={key} onSelect={k => setKey(k)}>
+        <Tab eventKey="code" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Code</span>}>
+          <SnapCodeEditor definition={definition} setDefinition={changeDefinition} />
+        </Tab>
+        <Tab eventKey="visual" title={<span><i className="fa fa-sitemap" />&nbsp;&nbsp;Visual</span>}>
+          <SnapEditor snap={snap} setSnap={changeSnap} />
+        </Tab>
+      </Tabs>
     </div>
   )
 }

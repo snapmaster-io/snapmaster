@@ -1,0 +1,13 @@
+.providerSelect {
+  width: calc(100% - 150px);
+  z-index: 50;
+}
+
+.actionSelect {
+  width: calc(100% - 150px);
+  z-index: 49;
+}
+
+input.form-control {
+  font-weight: 300
+}

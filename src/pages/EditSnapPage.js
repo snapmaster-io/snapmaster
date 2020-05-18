@@ -57,7 +57,7 @@ const EditSnapPage = ({snapId}) => {
     let text = definition;
     if (!definition.startsWith('---\nversion: v1alpha1')) {
       text = `---
-version: v1alpha1
+version: snap-v1alpha1
 ${definition}`;
     }
 

@@ -17,14 +17,14 @@ const AddSnapPage = () => {
   const [name, setName] = useState('change-me');
   const [definition, setDefinition] = useState();
   const initialDefinition = `---
-  version: snap-v1alpha1 
-  name: change-me
-  description: change me too
-  trigger: 
-  actions:
-  parameters:
-  config:
-  `;
+version: snap-v1alpha1 
+name: change-me
+description: change me too
+trigger: 
+actions:
+parameters:
+config:
+`;
 
   // initialize the snap definition if it's empty
   if (!definition) {
@@ -41,7 +41,7 @@ const AddSnapPage = () => {
     let text = definition;
     if (!definition.startsWith('---\nversion: v1alpha1')) {
       text = `---
-version: v1alpha1
+version: snap-v1alpha1
 ${definition}`;
     }
 

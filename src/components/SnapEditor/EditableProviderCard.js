@@ -33,14 +33,14 @@ const EditableProviderCard = ({config, setConfig, role, opname}) => {
         newConfig[p.name] = configState[p.name];
       }
     }
-    setConfig(newConfig);
+    setConfig(newConfig, role);
     setShowModal(false);
   }
 
   const deleteAction = () => {
     // set a special property indicating this action should be deleted
     configState.delete = true;
-    setConfig(configState);
+    setConfig(configState, role);
   }
 
   const deleteButton = role !== "triggers" && config;
@@ -67,7 +67,7 @@ const EditableProviderCard = ({config, setConfig, role, opname}) => {
         </Card.Body>
         <Card.Footer style={{ minHeight: 56 }}>
           { 
-            provider && configState ? configState[opname] : "add an action"
+            provider && configState ? configState[opname] : `choose ${rolename}`
           }
         </Card.Footer>
       </HighlightCard>

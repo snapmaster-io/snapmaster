@@ -8,7 +8,6 @@ import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import HighlightCard from '../components/HighlightCard'
 import SnapCard from '../components/SnapCard'
-import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import ProviderFilter from '../components/ProviderFilter'
 import PublishedFilter from '../components/PublishedFilter';

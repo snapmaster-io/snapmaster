@@ -7,6 +7,7 @@ import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import SnapDefinition from '../components/SnapDefinition/SnapDefinition'
+import RedirectBanner from '../components/RedirectBanner'
 
 const SnapPage = ({snapId}) => {
   const { get, post } = useApi();
@@ -14,6 +15,7 @@ const SnapPage = ({snapId}) => {
   const [loading, setLoading] = useState();
   const [snap, setSnap] = useState();
   const [editingPrivacy, setEditingPrivacy] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
@@ -26,10 +28,15 @@ const SnapPage = ({snapId}) => {
         setSnap(null);
         return;
       }
-  
-      const item = await response.json();
-      setLoading(false);
-      setSnap(item);
+      
+      try {
+        const item = await response.json();
+        setLoading(false);
+        setSnap(item);  
+      } catch (error) {
+        setLoading(false);
+        setNotFound(true);
+      }
     }
     call();
   }, [get, snapId]);
@@ -38,6 +45,20 @@ const SnapPage = ({snapId}) => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // if the snap wasn't found, display a redirect banner
+  if (notFound) {
+    return (
+      <RedirectBanner
+      loadData={loadData}
+      loading={loading}
+      pageTitle={snapId}
+      messageText="Snap not found"
+      redirectUrl="/snaps/gallery"
+      anchorText="Gallery"
+      redirectText="to find and activate snaps!" />
+    )
+  }
 
   // if the service is down, show the banner
   if (!loading && !snap) {

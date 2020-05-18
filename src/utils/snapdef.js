@@ -5,7 +5,7 @@ export function serializeSnap(snap) {
   return YAML.stringify(snap);
 }
 
-export function parseDefinition(definition) {
+export function parseDefinition(definition, validateFlag) {
   try {
     const snapDefinition = YAML.parse(definition);
     const snap = { 
@@ -18,12 +18,20 @@ export function parseDefinition(definition) {
     };
 
     // validate required fields
-    if (!snap.name || !snap.trigger || !snap.actions || !snap.config) {
-      console.error('parse: definition did not contain required fields');
+    if (validateFlag && (!snap.name || !snap.trigger || !snap.actions || !snap.config)) {
       return null;
     }
 
     return snap;
+  } catch (error) {
+    return null;
+  }  
+}
+
+export function parseName(definition) {
+  try {
+    const snapDefinition = YAML.parse(definition);
+    return snapDefinition && snapDefinition.name;
   } catch (error) {
     return null;
   }  

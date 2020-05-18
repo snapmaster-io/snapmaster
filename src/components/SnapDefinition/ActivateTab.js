@@ -47,6 +47,10 @@ const ActivateTab = ({snap}) => {
     navigate('/snaps/active');
   }
 
+  // get the trigger and trigger provider
+  const trigger = snap && snap.trigger && snap.config && snap.config.find(c => c.name === snap.trigger);
+  const triggerProvider = trigger && connections && connections.find(el => el.provider === trigger.provider);
+
   // construct array of action provider names
   const actionList = snap && snap.actions && snap.actions.map(action => {
     const actionConfig = snap.config && snap.config.find(c => c.name === action);
@@ -59,7 +63,7 @@ const ActivateTab = ({snap}) => {
   });
 
   // if one of the providers ins't connected, the activate tab should be disabled
-  const disableActivateFlag = actionProviders && actionProviders.filter(p => !p.connected).length > 0;
+  const disableActivateFlag = !triggerProvider || !triggerProvider.connected || !actionProviders || actionProviders.filter(p => !p.connected).length > 0;
 
   return (
     disableActivateFlag ? 

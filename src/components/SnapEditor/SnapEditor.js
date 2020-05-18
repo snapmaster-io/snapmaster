@@ -13,19 +13,29 @@ const SnapEditor = ({snap, setSnap}) => {
     return actionConfig;
   }).filter(a => a !== undefined);
 
-  // initialize parameters
+  // initialize required fields
   if (snap && !snap.parameters) {
     snap.parameters = [];
   }
+  if (snap && !snap.config) {
+    snap.config = [];
+  }
+  if (snap && !snap.actions) {
+    snap.actions = [];
+  }
 
-  const setConfig = (config) => {
+  const setConfig = (config, role) => {
     // find the index of the config entry being mutated
     const index = snap.config.findIndex(c => c.name === config.name);
 
     // if not found, create a new config entry
     if (index === -1) {
       snap.config.push({ ...config });
-      snap.actions.push(config.name);
+      if (role === "triggers") {
+        snap.trigger = config.name;
+      } else {
+        snap[role].push(config.name);
+      }
     } else {
       // check for deleting the current config entry
       if (config.delete) {
@@ -92,14 +102,14 @@ const SnapEditor = ({snap, setSnap}) => {
   return (
     <div>
       <CardDeck>
-        { trigger && <EditableProviderCard config={trigger} setConfig={setConfig} role="triggers" opname="event" /> }
+        { <EditableProviderCard config={trigger} setConfig={setConfig} role="triggers" opname="event" /> }
         { trigger && <i className="fa fa-play text-muted" style={{ fontSize: '6em', margin: 50 }} /> }
-        { actionList && actionList.map(a => <EditableProviderCard key={`${a.provider}:${a.action}`} config={a} setConfig={setConfig} role="actions" opname="action" />) }
-        <EditableProviderCard role="actions" opname="action" setConfig={setConfig} />
+        { trigger && actionList && actionList.map(a => <EditableProviderCard key={`${a.provider}:${a.action}`} config={a} setConfig={setConfig} role="actions" opname="action" />) }
+        { trigger && <EditableProviderCard role="actions" opname="action" setConfig={setConfig} /> }
       </CardDeck>
       <div>
         <hr />
-        <ParamsEditor params={snap && snap.parameters} setParams={changeParams} />
+        { trigger && <ParamsEditor params={snap && snap.parameters} setParams={changeParams} /> }
       </div>
     </div>
   )

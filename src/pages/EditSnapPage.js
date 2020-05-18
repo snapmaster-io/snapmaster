@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { navigate } from 'hookrouter'
 import { useApi } from '../utils/api'
 import { serializeSnap, parseDefinition } from '../utils/snapdef'
-import { Tabs, Tab, Button } from 'react-bootstrap'
+import { Tabs, Tab, Button, Modal } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import SnapCodeEditor from '../components/SnapCodeEditor'
@@ -14,6 +14,8 @@ const EditSnapPage = ({snapId}) => {
   const [snap, setSnap] = useState();
   const [definition, setDefinition] = useState();
   const [key, setKey] = useState('code');
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState();  
 
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
@@ -29,9 +31,9 @@ const EditSnapPage = ({snapId}) => {
       }
   
       const item = await response.json();
-      setLoading(false);
       setDefinition(item.text);
       setSnap(parseDefinition(item.text));
+      setLoading(false);
     }
     call();
   }, [get, snapId]);
@@ -52,11 +54,18 @@ const EditSnapPage = ({snapId}) => {
   }
 
   const save = async () => {
+    let text = definition;
+    if (!definition.startsWith('---\nversion: v1alpha1')) {
+      text = `---
+version: v1alpha1
+${definition}`;
+    }
+
     // post the edit request to the snaps endpoint
     const request = {
       action: 'edit',
       snapId: snapId,
-      definition: definition
+      definition: text
     };
 
     const [response, error] = await post('snaps', JSON.stringify(request));
@@ -66,19 +75,16 @@ const EditSnapPage = ({snapId}) => {
 
     const item = await response.json();
     if (item.message === 'success') {
-      //setSnap(item.snap);
       navigate(`/snaps/${item.snap && item.snap.snapId}`);
     } else {
-      // TODO: error
+      setError(item.message);
+      setShowModal(true);
+      return;
     }
   }
 
   const exit = () => {
-    if (snap && snap.snapId) {
-      navigate(`/snaps/${snap.snapId}`);
-    } else {
-      navigate('/snaps/mysnaps');
-    }
+    navigate(`/snaps/${snapId}`);
   }
 
   // snap and definition are isomorphic object / textual formats
@@ -89,7 +95,7 @@ const EditSnapPage = ({snapId}) => {
 
   const changeDefinition = (definition) => {
     setDefinition(definition);
-    const parsedSnap = parseDefinition(definition);
+    const parsedSnap = parseDefinition(definition, true);
     if (parsedSnap) {
       setSnap(parsedSnap);
     }
@@ -99,7 +105,7 @@ const EditSnapPage = ({snapId}) => {
     <div>
       <div className="page-header">
         <RefreshButton load={loadData} loading={loading}/>
-        <h4 className="page-title">{snapId}</h4>
+        <h4 className="page-title" style={{ minWidth: 300 }}>{snapId}</h4>
         <div style={{ marginLeft: 50 }}>
           <Button onClick={save}><i className="fa fa-save"></i>&nbsp;&nbsp;Save</Button>
         </div>
@@ -107,6 +113,7 @@ const EditSnapPage = ({snapId}) => {
           <Button onClick={exit}><i className="fa fa-times"></i>&nbsp;&nbsp;Exit</Button>
         </div>
       </div>
+
       <Tabs activeKey={key} onSelect={k => setKey(k)}>
         <Tab eventKey="code" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Code</span>}>
           <SnapCodeEditor definition={definition} setDefinition={changeDefinition} />
@@ -115,6 +122,20 @@ const EditSnapPage = ({snapId}) => {
           <SnapEditor snap={snap} setSnap={changeSnap} />
         </Tab>
       </Tabs>
+
+      <Modal show={showModal} onHide={ () => setShowModal(false) }>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        { error }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={ () => setShowModal(false) }>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }

@@ -43,8 +43,15 @@ const ActivateTab = ({snap}) => {
       return;
     }    
 
-    // navigate back to active snaps
-    navigate('/snaps/active');
+    // retrieve active snap ID
+    const activeSnapId = responseData.activeSnap && responseData.activeSnap.activeSnapId;
+    if (activeSnapId) {
+      // navigate to the activated snap
+      navigate(`/snaps/${snapId}/${activeSnapId}`);
+    } else {
+      // navigate back to active snaps
+      navigate('/snaps/active');
+    }
   }
 
   // get the trigger and trigger provider

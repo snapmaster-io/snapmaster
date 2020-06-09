@@ -14,13 +14,7 @@ const ParamsEditor = ({params, setParams}) => {
   if (paramValues && paramValues.length) {
     let changed = false;
     for (const p of paramValues) {
-      // bail if we are in some kind of intermediate state where code editor 
-      // has created a string instead of a hash for the parameter
-      if (p && !p.name) {
-        return <div />
-      }
-
-      if (p) {
+      if (p && p.name) {
         if (p.description === undefined) {
           p.description = '';
           changed = true;

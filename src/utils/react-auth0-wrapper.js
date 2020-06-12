@@ -85,13 +85,13 @@ export const Auth0Provider = ({
     async function getToken(...p) {
       return auth0Client.getTokenSilently(...p);
     }
-    return getToken();
+    return getToken(...p);
   }, [auth0Client]);
   const logoutCallback = useCallback((...p) => {
     async function logout(...p) {
       return auth0Client.logout(...p);
     }
-    return logout();
+    return logout(...p);
   }, [auth0Client]);
   // END ADDITION
 

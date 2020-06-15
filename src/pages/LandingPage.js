@@ -193,8 +193,8 @@ const LandingPage = () => {
                 <div className="tool-icons">
                   <img className="tool-icon" src="/github-logo-small.png" alt="github" height="50px" />
                   <img className="tool-icon" src="/gitlab-logo.png" alt="gitlab" height="50px" />
-                  <img className="tool-icon" src="/circleci-logo.png" alt="circleci" height="50px" />
-                  <img className="tool-icon" src="/pagerduty-logo-dark.png" alt="pagerduty" height="50px" />
+                  <img className="tool-icon" src="/bitbucket-logo.png" alt="bitbucket" height="50px" />
+                  <img className="tool-icon" src="/netlify-logo.png" alt="netlify" height="50px" />
                 </div>
                 <div className="tool-icons">
                   <img className="tool-icon" src="/aws-logo.png" alt="aws" height="50px" />
@@ -205,7 +205,7 @@ const LandingPage = () => {
                 <div className="tool-icons">
                   <img className="tool-icon" src="/docker-logo.png" alt="docker" height="50px" />
                   <img className="tool-icon" src="/slack-logo.png" alt="slack" height="50px" />
-                  <img className="tool-icon" src="/sendgrid-logo-small.png" alt="sendgrid" height="50px" />
+                  <img className="tool-icon" src="/pagerduty-logo.png" alt="pagerduty" height="50px" />
                   <img className="tool-icon" src="/twilio-logo.png" alt="twilio" height="50px" />
                 </div>
               </Col>

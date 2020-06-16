@@ -34,6 +34,9 @@ const WebsiteFooter = ({className}) => {
           <NavItem onSelect={() => window.open('https://snapmaster.slack.com', 'slack')}>
             <i className="fa fa-slack" />&nbsp;&nbsp;&nbsp;Community
           </NavItem>
+          <NavItem onSelect={() => window.open('https://docs.snapmaster.io', 'docs')}>
+            <i className="fa fa-book" />&nbsp;&nbsp;&nbsp;Documentation
+          </NavItem>
           <NavItem style={{ float: 'right' }}>
             Copyright &copy; 2020 SnapMaster
           </NavItem>

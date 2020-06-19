@@ -159,6 +159,12 @@ const LandingPage = () => {
           </h4>
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 
+            <div>
+              <iframe src="https://player.vimeo.com/video/430601734" width="480" height="270" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+          }
+          { isDesktopDevice && <br/> }
+          { isDesktopDevice && 
             <Button size="lg" style={{ paddingTop: 20, paddingBottom: 20}} variant="info" disabled={loading} onClick={() => signUp(betaFlag)}>
               <i className="fa fa-flash" />&nbsp;&nbsp;Get started
             </Button>          

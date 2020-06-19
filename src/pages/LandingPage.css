@@ -43,11 +43,13 @@
 .tagline-desktop {
   height: calc(100vh);
   top: 50%;
-  transform: translateY(30%);
+  transform: translateY(15%);
 }
 
 .benefits-desktop {
-  height: 75vh;
+  /*height: 100vh;*/
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .tagline-mobile {

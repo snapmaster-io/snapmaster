@@ -100,8 +100,6 @@ const CredentialCards = ({data, setData, connectionName, entityName, endpoint}) 
       name: item.__name,
       url: item.__url,
       imageUrl: item.__imageUrl,
-      triggers: item.__triggers,
-      actions: item.__actions,
     } 
   });
 

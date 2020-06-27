@@ -14,8 +14,8 @@ const LandingPage = () => {
   const [showBetaModal, setShowBetaModal] = useState(false);
   const [showValidateModal, setShowValidateModal] = useState(false);
   const [invalidCode, setInvalidCode] = useState(false);
-  const [email, setEmail] = useState();
-  const [code, setCode] = useState();
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
   const betaFlag = true;
 
   if (loading) {
@@ -160,7 +160,7 @@ const LandingPage = () => {
           { isDesktopDevice && <br/> }
           { isDesktopDevice && 
             <div>
-              <iframe src="https://player.vimeo.com/video/430601734" width="480" height="270" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+              <iframe title="video" src="https://player.vimeo.com/video/430601734" width="480" height="270" frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>
             </div>
           }
           { isDesktopDevice && <br/> }

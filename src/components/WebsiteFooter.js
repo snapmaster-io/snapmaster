@@ -29,7 +29,7 @@ const WebsiteFooter = ({className}) => {
             Privacy
           </NavItem>
           <NavItem onSelect={() => window.open('https://github.com/snapmaster-io', 'github')}>
-            <i className="fa fa-github" />&nbsp;&nbsp;&nbsp;SnapMaster on Github
+            <i className="fa fa-github" />&nbsp;&nbsp;&nbsp;OSS on Github
           </NavItem>
           <NavItem onSelect={() => window.open('https://snapmaster.slack.com', 'slack')}>
             <i className="fa fa-slack" />&nbsp;&nbsp;&nbsp;Community

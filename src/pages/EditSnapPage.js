@@ -10,7 +10,7 @@ import SnapEditor from '../components/SnapEditor/SnapEditor'
 
 const EditSnapPage = ({snapId}) => {
   const { get, post } = useApi();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const [snap, setSnap] = useState();
   const [definition, setDefinition] = useState();
   const [key, setKey] = useState('code');

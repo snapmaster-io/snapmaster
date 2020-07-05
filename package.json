@@ -36,10 +36,12 @@
     "react-scripts": "^3.3.0",
     "react-select": "^3.1.0",
     "recharts": "^2.0.0-beta.1",
+    "source-map-explorer": "^2.4.2",
     "typescript": "^3.7.3",
     "yaml": "^1.8.2"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-app-rewired start",
     "rm": "rm -r build/*",
     "build": "react-app-rewired build",

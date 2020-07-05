@@ -94,7 +94,7 @@ const ToolsTab = () => {
               </NavIcon>
               <NavText style={{ fontSize: '1.2em' }}>Connections</NavText>
             </NavItem>
-            {
+            {/*
               sideNavTabs.map(c => 
                 <NavItem key={c} eventKey={`/tools/${c}`}>
                   <NavIcon>
@@ -103,7 +103,7 @@ const ToolsTab = () => {
                   <NavText style={{ fontSize: '1.2em' }}>{providerTitle(c)}</NavText>
                 </NavItem>
               )
-            }
+            */}
           </SideNav.Nav>
         </SideNav>
       </div>

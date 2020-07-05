@@ -107,7 +107,16 @@ const TourPage = () => {
         <Popover.Content as="h5">
           <Step next={next} done={end}
             text={
-              <h5>The <strong>Snaps tab</strong> is where you'll find and activate snaps.</h5> 
+              <div>
+                <h5>The <strong>Snaps tab</strong> is where you'll find and activate <strong><i>snaps</i></strong>.</h5> 
+                <br/>
+                <h5>A <strong><i>Snap</i></strong> is a workflow that contains a <strong><i>trigger</i></strong> and 
+                a set of <strong><i>actions</i></strong> that are executed when the triggering event is fired.
+                For example, the snap below is triggered by the <strong>Docker push</strong> event and 
+                executes the <strong>GCP copyimage</strong>, <strong>GCP deploy</strong>, and <strong>Slack send</strong> actions.</h5>
+                <br/>
+                <center><img src="/snapdef.png" alt="snapdef" style={{ maxHeight: 'calc(35vh)' }} /></center>
+              </div>
             }/>
         </Popover.Content>
       </Popover>

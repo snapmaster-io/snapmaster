@@ -5,7 +5,7 @@ import ParamsDetails from './ParamsDetails';
 const OperationDetail = ({operation}) => {
   // check for empty parameters
   if (!operation || !operation.parameters || !operation.parameters.length) {
-    return <span>None</span>
+    return <div style={{ marginLeft: 10, marginTop: 8, fontWeight: 400 }}>None</div>
   }
 
   // get the name of the first parameter

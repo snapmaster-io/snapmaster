@@ -8,7 +8,7 @@ import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import ConnectButton from '../components/ConnectButton'
 
-const ProviderDetailPage = ({provider}) => {
+const ProviderDefinitionPage = ({provider}) => {
   const { loading, loadConnections, connections } = useConnections();
   const pageTitle = provider && provider.title && providerTitle(provider.title);
 
@@ -42,5 +42,5 @@ const ProviderDetailPage = ({provider}) => {
   )
 }
 
-export default ProviderDetailPage
+export default ProviderDefinitionPage
 

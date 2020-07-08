@@ -44,7 +44,7 @@ class Highlight extends Component {
   };
 
   render() {
-    const { language, children } = this.props;
+    const { language, children, style } = this.props;
     const { loaded } = this.state;
 
     if (!loaded) {
@@ -53,7 +53,7 @@ class Highlight extends Component {
 
     return (
       <pre className="rounded">
-        <code ref={this.codeNode} className={language}>
+        <code ref={this.codeNode} className={language} style={style}>
           {children}
         </code>
       </pre>

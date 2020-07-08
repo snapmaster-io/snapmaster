@@ -11,6 +11,7 @@ import Dashboard from '../pages/Dashboard'
 import ActiveSnapsPage from '../pages/ActiveSnapsPage'
 import GalleryPage from '../pages/GalleryPage'
 import MySnapsPage from '../pages/MySnapsPage'
+import MyActionsPage from '../pages/MyActionsPage'
 import LogsPage from '../pages/LogsPage'
 import HistoryPage from '../pages/HistoryPage'
 import SnapPage from '../pages/SnapPage'
@@ -19,6 +20,7 @@ import EditSnapPage from '../pages/EditSnapPage'
 import ActiveSnapPage from '../pages/ActiveSnapPage'
 import ActiveSnapLogsPage from '../pages/ActiveSnapLogsPage'
 import NotFoundPage from '../pages/NotFoundPage'
+import ActionDefinitionPage from '../pages/ActionDefinitionPage'
 
 // define routes
 const routes = {
@@ -27,11 +29,13 @@ const routes = {
   '/active': () => <ActiveSnapsPage />,
   '/gallery': () => <GalleryPage />,
   '/mysnaps': () => <MySnapsPage />,
+  '/myactions': () => <MyActionsPage />,
   '/add': () => <AddSnapPage />,
   '/logs': () => <LogsPage />,
   '/history': () => <HistoryPage />,
   '/logs/:activeSnapId': ({activeSnapId}) => <ActiveSnapLogsPage activeSnapId={activeSnapId} />,
   '/:userId/:snapId': ({userId, snapId}) => <SnapPage snapId={`${userId}/${snapId}`} />,
+  '/actions/:userId/:actionId': ({userId, actionId}) => <ActionDefinitionPage actionId={`${userId}/${actionId}`} />,
   '/editor/:userId/:snapId': ({userId, snapId}) => <EditSnapPage snapId={`${userId}/${snapId}`} />,
   '/:userId/:snapId/:activeSnapId': ({userId, snapId, activeSnapId}) => <ActiveSnapPage snapId={`${userId}/${snapId}`} activeSnapId={activeSnapId} />,
 };
@@ -99,6 +103,12 @@ const SnapsTab = () => {
                 <i className="fa fa-fw fa-sitemap" style={{ fontSize: '1.75em' }} />
               </NavIcon>
               <NavText className="navText" style={{ fontSize: '1.2em' }}>My Snaps</NavText>
+            </NavItem>
+            <NavItem eventKey="/snaps/myactions">
+              <NavIcon>
+                <i className="fa fa-fw fa-exclamation" style={{ fontSize: '1.75em' }} />
+              </NavIcon>
+              <NavText className="navText" style={{ fontSize: '1.2em' }}>My Actions</NavText>
             </NavItem>
             <NavItem eventKey="/snaps/logs">
               <NavIcon>

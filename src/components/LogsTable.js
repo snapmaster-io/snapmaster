@@ -73,12 +73,12 @@ return (
       rowEvents={rowEvents}
     /> 
 
-    <Modal show={showModal} dialogClassName="modal-50w" onHide={ () => setShowModal(false) }>
+    <Modal show={showModal} dialogClassName="modal-90w" onHide={ () => setShowModal(false) }>
       <Modal.Header closeButton>
         <Modal.Title>Log Detail</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      { logEntry && <Highlight>{JSON.stringify(logEntry, null, 2)}</Highlight> }
+      { logEntry && <Highlight style={{ maxHeight: 'calc(70vh)' }}>{JSON.stringify(logEntry, null, 2)}</Highlight> }
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={ () => setShowModal(false) }>

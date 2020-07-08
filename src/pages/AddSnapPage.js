@@ -30,7 +30,6 @@ config:
   if (!definition) {
     setDefinition(initialDefinition);
     const parsedSnap = parseDefinition(initialDefinition, false);
-    console.log(parsedSnap);
     setSnap(parsedSnap);
   }
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useRoutes, navigate, useRedirect } from 'hookrouter'
 import { useProfile } from '../utils/profile'
 import { useConnections } from '../utils/connections'
-import { providerTitle } from '../utils/strings'
+//import { providerTitle } from '../utils/strings'
 
 // side nav control and styles
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav'
@@ -43,7 +43,7 @@ const ToolsTab = () => {
   const connectedProviders = connections.filter(c => c.connected !== null);
 
   // create an array containing the names of all the tools tabs that are connected and should be displayed
-  const sideNavTabs = connectedProviders.map(c => c.title);
+  //const sideNavTabs = connectedProviders.map(c => c.title);
 
   // add routes for all connected providers
   for (const p of connectedProviders) {

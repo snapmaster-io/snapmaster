@@ -37,7 +37,7 @@ const ActivateTab = ({snap}) => {
     const responseData = await response.json();
     const status = responseData && responseData.message;
   
-    if (status !== 'success') {
+    if (status && status !== 'success') {
       setError(status);
       setShowModal(true);
       return;

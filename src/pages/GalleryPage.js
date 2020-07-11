@@ -20,6 +20,8 @@ const GalleryPage = () => {
 
       if (error || !response.ok) {
         setGallery(null);
+        setLoading(false);
+        return;
       }
   
       const item = await response.json();      

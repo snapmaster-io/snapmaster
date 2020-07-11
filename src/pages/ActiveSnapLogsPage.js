@@ -19,17 +19,17 @@ const ActiveSnapLogsPage = ({activeSnapId}) => {
       const [response, error] = await get(`logs/${activeSnapId}`);
 
       if (error || !response.ok) {
-        setLoading(false);
         setLogs(null);
+        setLoading(false);
         return;
       }
 
-      const item = await response.json();
-      setLoading(false);
-      
-      if (item && item.status === 'success') {
+      const item = await response.json();      
+      if (item && !item.error) {
         setLogs(item && item.data);
       }
+
+      setLoading(false);
     }
     call();
   }, [get, activeSnapId]);

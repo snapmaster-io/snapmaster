@@ -20,10 +20,12 @@ const LogsPage = () => {
 
       if (error || !response.ok) {
         setLogs(null);
+        setLoading(false);
+        return;
       }
   
       const item = await response.json();
-      if (item && item.ok) {
+      if (item && !item.error) {
         setLogs(item && item.data);
       }
 

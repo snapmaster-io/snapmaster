@@ -56,8 +56,9 @@ ${definition}`;
     } 
 
     const item = await response.json();
-    if (item.error || !item.data || !item.data.snapId) {
-      setError(item.message);
+    if (!item || item.error || !item.data || !item.data.snapId) {
+      const message = (item && item.message) || 'operation failed';
+      setError(message);
       setShowModal(true);
       return;
     } else {

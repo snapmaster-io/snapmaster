@@ -79,6 +79,7 @@ const LandingPage = () => {
       const [response, error] = await post(createToken(email), 'validatecode', JSON.stringify(payload));
       if (error || !response.ok) {
         setInvalidCode(true);
+        return;
       }
   
       const data = await response.json();

@@ -88,7 +88,10 @@ const SnapPage = ({snapId}) => {
       return;
     }
 
-    navigate('/snaps/mysnaps');
+    const item = await response.json();      
+    if (item && !item.error && item.data && item.data.snapId) {
+      navigate(`/snaps/${item.data.snapId}`);
+    }
   }
 
   const userId = snap && snap.userId; 

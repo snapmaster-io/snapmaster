@@ -31,8 +31,11 @@ const EditSnapPage = ({snapId}) => {
       }
   
       const item = await response.json();
-      setDefinition(item.text);
-      setSnap(parseDefinition(item.text));
+      if (item && !item.error && item.data) {
+        setDefinition(item.data.text);
+        setSnap(parseDefinition(item.data.text));  
+      }
+
       setLoading(false);
     }
     call();

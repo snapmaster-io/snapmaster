@@ -18,10 +18,12 @@ const ActiveSnapPage = ({snapId, activeSnapId}) => {
 
       if (error || !response.ok) {
         setActiveSnap(null);
+        setLoading(false);
+        return;
       }
   
       const item = await response.json();      
-      if (item && item.data) {
+      if (item && !item.error && item.data) {
         setActiveSnap(item.data);
       } 
       

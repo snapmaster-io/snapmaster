@@ -22,14 +22,14 @@ const ProviderPage = ({provider}) => {
       const [response, error] = await get(endpoint);
 
       if (error || !response.ok) {
-        setLoading(false);
         setData(null);
+        setLoading(false);
         return;
       }
   
       const items = await response.json();
-      setLoading(false);
       setData(items);
+      setLoading(false);
     }
     // only load the entity if it exists
     if (endpoint) {

@@ -8,6 +8,7 @@ import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import HighlightCard from '../components/HighlightCard'
 import SnapCard from '../components/SnapCard'
+import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import ProviderFilter from '../components/ProviderFilter'
 import PublishedFilter from '../components/PublishedFilter';
@@ -18,6 +19,7 @@ const MySnapsPage = () => {
   const { connections } = useConnections();
   const [mySnaps, setMySnaps] = useState();
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState();
   const [checkboxState, setCheckboxState] = useState();
   const [publishedCheckboxState, setPublishedCheckboxState] = useState();
   const pageTitle = 'My Snaps';
@@ -29,14 +31,17 @@ const MySnapsPage = () => {
       const [response, error] = await get('snaps');
 
       if (error || !response.ok) {
-        setLoading(false);
         setMySnaps(null);
-        return;
       }
   
-      const items = await response.json();
+      const item = await response.json();      
+      if (!item || item.error) {
+        setMessage(`Error: ${item && item.message}; try refreshing`);
+      } else {
+        setMySnaps(item && item.data);
+      }
+
       setLoading(false);
-      setMySnaps(items);
     }
     call();
   }, [get]);
@@ -45,6 +50,17 @@ const MySnapsPage = () => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // check for an error message
+  if (message) {
+    return (
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText={message} />
+    )    
+  }
 
   // if the service is down, show the banner
   if (!loading && !mySnaps) {

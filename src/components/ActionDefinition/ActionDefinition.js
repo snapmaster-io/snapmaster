@@ -11,7 +11,7 @@ const ActionDefinition = ({action}) => {
       <Tab eventKey="actions" title={<span><i className="fa fa-exclamation" />&nbsp;&nbsp;Actions</span>}>
         <OperationsTab operations={action && action.actions} />
       </Tab>
-      <Tab eventKey="definition" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Code</span>}>
+      <Tab eventKey="definition" title={<span><i className="fa fa-code" />&nbsp;&nbsp;Definition</span>}>
         <CodeTab snap={action} />
       </Tab>
       <Tab eventKey="execute" title={<span><i className="fa fa-play" />&nbsp;&nbsp;Execute</span>}>

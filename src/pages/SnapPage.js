@@ -23,20 +23,20 @@ const SnapPage = ({snapId}) => {
       setLoading(true);
       const [response, error] = await get(`snaps/${snapId}`);
 
-      if (error || !response.ok) {
-        setLoading(false);
+      if (error || !response.ok) {        
         setSnap(null);
-        return;
       }
       
-      try {
-        const item = await response.json();
-        setLoading(false);
-        setSnap(item);  
-      } catch (error) {
-        setLoading(false);
+      const item = await response.json();
+      if (item && item.status === 'success') {
+        setSnap(item.data);  
+      } else {
+        console.error(item && item.message);
+        setSnap(null);
         setNotFound(true);
       }
+
+      setLoading(false);
     }
     call();
   }, [get, snapId]);

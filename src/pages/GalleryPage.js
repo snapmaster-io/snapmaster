@@ -8,23 +8,28 @@ const GalleryPage = () => {
   const { get } = useApi();
   const [gallery, setGallery] = useState();
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState();
   const pageTitle = 'Gallery';
 
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
     async function call() {
       setLoading(true);
+      setMessage();
       const [response, error] = await get('gallery');
 
       if (error || !response.ok) {
-        setLoading(false);
         setGallery(null);
-        return;
       }
   
-      const items = await response.json();
+      const item = await response.json();      
+      if (!item || item.error) {
+        setMessage(`Error: ${item && item.message}; try refreshing`);
+      } else {
+        setGallery(item && item.data);
+      }
+
       setLoading(false);
-      setGallery(items);
     }
     call();
   }, [get]);
@@ -33,6 +38,17 @@ const GalleryPage = () => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // check for an error message
+  if (message) {
+    return (
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText={message} />
+    )    
+  }
 
   // if the service is down, show the banner
   if (!loading && !gallery) {

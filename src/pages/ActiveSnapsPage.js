@@ -20,14 +20,15 @@ const ActiveSnapsPage = () => {
       const [response, error] = await get('activesnaps');
 
       if (error || !response.ok) {
-        setLoading(false);
         setActiveSnaps(null);
-        return;
       }
   
-      const items = await response.json();
+      const item = await response.json();      
+      if (item && item.data) {
+        setActiveSnaps(item.data);
+      } 
+      
       setLoading(false);
-      setActiveSnaps(items);
     }
     call();
   }, [get]);

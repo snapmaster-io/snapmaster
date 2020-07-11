@@ -19,14 +19,15 @@ const LogsPage = () => {
       const [response, error] = await get(`logs`);
 
       if (error || !response.ok) {
-        setLoading(false);
         setLogs(null);
-        return;
       }
   
-      const items = await response.json();
+      const item = await response.json();
+      if (item && item.ok) {
+        setLogs(item && item.data);
+      }
+
       setLoading(false);
-      setLogs(items);
     }
     call();
   }, [get]);

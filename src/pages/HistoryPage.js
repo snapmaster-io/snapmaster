@@ -25,9 +25,12 @@ const HistoryPage = () => {
         return;
       }
   
-      const items = await response.json();
+      const item = await response.json();
       setLoading(false);
-      setLogs(items);
+      
+      if (item && item.status === 'success') {
+        setLogs(item && item.data);
+      }
     }
     call();
   }, [get]);

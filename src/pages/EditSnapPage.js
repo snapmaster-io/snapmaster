@@ -74,12 +74,12 @@ ${definition}`;
     } 
 
     const item = await response.json();
-    if (item.message === 'success') {
-      navigate(`/snaps/${item.snap && item.snap.snapId}`);
-    } else {
+    if (item.error || !item.data || !item.data.snapId) {
       setError(item.message);
       setShowModal(true);
       return;
+    } else {
+      navigate(`/snaps/${item.data.snapId}`);
     }
   }
 

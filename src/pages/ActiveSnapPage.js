@@ -17,14 +17,15 @@ const ActiveSnapPage = ({snapId, activeSnapId}) => {
       let [response, error] = await get(`activesnaps/${activeSnapId}`);
 
       if (error || !response.ok) {
-        setLoading(false);
         setActiveSnap(null);
-        return;
       }
   
-      let item = await response.json();
+      const item = await response.json();      
+      if (item && item.data) {
+        setActiveSnap(item.data);
+      } 
+      
       setLoading(false);
-      setActiveSnap(item);
     }
     call();
   }, [get, activeSnapId]);

@@ -34,11 +34,9 @@ const ActiveSnapActions = ({activeSnap, setActiveSnap}) => {
       return;
     }
 
-    const responseData = await response.json();
-    const status = responseData && responseData.message;
-  
-    if (status !== 'success') {
-      setError(status);
+    const item = await response.json();  
+    if (!item || item.error) {
+      setError(item.message);
       setShowModal(true);
       return;
     }
@@ -49,8 +47,8 @@ const ActiveSnapActions = ({activeSnap, setActiveSnap}) => {
     }
 
     // a successful invocation will send a refreshed activeSnap
-    if (responseData.activeSnap) {
-      setActiveSnap(responseData.activeSnap);
+    if (item.data) {
+      setActiveSnap(item.data);
     }
   }
 

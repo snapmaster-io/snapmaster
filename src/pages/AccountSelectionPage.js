@@ -80,7 +80,7 @@ const AccountSelectionPage = () => {
     }
 
     const item = await response.json();
-    if (item && item.message === 'error') {
+    if (item && item.status === 'error') {
       setValid(false);
       return;
     }

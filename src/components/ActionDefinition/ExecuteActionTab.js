@@ -41,17 +41,15 @@ const ExecuteActionTab = ({action}) => {
       return;
     }
 
-    const responseData = await response.json();
-    const status = responseData && responseData.message;
-  
-    if (status !== 'success') {
-      setError(status);
+    const item = await response.json();  
+    if (!item || item.error) {
+      setError(item.message);
       setShowModal(true);
       return;
-    } 
-
+    }
+  
     setError(null);
-    setResult(responseData.result);
+    setResult(item.data);
     setShowModal(true);
   }
 

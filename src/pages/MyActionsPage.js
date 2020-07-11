@@ -6,6 +6,7 @@ import { CardDeck, Card, InputGroup, FormControl, Modal, Button } from 'react-bo
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import HighlightCard from '../components/HighlightCard'
+import RedirectBanner from '../components/RedirectBanner'
 import ServiceDownBanner from '../components/ServiceDownBanner'
 import ActionCard from '../components/ActionCard';
 
@@ -15,6 +16,7 @@ const MyActionsPage = () => {
   const [myActions, setMyActions] = useState();
   const [action, setAction] = useState();
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState();
   const [showAddModal, setShowAddModal] = useState(false);
   const [valid, setValid] = useState();
   const [url, setUrl] = useState('');
@@ -35,9 +37,14 @@ const MyActionsPage = () => {
         return;
       }
   
-      const items = await response.json();
+      const item = await response.json();      
+      if (!item || item.error) {
+        setMessage(`Error: ${item && item.message}; try refreshing`);
+      } else {
+        setMyActions(item && item.data);
+      }
+
       setLoading(false);
-      setMyActions(items);
     }
     call();
   }, [get]);
@@ -47,6 +54,17 @@ const MyActionsPage = () => {
     loadData();
   }, [loadData]);
 
+  // check for an error message
+  if (message) {
+    return (
+      <RedirectBanner
+        loadData={loadData}
+        loading={loading}
+        pageTitle={pageTitle}
+        messageText={message} />
+    )    
+  }
+  
   // if the service is down, show the banner
   if (!loading && !myActions) {
     return (
@@ -72,8 +90,8 @@ const MyActionsPage = () => {
       return;
     }
 
-    const newSnaps = myActions.filter(a => a.actionId !== actionId);
-    setMyActions(newSnaps);
+    const newActions = myActions.filter(a => a.actionId !== actionId);
+    setMyActions(newActions);
   }
 
   const save = async () => {
@@ -90,8 +108,8 @@ const MyActionsPage = () => {
     } 
 
     const item = await response.json();
-    if (item.message === 'success') {
-      navigate(`/snaps/actions/${item.action.actionId}`);
+    if (item && !item.error && item.data && item.data.actionId) {
+      navigate(`/snaps/actions/${item.data.actionId}`);
     } else {
       setError(item.message);
       setShowErrorModal(true);

@@ -32,6 +32,8 @@ const MySnapsPage = () => {
 
       if (error || !response.ok) {
         setMySnaps(null);
+        setLoading(false);
+        return;
       }
   
       const item = await response.json();      

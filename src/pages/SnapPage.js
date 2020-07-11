@@ -25,10 +25,12 @@ const SnapPage = ({snapId}) => {
 
       if (error || !response.ok) {        
         setSnap(null);
+        setLoading(false);
+        return;
       }
       
       const item = await response.json();
-      if (item && item.status === 'success') {
+      if (item && !item.error) {
         setSnap(item.data);  
       } else {
         console.error(item && item.message);

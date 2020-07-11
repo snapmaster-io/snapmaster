@@ -19,19 +19,21 @@ const ActionDefinitionPage = ({actionId}) => {
       const [response, error] = await get(`actions/${actionId}`);
 
       if (error || !response.ok) {
-        setLoading(false);
         setAction(null);
+        setLoading(false);
         return;
       }
       
-      try {
-        const item = await response.json();
-        setLoading(false);
-        setAction(item);  
-      } catch (error) {
-        setLoading(false);
+      const item = await response.json();
+      if (item && !item.error) {
+        setAction(item.data);  
+      } else {
+        console.error(item && item.message);
+        setAction(null);
         setNotFound(true);
       }
+
+      setLoading(false);
     }
     call();
   }, [get, actionId]);
@@ -50,7 +52,7 @@ const ActionDefinitionPage = ({actionId}) => {
       pageTitle={actionId}
       messageText="Action not found"
       redirectUrl="/snaps/myactions"
-      anchorText="My Actions"
+      anchorText="My Actions page"
       redirectText="to manage your actions." />
     )
   }

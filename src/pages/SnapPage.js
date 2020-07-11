@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useApi } from '../utils/api'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { navigate } from 'hookrouter'
-import { Button } from 'react-bootstrap'
+import { Button, Modal } from 'react-bootstrap'
 import RefreshButton from '../components/RefreshButton'
 import PageTitle from '../components/PageTitle'
 import ServiceDownBanner from '../components/ServiceDownBanner'
@@ -16,6 +16,8 @@ const SnapPage = ({snapId}) => {
   const [snap, setSnap] = useState();
   const [editingPrivacy, setEditingPrivacy] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState();
 
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
@@ -91,6 +93,10 @@ const SnapPage = ({snapId}) => {
     const item = await response.json();      
     if (item && !item.error && item.data && item.data.snapId) {
       navigate(`/snaps/${item.data.snapId}`);
+    } else {
+      const message = (item && item.message) || 'fork operation failed';
+      setError(message);
+      setShowModal(true);
     }
   }
 
@@ -112,14 +118,16 @@ const SnapPage = ({snapId}) => {
       return;
     }
 
-    const data = await response.json();   
-    if (data && data.message === 'success') {
-      setSnap(data.snap);
+    const item = await response.json();   
+    if (item && !item.error && item.data) {
+      setSnap(item.data);
+    } else {
+      const message = (item && item.message) || 'operation failed';
+      setError(message);
+      setShowModal(true);
     }
 
     setEditingPrivacy(false);
-
-    // TODO: show error if the call was unsuccessful
   }
 
   const privacyIcon = (privateStatus) => editingPrivacy ? 'spinner' : (privateStatus ? 'users' : 'lock' );
@@ -148,6 +156,20 @@ const SnapPage = ({snapId}) => {
         </div>
       </div>
       <SnapDefinition snap={snap} />
+
+      <Modal show={showModal} onHide={ () => setShowModal(false) }>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        { error }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={ () => setShowModal(false) }>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }

@@ -16,9 +16,12 @@ const EntitySelect = ({parameter}) => {
         return;
       }
   
-      const items = await response.json();      
-      const optionsData = items && items.map(e => { return { label: e.__id, value: e.__id } });
-      setOptions(optionsData);
+      const item = await response.json();
+      if (item && !item.error) {
+        const items = item.data;
+        const optionsData = items && items.map(e => { return { label: e.__id, value: e.__id } });
+        setOptions(optionsData);
+      }
     }
     call();
   }, [get, parameter.entity]);

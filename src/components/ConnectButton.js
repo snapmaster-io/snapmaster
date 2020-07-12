@@ -52,9 +52,8 @@ const ConnectButton = ({tool}) => {
       return;
     }
 
-    const responseData = await response.json();
-    const success = responseData && responseData.message !== 'error';
-    if (success) {
+    const item = await response.json();
+    if (item && !item.error) {
       loadConnections();
       navigate(`/tools/${providerName}`);
     }

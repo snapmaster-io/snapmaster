@@ -78,13 +78,17 @@ const CredentialCards = ({data, setData, connectionName, entityName, endpoint}) 
     }
 
     // refresh the data
-    const items = await response.json();
-    if (items && items.map) {
-      setData(items);
-    } else {
-      // no data returned indicates operation failed
-      setNotFound(true);
+    const item = await response.json();
+    if (item && !item.error) {
+      const items = item.data;
+      if (items && items.map) {
+        setData(items);
+        return;
+      }
     }
+
+    // no data returned indicates operation failed
+    setNotFound(true);
   }
 
   const addEntity = () => {

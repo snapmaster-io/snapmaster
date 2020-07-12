@@ -19,8 +19,12 @@ export const ConnectionsProvider = ({
         setConnections(null);
         console.error(`loadConnections error: ${error}`);
       } else {
-        const responseData = await response.json();
-        setConnections(responseData);
+        const item = await response.json();
+        if (!item || item.error) {
+          setConnections(null);
+          console.error(`loadConnections error: ${item.message}`);
+        }
+        setConnections(item.data);
       }  
 
       setLoading(false);

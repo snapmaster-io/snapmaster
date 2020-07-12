@@ -26,9 +26,8 @@ const DisconnectButton = ({connection, redirectUrl}) => {
         return;
       }
 
-      const responseData = await response.json();
-      const success = responseData && responseData.message === 'success';
-      if (success) {
+      const item = await response.json();
+      if (item && !item.error) {
         // refresh the page
         loadConnections();
         navigate(redirectUrl);
@@ -55,9 +54,8 @@ const DisconnectButton = ({connection, redirectUrl}) => {
       return;
     }
 
-    const responseData = await response.json();
-    const success = responseData && responseData.message === 'success';
-    if (success) {
+    const item = await response.json();
+    if (item && !item.error) {
       // refresh the page
       loadConnections();
       navigate(redirectUrl);

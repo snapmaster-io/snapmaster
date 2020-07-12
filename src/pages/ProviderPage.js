@@ -27,8 +27,11 @@ const ProviderPage = ({provider}) => {
         return;
       }
   
-      const items = await response.json();
-      setData(items);
+      const item = await response.json();
+      if (item && !item.error) {
+        setData(item.data);
+      }
+
       setLoading(false);
     }
     // only load the entity if it exists

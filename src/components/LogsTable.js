@@ -9,8 +9,8 @@ const LogsTable = ({logs}) => {
 
   const actionsFormatter = (cell) => 
   <div>
-    { cell && cell.map && cell.map(a => 
-        <span key={a.name}><span style={{ fontWeight: 400 }}>{a.provider}:{a.action}</span>: &nbsp;{a.state};&nbsp;&nbsp;</span>
+    { cell && cell.map && cell.map((a, i) => 
+        <span key={i}><span style={{ fontWeight: 400 }}>{a.provider}:{a.action}</span>: &nbsp;{a.state};&nbsp;&nbsp;</span>
       )
     }
   </div>

@@ -70,7 +70,7 @@ const ActionCard = ({action, currentUser, deleteAction}) => {
                   const name = a.name;
                   const stringLen = calculateStringLength(name, 120);
                   const displayName = stringLen < name.length ? name.slice(0, stringLen) + '...' : name;
-                  return <div>{displayName}</div>;
+                  return <div key={name}>{displayName}</div>;
                 })
               }
             </div>

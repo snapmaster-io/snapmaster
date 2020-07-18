@@ -7,6 +7,10 @@ import { Auth0Provider } from './utils/react-auth0-wrapper'
 import { ConnectionsProvider } from './utils/connections'
 import { ProfileProvider } from './utils/profile'
 import config from './utils/auth_config.json'
+import { isDevMode } from './utils/settings'
+
+// import FullStory SDK
+import * as FullStory from '@fullstory/browser'
 
 // import bootstrap, font-awesome, and cloudfont CSS
 import 'bootstrap/dist/css/bootstrap.css'
@@ -64,7 +68,10 @@ const onRedirectCallback = appState => {
   );
 };
 
-//const defaultScopes = 'https://www.googleapis.com/auth/contacts.readonly';
+// initialize FulLStory
+if (!isDevMode) {
+  FullStory.init({ orgId: 'WPR4S' });
+}
 
 ReactDOM.render(
   <Auth0Provider
@@ -73,7 +80,6 @@ ReactDOM.render(
     redirect_uri={window.location.origin}
     audience={config.audience}
     onRedirectCallback={onRedirectCallback}
-/*    scope={defaultScopes}*/
   >
     <ConnectionsProvider>
       <ProfileProvider>

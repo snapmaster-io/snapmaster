@@ -4,6 +4,10 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 
+// added the settings and FullStory SDK
+import { isDevMode } from './settings'
+import * as FullStory from '@fullstory/browser';
+
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
@@ -47,6 +51,17 @@ export const Auth0Provider = ({
         const impersonateUser = 'impersonate:user';
         const isAdmin = user[permissionsScope].filter(s => s === impersonateUser).length > 0;
         setIsAdmin(isAdmin);
+
+        // set FullStory user
+        if (!isDevMode) {
+          FullStory.identify(`${user.sub}`, {
+            displayName: `${user.name}`,
+            email: `${user.email}`,
+            // TODO: Add your own custom user variables here, details at
+            // https://help.fullstory.com/hc/en-us/articles/360020623294-FS-setUserVars-Recording-custom-user-data
+            //reviewsWritten_int: 14
+          });  
+        }
         // END ADDITION
       }
 

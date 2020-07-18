@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useAuth0 } from '../utils/react-auth0-wrapper'
 import { post } from '../utils/api'
-import { isBrowser, isMobile } from '../utils/settings'
+import { isBrowser, isMobile, isBeta } from '../utils/settings'
 import { Button, Carousel, Modal, InputGroup, FormControl, Container, Row, Col } from 'react-bootstrap'
 import Loading from '../components/Loading'
 import LandingPageToolCardDeck from '../components/LandingPageToolCardDeck'
@@ -16,7 +16,12 @@ const LandingPage = () => {
   const [invalidCode, setInvalidCode] = useState(false);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
-  const betaFlag = true;
+
+  const betaFlag = isBeta;
+  let isMobileDevice = isMobile;
+  let isDesktopDevice = isBrowser;
+  //isMobileDevice = true; 
+  //isDesktopDevice = false;
 
   if (loading) {
     return (
@@ -99,11 +104,6 @@ const LandingPage = () => {
   const createToken = (data) => {
     return Buffer.from(data + 'SnapMaster').toString('base64');
   }
-  
-  let isMobileDevice = isMobile;
-  let isDesktopDevice = isBrowser;
-  //isMobileDevice = true; 
-  //isDesktopDevice = false;
 
   return (
     <div className="Landing">

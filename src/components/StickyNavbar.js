@@ -64,6 +64,9 @@ const StickyNavbar = ({ state, actions }) => {
             <MenuItem eventKey="/tour" onSelect={actions.selectTab}>
               <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-info-circle" />&nbsp;Tour</span>
             </MenuItem>
+            <MenuItem eventKey="/docs" onSelect={() => window.open('https://doc.snapmaster.io', 'docs')}>
+              <span style={{ fontSize: '1.2em', color: '#000000a0' }}><i className="fa fa-fw fa-book" />&nbsp;Documentation</span>
+            </MenuItem>
             {
               isAdmin && 
               <MenuItem eventKey="/admin" onSelect={actions.selectTab}>

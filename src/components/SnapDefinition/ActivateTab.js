@@ -34,17 +34,17 @@ const ActivateTab = ({snap}) => {
       return;
     }
 
-    const responseData = await response.json();
-    const status = responseData && responseData.message;
-  
-    if (status && status !== 'success') {
-      setError(status);
+    const item = await response.json();
+    if (!item || item.error) {
+      const message = (item && item.message) || 'could not activate snap';
+      setError(message);
       setShowModal(true);
       return;
-    }    
+    }
 
     // retrieve active snap ID
-    const activeSnapId = responseData.activeSnap && responseData.activeSnap.activeSnapId;
+    const activeSnap = item.data;
+    const activeSnapId = activeSnap.activeSnapId;
     if (activeSnapId) {
       // navigate to the activated snap
       navigate(`/snaps/${snapId}/${activeSnapId}`);

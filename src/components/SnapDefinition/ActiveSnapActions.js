@@ -105,7 +105,7 @@ const ActiveSnapActions = ({activeSnap, setActiveSnap}) => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={showTriggerDataModal} onHide={ () => setShowTriggerDataModal(false) }>
+      <Modal dialogClassName="modal-90w" show={showTriggerDataModal} onHide={ () => setShowTriggerDataModal(false) }>
         <Modal.Header closeButton>
           <Modal.Title>Trigger Information</Modal.Title>
         </Modal.Header>

@@ -11,6 +11,7 @@ const ActionDefinitionPage = ({actionId}) => {
   const [loading, setLoading] = useState(true);
   const [action, setAction] = useState();
   const [notFound, setNotFound] = useState(false);
+  const pageTitle = <PageTitle title={actionId} breadcrumbText='My Actions' breadcrumbUrl='/snaps/myactions' />
 
   // create a callback function that wraps the loadData effect
   const loadData = useCallback(() => {
@@ -49,7 +50,7 @@ const ActionDefinitionPage = ({actionId}) => {
       <RedirectBanner
       loadData={loadData}
       loading={loading}
-      pageTitle={actionId}
+      pageTitle={pageTitle}
       messageText="Action not found"
       redirectUrl="/snaps/myactions"
       anchorText="My Actions page"

@@ -10,10 +10,10 @@ export const ProfileProvider = ({
   const [profile, setProfile] = useState();
   const { get, post } = useApi();
 
-  const loadProfile = async () => {
+  const load = async (url) => {
     try {
       setLoading(true);
-      const [response, error] = await get('profile');
+      const [response, error] = await get(url);
 
       if (error || !response.ok) {
         setProfile(null);
@@ -29,6 +29,14 @@ export const ProfileProvider = ({
       setProfile(null);
       setLoading(false);
     }  
+  }
+
+  const loadProfile = async () => {
+    await load('profile');
+  }
+
+  const loadProfileLogin = async () => {
+    await load('profile?login=true');
   }
 
   const storeProfile = async () => {
@@ -62,6 +70,7 @@ export const ProfileProvider = ({
         loading,
         profile,
         loadProfile,
+        loadProfileLogin,
         storeProfile
       }}>
       {children}

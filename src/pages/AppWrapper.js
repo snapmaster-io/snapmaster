@@ -11,7 +11,7 @@ const AppWrapper = () => {
   const { loadConnections } = useConnections();
   const [loadingConnections, setLoadingConnections] = useState(false);
   const [loadedConnections, setLoadedConnections] = useState(false);
-  const { loadProfile } = useProfile();
+  const { loadProfileLogin } = useProfile();
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [loadedProfile, setLoadedProfile] = useState(false);
 
@@ -41,7 +41,7 @@ const AppWrapper = () => {
 
   // load profile
   const loadProf = async () => { 
-    await loadProfile();
+    await loadProfileLogin();
     setLoadedProfile(true);
     setLoadingProfile(false);
   };

@@ -5,7 +5,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 
 // added the settings and FullStory SDK
-import { isDevMode } from './settings'
+import { isProduction } from './settings'
 import * as FullStory from '@fullstory/browser';
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
@@ -53,7 +53,7 @@ export const Auth0Provider = ({
         setIsAdmin(isAdmin);
 
         // set FullStory user
-        if (!isDevMode) {
+        if (isProduction) {
           FullStory.identify(`${user.sub}`, {
             displayName: `${user.name}`,
             email: `${user.email}`,

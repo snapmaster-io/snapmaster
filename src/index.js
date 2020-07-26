@@ -7,7 +7,7 @@ import { Auth0Provider } from './utils/react-auth0-wrapper'
 import { ConnectionsProvider } from './utils/connections'
 import { ProfileProvider } from './utils/profile'
 import config from './utils/auth_config.json'
-import { isDevMode } from './utils/settings'
+import { isProduction } from './utils/settings'
 
 // import FullStory SDK
 import * as FullStory from '@fullstory/browser'
@@ -69,7 +69,7 @@ const onRedirectCallback = appState => {
 };
 
 // initialize FulLStory
-if (!isDevMode) {
+if (isProduction) {
   FullStory.init({ orgId: 'WPR4S' });
 }
 
